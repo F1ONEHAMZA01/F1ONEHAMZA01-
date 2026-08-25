@@ -92,10 +92,21 @@
           <h3 class="vocab-hero-title-sm">المستودع الشامل للمصطلحات</h3>
           <span class="vocab-hero-badge-sm" id="vocab-total-count-badge">1 961 مصطلح</span>
         </div>
-        <button class="vocab-reset-btn-sm" type="button" onclick="resetLearnedState()" title="إعادة تعيين جميع بيانات التقدم" aria-label="إعادة تعيين جميع بيانات التقدم">
-          <span aria-hidden="true">🔄</span>
-          <span class="reset-label-sm">مسح كل التقدم</span>
-        </button>
+        <div class="vocab-header-actions">
+          <button class="vocab-reset-btn-sm" type="button" onclick="exportProgressData()" title="تصدير نسخة احتياطية من التقدم بصيغة JSON" aria-label="تصدير التقدم">
+            <span aria-hidden="true">📤</span>
+            <span class="reset-label-sm">تصدير</span>
+          </button>
+          <button class="vocab-reset-btn-sm" type="button" onclick="document.getElementById('import-progress-input').click()" title="استيراد نسخة تقدم مصدرة سابقاً" aria-label="استيراد التقدم">
+            <span aria-hidden="true">📥</span>
+            <span class="reset-label-sm">استيراد</span>
+          </button>
+          <input type="file" id="import-progress-input" accept=".json,application/json" class="hidden" onchange="importProgressFile(this)" aria-hidden="true" tabindex="-1">
+          <button class="vocab-reset-btn-sm" type="button" onclick="resetLearnedState()" title="إعادة تعيين جميع بيانات التقدم" aria-label="إعادة تعيين جميع بيانات التقدم">
+            <span aria-hidden="true">🔄</span>
+            <span class="reset-label-sm">مسح كل التقدم</span>
+          </button>
+        </div>
       </div>
       
       <div class="dashboard-grid">
@@ -156,11 +167,20 @@
                 <small>تحديد الفئة، المستوى، والعدد</small>
               </div>
             </button>
-            <button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-stats" data-subview="stats" onclick="switchQuizSubTab('stats', this)">
+                        <button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-stats" data-subview="stats" onclick="switchQuizSubTab('stats', this)">
               <span class="subtab-icon" aria-hidden="true">📊</span>
               <div class="subtab-text">
                 <strong>سجل الأداء والإحصائيات</strong>
-                <small>نسبة الإتقان والمتتالية القياسية</small>
+                <small>نسبة الإتقان والمتتالية</small>
+              </div>
+            </button>
+            <button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-srs" data-subview="srs" onclick="switchQuizSubTab('srs', this)">
+              <span class="subtab-icon" aria-hidden="true">🃏</span>
+              <div class="subtab-text">
+                <strong>بطاقات التكرار المتباعد</strong>
+                <small>خوارزمية SM-2 للمراجعة الذكية</small>
+              </div>
+            </button>لقياسية</small>
               </div>
             </button>
           </div>
@@ -296,6 +316,11 @@
           <!-- SUB-VIEW 3: Stats and Mastery Overview -->
           <div id="quiz-view-stats" class="quiz-subview hidden">
             <div id="quiz-stats-content-box"></div>
+          </div>
+
+          <!-- SUB-VIEW 4: SM-2 Spaced Repetition Flashcards -->
+          <div id="quiz-view-srs" class="quiz-subview hidden">
+            <div id="srs-content-box"></div>
           </div>
         </div>
         

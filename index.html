@@ -6333,6 +6333,14 @@ textarea:focus-visible,
       }
     }
 
+/* === Phase 5: Vocab header action buttons (export/import/reset) === */
+.vocab-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 
 /* === src/styles/motion.css === */
 /* ==========================================================================
@@ -7478,10 +7486,21 @@ main > section:not(.hidden) {
           <h3 class="vocab-hero-title-sm">المستودع الشامل للمصطلحات</h3>
           <span class="vocab-hero-badge-sm" id="vocab-total-count-badge">1 961 مصطلح</span>
         </div>
-        <button class="vocab-reset-btn-sm" type="button" onclick="resetLearnedState()" title="إعادة تعيين جميع بيانات التقدم" aria-label="إعادة تعيين جميع بيانات التقدم">
-          <span aria-hidden="true">🔄</span>
-          <span class="reset-label-sm">مسح كل التقدم</span>
-        </button>
+        <div class="vocab-header-actions">
+          <button class="vocab-reset-btn-sm" type="button" onclick="exportProgressData()" title="تصدير نسخة احتياطية من التقدم بصيغة JSON" aria-label="تصدير التقدم">
+            <span aria-hidden="true">📤</span>
+            <span class="reset-label-sm">تصدير</span>
+          </button>
+          <button class="vocab-reset-btn-sm" type="button" onclick="document.getElementById('import-progress-input').click()" title="استيراد نسخة تقدم مصدرة سابقاً" aria-label="استيراد التقدم">
+            <span aria-hidden="true">📥</span>
+            <span class="reset-label-sm">استيراد</span>
+          </button>
+          <input type="file" id="import-progress-input" accept=".json,application/json" class="hidden" onchange="importProgressFile(this)" aria-hidden="true" tabindex="-1">
+          <button class="vocab-reset-btn-sm" type="button" onclick="resetLearnedState()" title="إعادة تعيين جميع بيانات التقدم" aria-label="إعادة تعيين جميع بيانات التقدم">
+            <span aria-hidden="true">🔄</span>
+            <span class="reset-label-sm">مسح كل التقدم</span>
+          </button>
+        </div>
       </div>
       
       <div class="dashboard-grid">
@@ -7542,11 +7561,20 @@ main > section:not(.hidden) {
                 <small>تحديد الفئة، المستوى، والعدد</small>
               </div>
             </button>
-            <button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-stats" data-subview="stats" onclick="switchQuizSubTab('stats', this)">
+                        <button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-stats" data-subview="stats" onclick="switchQuizSubTab('stats', this)">
               <span class="subtab-icon" aria-hidden="true">📊</span>
               <div class="subtab-text">
                 <strong>سجل الأداء والإحصائيات</strong>
-                <small>نسبة الإتقان والمتتالية القياسية</small>
+                <small>نسبة الإتقان والمتتالية</small>
+              </div>
+            </button>
+            <button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-srs" data-subview="srs" onclick="switchQuizSubTab('srs', this)">
+              <span class="subtab-icon" aria-hidden="true">🃏</span>
+              <div class="subtab-text">
+                <strong>بطاقات التكرار المتباعد</strong>
+                <small>خوارزمية SM-2 للمراجعة الذكية</small>
+              </div>
+            </button>لقياسية</small>
               </div>
             </button>
           </div>
@@ -7682,6 +7710,11 @@ main > section:not(.hidden) {
           <!-- SUB-VIEW 3: Stats and Mastery Overview -->
           <div id="quiz-view-stats" class="quiz-subview hidden">
             <div id="quiz-stats-content-box"></div>
+          </div>
+
+          <!-- SUB-VIEW 4: SM-2 Spaced Repetition Flashcards -->
+          <div id="quiz-view-srs" class="quiz-subview hidden">
+            <div id="srs-content-box"></div>
           </div>
         </div>
         
@@ -8994,6 +9027,21 @@ const NUMBERS_DATA = [
 
 if (typeof window !== 'undefined') {
   window.NUMBERS_DATA = NUMBERS_DATA;
+}
+
+
+// Arabic phonetic transcription tokens for French number words (pronunciation guide)
+const FR_PRON_TOKENS = {
+  "zéro": "زيرو", "un": "آن", "deux": "دو", "trois": "تروا", "quatre": "كاتر",
+  "cinq": "سانك", "six": "سيس", "sept": "سيت", "huit": "ويت", "neuf": "نوف",
+  "dix": "ديس", "onze": "أونز", "douze": "دوز", "treize": "تريز",
+  "quatorze": "كاتورز", "quinze": "كانز", "seize": "سيز",
+  "vingt": "فان", "vingts": "فان", "trente": "ترونت", "quarante": "كارونت",
+  "cinquante": "سانكونت", "soixante": "سواسونت",
+  "cent": "سون", "cents": "سون", "mille": "ميل",
+  "million": "ميليون", "millions": "ميليون", "et": "إي", "moins": "موان",
+  "dirham": "ديرهام", "dirhams": "ديرهام", "centime": "سونتيم", "centimes": "سونتيم",
+  "dix-sept": "ديس-سيت", "dix-huit": "ديز-ويت", "dix-neuf": "ديز-نوف"
 };
   </script>
 
@@ -9068,6 +9116,8 @@ const state = {
   quizAnswers: [],
   /** @type {Record<string, number>} Error frequency tracker by word ID */
   wrongBank: {},
+  /** @type {Record<string, {ef:number, interval:number, reps:number, due:string}>} SM-2 spaced repetition schedule */
+  srs: {},
   /** @type {Object|null} Active question metadata */
   currentQuestion: null,
   /** @type {QuizConfig} Current quiz generator settings */
@@ -9193,6 +9243,7 @@ function saveStateToLocalStorage(immediate = false) {
       localStorage.setItem('btp_checked_days', JSON.stringify(Array.from(state.checkedDays)));
       localStorage.setItem('btp_quiz_best', String(state.quizBestScore));
       localStorage.setItem('btp_quiz_wrong_bank', JSON.stringify(state.wrongBank || {}));
+      localStorage.setItem('btp_srs', JSON.stringify(state.srs || {}));
       localStorage.setItem('btp_reading_progress', JSON.stringify(state.readingProgress || {}));
     } catch(e) {
       console.warn('Failed to persist app state to localStorage:', e);
@@ -9259,6 +9310,26 @@ if (typeof window !== 'undefined') {
           console.warn('Failed to restore wrong-answer bank, resetting map:', e);
         }
       }
+      state.srs = {};
+      if (localStorage.getItem('btp_srs')) {
+        try {
+          const storedSrs = JSON.parse(localStorage.getItem('btp_srs'));
+          if (storedSrs && typeof storedSrs === 'object' && !Array.isArray(storedSrs)) {
+            Object.entries(storedSrs).forEach(([key, entry]) => {
+              if (entry && typeof entry === 'object' && typeof entry.ef === 'number' && typeof entry.due === 'string') {
+                state.srs[key] = {
+                  ef: Math.max(1.3, entry.ef),
+                  interval: Number(entry.interval) || 0,
+                  reps: Number(entry.reps) || 0,
+                  due: entry.due
+                };
+              }
+            });
+          }
+        } catch(e) {
+          console.warn('Failed to restore SRS schedule, resetting map:', e);
+        }
+      }
       if (localStorage.getItem('btp_reading_progress')) {
         try {
           const storedReading = JSON.parse(localStorage.getItem('btp_reading_progress'));
@@ -9271,8 +9342,7 @@ if (typeof window !== 'undefined') {
       }
       saveStateToLocalStorage();
     }
-
-    function getVocabDataset() {
+function getVocabDataset() {
       if (typeof VOCAB_DATA !== 'undefined' && Array.isArray(VOCAB_DATA) && VOCAB_DATA.length > 0) {
         return VOCAB_DATA;
       }
@@ -9282,7 +9352,94 @@ if (typeof window !== 'undefined') {
       return [];
     }
 
-    function initStats() {
+    /**
+     * Builds a portable snapshot of all user progress
+     * @returns {Object} Progress payload safe to persist or share between devices
+     */
+    function buildProgressPayload() {
+      return {
+        app: 'francais-btp-maroc',
+        schema: 1,
+        exportedAt: new Date().toISOString(),
+        learned: Array.from(state.learned),
+        checkedDays: Array.from(state.checkedDays),
+        quizBestScore: state.quizBestScore,
+        wrongBank: state.wrongBank || {},
+        srs: state.srs || {},
+        readingProgress: state.readingProgress || {}
+      };
+    }
+
+    /** Downloads all progress as a JSON backup file */
+    function exportProgressData() {
+      try {
+        const payload = JSON.stringify(buildProgressPayload(), null, 2);
+        const blob = new Blob([payload], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const stamp = new Date().toISOString().slice(0, 10);
+        link.href = url;
+        link.download = `btp-maroc-progress-${stamp}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+        if (window.showToast) window.showToast('تم تصدير نسخة التقدم بنجاح! 📤', 'success');
+      } catch (err) {
+        console.error('Progress export failed:', err);
+        if (window.showToast) window.showToast('تعذر التصدير — تحقق من إعدادات المتصفح', 'error');
+      }
+    }
+
+    /** Restores progress from an exported JSON backup file */
+    function importProgressFile(fileInput) {
+      const file = fileInput && fileInput.files && fileInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(String(reader.result));
+          if (!data || data.app !== 'francais-btp-maroc') {
+            throw new Error('not a Français BTP Maroc backup file');
+          }
+
+          state.learned = migrateStoredWordKeys(Array.isArray(data.learned) ? data.learned : []);
+          state.checkedDays = new Set((Array.isArray(data.checkedDays) ? data.checkedDays : []).filter(n => Number.isInteger(n) && n >= 1 && n <= 999));
+          state.quizBestScore = Math.min(100, Math.max(0, Number(data.quizBestScore) || 0));
+          state.wrongBank = {};
+          Object.entries(data.wrongBank && typeof data.wrongBank === 'object' ? data.wrongBank : {}).forEach(([key, count]) => {
+            if (typeof key === 'string' && key.startsWith('word:')) state.wrongBank[key] = Math.max(1, Number(count) || 1);
+          });
+          state.srs = {};
+          Object.entries(data.srs && typeof data.srs === 'object' ? data.srs : {}).forEach(([key, entry]) => {
+            if (entry && typeof entry.ef === 'number' && typeof entry.due === 'string') {
+              state.srs[key] = { ef: Math.max(1.3, entry.ef), interval: Number(entry.interval) || 0, reps: Number(entry.reps) || 0, due: entry.due };
+            }
+          });
+          state.readingProgress = data.readingProgress && typeof data.readingProgress === 'object' && !Array.isArray(data.readingProgress)
+            ? data.readingProgress : {};
+
+          saveStateToLocalStorage(true);
+          initStats();
+          if (window.renderVocabList) window.renderVocabList(true);
+          if (window.renderStudyPlan) window.renderStudyPlan();
+          if (window.renderReadingDocsSelector) window.renderReadingDocsSelector();
+          if (window.showToast) window.showToast(`تم استيراد التقدم بنجاح! ✅ (${state.learned.size} كلمة متقنة)`, 'success');
+        } catch (err) {
+          console.warn('Progress import rejected:', err);
+          if (window.showToast) window.showToast('ملف غير صالح — استخدم ملف تصدير من نفس التطبيق', 'error');
+        } finally {
+          fileInput.value = '';
+        }
+      };
+      reader.onerror = () => {
+        if (window.showToast) window.showToast('تعذرت قراءة الملف', 'error');
+        fileInput.value = '';
+      };
+      reader.readAsText(file);
+    }
+function initStats() {
       const dataset = getVocabDataset();
       const totalWords = dataset.length;
       const learnedCount = state.learned.size;
@@ -9320,6 +9477,8 @@ if (typeof window !== 'undefined') {
   window.getVocabDataset = getVocabDataset;
   window.getVocabSearchIndex = getVocabSearchIndex;
   window.initStats = initStats;
+  window.exportProgressData = exportProgressData;
+  window.importProgressFile = importProgressFile;
 };
 
 /* === src/modules/ui-utils.js === */
@@ -9470,17 +9629,19 @@ function scrollToTopSmooth() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-window.addEventListener('scroll', () => {
-  const btn = document.getElementById('back-to-top-btn');
-  if (!btn) return;
-  if (window.scrollY > 280) {
-    btn.style.display = 'flex';
-    btn.setAttribute('aria-hidden', 'false');
-  } else {
-    btn.style.display = 'none';
-    btn.setAttribute('aria-hidden', 'true');
-  }
-}, { passive: true });
+if (typeof window !== 'undefined') {
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('back-to-top-btn');
+    if (!btn) return;
+    if (window.scrollY > 280) {
+      btn.style.display = 'flex';
+      btn.setAttribute('aria-hidden', 'false');
+    } else {
+      btn.style.display = 'none';
+      btn.setAttribute('aria-hidden', 'true');
+    }
+  }, { passive: true });
+}
 
 if (typeof window !== 'undefined') {
   window.appendTextElement = appendTextElement;
@@ -9609,6 +9770,102 @@ if (typeof window !== 'undefined') {
   window.speakCurrentWord = speakCurrentWord;
   window.markCurrentLearned = markCurrentLearned;
   window.frWordsToPron = frWordsToPron;
+};
+
+/* === src/modules/btp-math.js === */
+/**
+ * Pure BTP calculation formulas — no DOM dependencies, fully unit-testable.
+ * Extracted from calc-tab.js rendering logic.
+ */
+
+const STEEL_UNIT_WEIGHTS = { 6: 0.222, 8: 0.395, 10: 0.617, 12: 0.888, 14: 1.208, 16: 1.578, 20: 2.466, 25: 3.853 };
+
+/**
+ * Concrete mix quantities for a rectangular pour (B25 CPJ 45 dosage)
+ * @param {{l:number, w:number, h:number, dosage?:number}} dims
+ */
+function computeConcreteMix({ l, w, h, dosage = 350 }) {
+  const vol = l * w * h;
+  if (!(vol > 0)) return null;
+  const totalCementKg = vol * dosage;
+  return {
+    vol,
+    volWithWaste: vol * 1.03,
+    totalCementKg,
+    bags: Math.ceil(totalCementKg / 50),
+    sand: +(vol * 0.4).toFixed(2),
+    gravel: +(vol * 0.8).toFixed(2),
+    waterLiters: Math.round(vol * dosage * 0.5)
+  };
+}
+
+/**
+ * Rebar weight per meter (kg/ml) ≈ D²/162 per NM 01.4.096 convention
+ */
+function steelUnitWeight(d) {
+  return STEEL_UNIT_WEIGHTS[d] || STEEL_UNIT_WEIGHTS[12];
+}
+
+/** @returns {{kg:number, tonnes:number, barres12m:number, barres6m:number}|null} */
+function computeSteelWeight(d, len) {
+  if (!(len > 0)) return null;
+  const unitW = steelUnitWeight(d);
+  const kg = len * unitW;
+  return {
+    kg,
+    tonnes: kg / 1000,
+    unitW,
+    barres12m: Math.ceil(len / 12),
+    barres6m: Math.ceil(len / 6)
+  };
+}
+
+/** Bricks count with 5% waste + mortar needs @returns {{count:number, cimentBags:number, sandVolume:number}|null} */
+function computeBrickwork(area, rate = 12.5) {
+  if (!(area > 0)) return null;
+  return {
+    count: Math.ceil(area * rate * 1.05),
+    cimentBags: Math.ceil(area * 0.25),
+    sandVolume: +(area * 0.035).toFixed(2)
+  };
+}
+
+/** Tiling order incl. waste + adhesive/joint bags @returns {{totalArea:number, colleBags:number, jointBags:number}|null} */
+function computeTiling(area, wastePct = 10) {
+  if (!(area > 0)) return null;
+  const totalArea = area * (1 + wastePct / 100);
+  return {
+    totalArea,
+    colleBags: Math.ceil((totalArea * 4) / 25),
+    jointBags: Math.ceil((totalArea * 0.3) / 5)
+  };
+}
+
+/**
+ * CCAG-T style payment decomposition (Morocco: TVA 20%, retenue de garantie)
+ * @returns {{tva:number, ttc:number, retenue:number, net:number}}
+ */
+function computeFinancialDecompte(ht, tvaRate, retentionRate, retentionBasis = 'ht') {
+  const safeHt = Math.max(0, ht || 0);
+  const tvaRateSafe = Math.max(0, tvaRate || 0);
+  const retentionRateSafe = Math.min(100, Math.max(0, retentionRate || 0));
+  const tva = safeHt * (tvaRateSafe / 100);
+  const ttc = safeHt + tva;
+  const retentionBaseAmount = retentionBasis === 'ttc' ? ttc : safeHt;
+  const retenue = retentionBaseAmount * (retentionRateSafe / 100);
+  return { tva, ttc, retenue, net: ttc - retenue };
+}
+
+/** Ready-mix truck loads @returns {number|null} */
+function computeTruckLoads(volume, capacity = 8) {
+  if (!(volume > 0) || !(capacity > 0)) return null;
+  return Math.ceil(volume / capacity);
+}
+
+/** Plaster bags (10 kg/m² per cm thickness, 40 kg bags) @returns {number|null} */
+function computePlasterBags(area) {
+  if (!(area > 0)) return null;
+  return Math.ceil((area * 10) / 40);
 };
 
 /* === src/modules/tabs/vocab-tab.js === */
@@ -10008,6 +10265,9 @@ function switchQuizSubTab(viewId, btnEl) {
 
   if (viewId === 'stats') {
     renderQuizStatsView();
+  }
+  if (viewId === 'srs') {
+    renderSrsView();
   }
 }
 function renderQuizStatsView() {
@@ -10717,6 +10977,258 @@ if (typeof window !== 'undefined') {
   window.renderQuizStatsView = renderQuizStatsView;
 };
 
+/* === src/modules/srs.js === */
+/**
+ * Spaced Repetition System (SM-2 algorithm) for long-term vocabulary retention.
+ * Each word gets: ef (easiness factor >=1.3), interval (days), reps, due (ISO date).
+ */
+
+const SRS_SESSION_SIZE = 20;
+let srsQueue = [];
+let srsCurrentIndex = -1;
+let srsRevealed = false;
+let srsSessionGrades = { again: 0, hard: 0, good: 0, easy: 0 };
+let srsActiveCard = null;
+
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function addDaysISO(baseDate, days) {
+  const d = new Date(baseDate);
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+/** @returns {{ef:number, interval:number, reps:number, due:string}} */
+function defaultSrsEntry(today) {
+  return { ef: 2.5, interval: 0, reps: 0, due: today };
+}
+
+/**
+ * Core SM-2 scheduling transition.
+ * @param {{ef:number, interval:number, reps:number, due:string}} entry Current card state
+ * @param {number} quality Recall quality (0=again, 3=hard, 4=good, 5=easy)
+ * @param {string} [today] ISO date override for deterministic tests
+ */
+function scheduleSrsEntry(entry, quality, today = todayISO()) {
+  let { ef, interval, reps } = { ...entry };
+
+  if (quality < 3) {
+    reps = 0;
+    interval = 1;
+  } else {
+    ef = Math.max(1.3, ef + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)));
+    if (reps === 0) {
+      interval = 1;
+    } else if (reps === 1) {
+      interval = 6;
+    } else {
+      interval = Math.round(interval * ef);
+    }
+    reps += 1;
+  }
+
+  return { ef: Math.round(ef * 100) / 100, interval, reps, due: addDaysISO(today, interval) };
+}
+function getSrsEntry(wordId) {
+  if (!state.srs[wordId]) {
+    state.srs[wordId] = defaultSrsEntry(todayISO());
+  }
+  return state.srs[wordId];
+}
+function countDueWords(today = todayISO()) {
+  return Object.values(state.srs).filter(entry => entry.due <= today).length;
+}
+function collectDueWordIds(limit = SRS_SESSION_SIZE, today = todayISO()) {
+  const dataset = getVocabDataset();
+  const knownIds = new Set(getVocabSearchIndex().map(item => item.id));
+  return Object.entries(state.srs)
+    .filter(([id, entry]) => entry.due <= today && knownIds.has(id))
+    .sort((a, b) => (a[1].due < b[1].due ? -1 : 1))
+    .slice(0, limit)
+    .map(([id]) => dataset.find(w => getWordIdSafe(w) === id))
+    .filter(Boolean)
+    .map(w => ({ word: w, id: getWordIdSafe(w) }));
+}
+
+function getWordIdSafe(word) {
+  // Delegates to shared stable identity helper exposed by state.js
+  if (typeof window !== 'undefined' && window.getWordId) return window.getWordId(word);
+  return '';
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// VIEW RENDERING (Quiz Tab > Flashcards sub-view)
+// ════════════════════════════════════════════════════════════════════════════
+function renderSrsView() {
+  const container = document.getElementById('srs-content-box');
+  if (!container) return;
+
+  const dueCount = countDueWords();
+  const scheduledCount = Object.keys(state.srs).length;
+
+  container.innerHTML = `
+    <div class="quiz-stats-overview">
+      <div class="plan-stats-grid" style="margin:0 0 18px;">
+        <div class="plan-stat-card ${dueCount > 0 ? 'highlight' : ''}">
+          <div class="plan-stat-value" style="color:${dueCount > 0 ? '#fb7185' : '#4ade80'};">${dueCount}</div>
+          <div class="plan-stat-label">بطاقات مستحقة اليوم</div>
+        </div>
+        <div class="plan-stat-card">
+          <div class="plan-stat-value" style="color:#60a5fa;">${scheduledCount}</div>
+          <div class="plan-stat-label">مصطلحات في نظام المراجعة</div>
+        </div>
+        <div class="plan-stat-card">
+          <div class="plan-stat-value" style="color:var(--gold-light);">${SRS_SESSION_SIZE}</div>
+          <div class="plan-stat-label">الحد الأقصى للجلسة</div>
+        </div>
+      </div>
+      <p class="quiz-config-intro">
+        🧠 بطاقات التكرار المتباعد (SM-2): قيّم مدى تذكّرك للمصطلح بعد كشف الإجابة، وسيحدد النظام تلقائياً موعد المراجعة القادم — من يوم واحد إلى أسابيع حسب إتقانك.
+      </p>
+      <div style="display:flex; justify-content:center; margin-top:14px;">
+        <button type="button" class="btn-primary" id="srs-start-btn" onclick="startSrsSession()" ${dueCount === 0 && scheduledCount === 0 ? '' : ''}>
+          🃏 ابدأ جلسة مراجعة (${Math.min(dueCount, SRS_SESSION_SIZE)} بطاقة)
+        </button>
+      </div>
+    </div>
+    <div id="srs-session-box"></div>
+  `;
+}
+function startSrsSession() {
+  srsQueue = collectDueWordIds();
+
+  if (!srsQueue.length) {
+    const box = document.getElementById('srs-session-box');
+    if (box) box.innerHTML = '<div class="review-perfect">🎉 لا توجد بطاقات مستحقة الآن — عد غداً أو بعد اختبار جديد!</div>';
+    return;
+  }
+
+  srsCurrentIndex = -1;
+  srsSessionGrades = { again: 0, hard: 0, good: 0, easy: 0 };
+  nextSrsCard();
+}
+
+function nextSrsCard() {
+  srsCurrentIndex += 1;
+  const box = document.getElementById('srs-session-box');
+  if (!box) return;
+
+  if (srsCurrentIndex >= srsQueue.length) {
+    finishSrsSession(box);
+    return;
+  }
+
+  srsActiveCard = srsQueue[srsCurrentIndex];
+  srsRevealed = false;
+  const { word } = srsActiveCard;
+  const pron = word.pron || '';
+
+  box.innerHTML = `
+    <div class="quiz-box" style="margin-top:14px;">
+      <div class="quiz-header"><span>🃏 البطاقة ${srsCurrentIndex + 1} / ${srsQueue.length}</span><span>⏭️ Enter يكشف · 1-4 للتقييم</span></div>
+      <div class="quiz-question-box">
+        <div class="word-fr" style="font-size:26px;">${escapeHtmlSafe(word.fr)}</div>
+        ${pron ? `<div class="pron-text">🗣️ ${escapeHtmlSafe(pron)}</div>` : ''}
+        <div id="srs-answer-area" class="hidden">
+          <div class="word-ar-text" style="font-size:20px; font-weight:800; color:#fff; margin-top:10px;">${escapeHtmlSafe(word.ar)}</div>
+          ${word.example_fr ? `<div class="fb-ex"><div class="fb-ex-fr">${escapeHtmlSafe(word.example_fr)}</div><div class="fb-ex-ar">${escapeHtmlSafe(word.example_ar || '')}</div></div>` : ''}
+        </div>
+      </div>
+      <div class="fb-actions" id="srs-actions">
+        <button type="button" class="btn-secondary" onclick="speakFrenchText(window.__srsCurrentFr)">🔊 استمع</button>
+        <button type="button" class="btn-primary gold" onclick="revealSrsAnswer()">👁️ اكشف الإجابة</button>
+      </div>
+      <div class="quiz-shortcuts">التقييم: 1 عاودت أنسى · 2 صعب · 3 جيد · 4 سهل</div>
+    </div>
+  `;
+  window.__srsCurrentFr = word.fr;
+}
+
+function escapeHtmlSafe(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[ch]);
+}
+function revealSrsAnswer() {
+  if (!srsActiveCard || srsRevealed) return;
+  srsRevealed = true;
+
+  const answerArea = document.getElementById('srs-answer-area');
+  if (answerArea) answerArea.classList.remove('hidden');
+
+  const actions = document.getElementById('srs-actions');
+  if (actions) {
+    actions.innerHTML = `
+      <button type="button" class="quiz-option-btn wrong" style="min-width:110px;" onclick="gradeSrsCard(0)">😵 عاودت أنسى</button>
+      <button type="button" class="quiz-option-btn" style="min-width:90px;" onclick="gradeSrsCard(3)">😅 صعب</button>
+      <button type="button" class="quiz-option-btn correct" style="min-width:90px;" onclick="gradeSrsCard(4)">👍 جيد</button>
+      <button type="button" class="quiz-option-btn" style="min-width:90px; border-color:#22c55e;" onclick="gradeSrsCard(5)">⚡ سهل</button>
+    `;
+  }
+}
+function gradeSrsCard(quality) {
+  if (!srsActiveCard || !srsRevealed) return;
+
+  const entry = getSrsEntry(srsActiveCard.id);
+  state.srs[srsActiveCard.id] = scheduleSrsEntry(entry, quality);
+
+  if (quality < 3) srsSessionGrades.again++;
+  else if (quality === 3) srsSessionGrades.hard++;
+  else if (quality === 4) srsSessionGrades.good++;
+  else srsSessionGrades.easy++;
+
+  saveStateToLocalStorage(true);
+  nextSrsCard();
+}
+
+function finishSrsSession(box) {
+  const total = srsQueue.length;
+  const mastered = total - srsSessionGrades.again;
+  box.innerHTML = `
+    <div class="quiz-results-card" style="margin-top:14px;">
+      <div style="font-size:40px;">${srsSessionGrades.again === 0 ? '🏆' : '📈'}</div>
+      <h3 style="font-size:20px; font-weight:800; margin-bottom:8px;">اكتملت جلسة المراجعة!</h3>
+      <div class="quiz-result-metrics">
+        <div class="quiz-result-metric"><strong>${total}</strong>بطاقة مُراجعة</div>
+        <div class="quiz-result-metric"><strong>${mastered}</strong>تقدمت للغد</div>
+        <div class="quiz-result-metric"><strong>${srsSessionGrades.again}</strong>تحتاج إعادة</div>
+      </div>
+      <button type="button" class="btn-primary" onclick="switchQuizSubTab('stats')">📊 عرض الإحصائيات ↗</button>
+    </div>
+  `;
+  // Note: intentionally NOT calling renderSrsView() here — it would wipe this summary.
+}
+function handleSrsKeyboard(event) {
+  if (!srsActiveCard || event.altKey || event.ctrlKey || event.metaKey) return false;
+  const sessionBox = document.getElementById('srs-session-box');
+  if (!sessionBox || !sessionBox.offsetParent) return false;
+  if (event.target?.matches?.('input, select, textarea')) return false;
+
+  if (!srsRevealed && event.key === 'Enter') {
+    event.preventDefault();
+    revealSrsAnswer();
+    return true;
+  }
+  if (srsRevealed && ['1', '2', '3', '4'].includes(event.key)) {
+    event.preventDefault();
+    gradeSrsCard([0, 3, 4, 5][+event.key - 1]);
+    return true;
+  }
+  return false;
+}
+
+if (typeof window !== 'undefined') {
+  document.addEventListener('keydown', handleSrsKeyboard);
+}
+
+if (typeof window !== 'undefined') {
+  window.startSrsSession = startSrsSession;
+  window.revealSrsAnswer = revealSrsAnswer;
+  window.gradeSrsCard = gradeSrsCard;
+};
+
 /* === src/modules/tabs/cheques-tab.js === */
 function numberToFrench(n) {
   if (n === 0) return "zéro";
@@ -10978,19 +11490,6 @@ function updateChequeConverter() {
     status.innerText = `✓ ${normalizedAmount.toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} MAD · ${words.integerPart} درهم و${String(words.decimalPart).padStart(2, '0')} سنتيم`;
   }
 }
-
-const FR_PRON_TOKENS = {
-  "zéro": "زيرو", "un": "آن", "deux": "دو", "trois": "تروا", "quatre": "كاتر",
-  "cinq": "سانك", "six": "سيس", "sept": "سيت", "huit": "ويت", "neuf": "نوف",
-  "dix": "ديس", "onze": "أونز", "douze": "دوز", "treize": "تريز",
-  "quatorze": "كاتورز", "quinze": "كانز", "seize": "سيز",
-  "vingt": "فان", "vingts": "فان", "trente": "ترونت", "quarante": "كارونت",
-  "cinquante": "سانكونت", "soixante": "سواسونت",
-  "cent": "سون", "cents": "سون", "mille": "ميل",
-  "million": "ميليون", "millions": "ميليون", "et": "إي", "moins": "موان",
-  "dirham": "ديرهام", "dirhams": "ديرهام", "centime": "سونتيم", "centimes": "سونتيم",
-  "dix-sept": "ديس-سيت", "dix-huit": "ديز-ويت", "dix-neuf": "ديز-نوف"
-};
 function setChequeAmount(v) {
   const input = document.getElementById('cheque-amount-input');
   if (input) {
@@ -14220,6 +14719,38 @@ if (typeof window !== 'undefined') {
 /* === src/modules/pwa.js === */
 /** @type {BeforeInstallPromptEvent|null} Cached PWA installation prompt event */
 let deferredPrompt = null;
+let updateBannerShown = false;
+
+/**
+ * Shows a persistent update banner offering an immediate reload
+ */
+function showUpdateBanner() {
+  if (updateBannerShown) return;
+  updateBannerShown = true;
+
+  const banner = document.createElement('div');
+  banner.id = 'pwa-update-banner';
+  banner.setAttribute('role', 'status');
+  banner.style.cssText =
+    'position:fixed; bottom:calc(76px + var(--safe-bottom, 0px)); left:50%; transform:translateX(-50%);' +
+    'z-index:6000; display:flex; align-items:center; gap:12px; padding:10px 16px; border-radius:999px;' +
+    'background:#1d4d35; color:#98f6b0; font-family:inherit; font-size:13.5px; font-weight:700;' +
+    'box-shadow:0 8px 24px rgba(0,0,0,.4), 0 0 0 1px rgba(34,197,94,.35); white-space:nowrap;';
+
+  const label = document.createElement('span');
+  label.textContent = '🔄 إصدار جديد من التطبيق جاهز';
+
+  const reloadBtn = document.createElement('button');
+  reloadBtn.type = 'button';
+  reloadBtn.textContent = 'تحديث الآن';
+  reloadBtn.style.cssText =
+    'border:0; border-radius:999px; padding:7px 14px; background:#22c55e; color:#04220f;' +
+    'font-family:inherit; font-size:12.5px; font-weight:800; cursor:pointer;';
+  reloadBtn.addEventListener('click', () => window.location.reload());
+
+  banner.append(label, reloadBtn);
+  document.body.appendChild(banner);
+}
 
 /**
  * Initializes Progressive Web App service worker registration and install prompt listener
@@ -14240,9 +14771,18 @@ function initPWA() {
           if (!worker) return;
           worker.addEventListener('statechange', () => {
             if (worker.state === 'installed' && navigator.serviceWorker.controller) {
-              showToast('يتوفر تحديث جديد وسيُفعّل عند فتح التطبيق مرة أخرى.');
+              showToast('يتوفر تحديث جديد — سيُفعّل عند إعادة التشغيل.');
             }
           });
+        });
+
+        // The SW self-skips waiting; once the new controller takes over,
+        // offer a one-tap reload so the new version goes live instantly.
+        let navigated = true;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!navigated) return;
+          navigated = false;
+          setTimeout(showUpdateBanner, 400);
         });
       })
       .catch(err => console.error('Service Worker Registration Failed:', err));

@@ -145,17 +145,19 @@ export function scrollToTopSmooth() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-window.addEventListener('scroll', () => {
-  const btn = document.getElementById('back-to-top-btn');
-  if (!btn) return;
-  if (window.scrollY > 280) {
-    btn.style.display = 'flex';
-    btn.setAttribute('aria-hidden', 'false');
-  } else {
-    btn.style.display = 'none';
-    btn.setAttribute('aria-hidden', 'true');
-  }
-}, { passive: true });
+if (typeof window !== 'undefined') {
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('back-to-top-btn');
+    if (!btn) return;
+    if (window.scrollY > 280) {
+      btn.style.display = 'flex';
+      btn.setAttribute('aria-hidden', 'false');
+    } else {
+      btn.style.display = 'none';
+      btn.setAttribute('aria-hidden', 'true');
+    }
+  }, { passive: true });
+}
 
 if (typeof window !== 'undefined') {
   window.appendTextElement = appendTextElement;

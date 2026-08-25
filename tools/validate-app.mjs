@@ -116,12 +116,15 @@ check('OnePlus Nord 5 mobile profile is safe and responsive', () => {
   assert.match(html, /content-visibility:\s*auto/);
 });
 
-const numbersStart = html.indexOf('function numberToFrench');
-const numbersEnd = html.indexOf('const FR_PRON_TOKENS', numbersStart);
-assert.ok(numbersStart > -1 && numbersEnd > numbersStart, 'number conversion source was not found');
+const numbersSource = read('src/modules/tabs/cheques-tab.js')
+  .replace(/^import\s+[\s\S]*?from\s+['"][^'"]+['"];?/gm, '')
+  .replace(/^\s*export\s+(const|let|var)\s+/gm, '$1 ')
+  .replace(/^\s*export\s+(async\s+)?function\s+/gm, (m, a) => (a || '') + 'function ');
 const numbersContext = {};
+numbersContext.globalThis = numbersContext;
 vm.createContext(numbersContext);
-vm.runInContext(html.slice(numbersStart, numbersEnd), numbersContext);
+vm.runInContext(numbersSource + '\nglobalThis.__exports = { numberToFrench, parseLocalizedChequeAmount, buildChequeAmountWords };', numbersContext);
+const { numberToFrench, parseLocalizedChequeAmount, buildChequeAmountWords } = numbersContext.__exports;
 
 check('cheque number conversion handles French and localized input edge cases', () => {
   const frenchCases = new Map([
@@ -238,6 +241,18 @@ check('critical functions are defined only once', () => {
       const matches = html.match(new RegExp(`function\\s+${name}\\s*\\(`, 'g')) || [];
       assert.equal(matches.length, 1, `${name} has ${matches.length} definitions`);
     });
+});
+
+check('math and SRS engines are compiled into the bundle', () => {
+  [
+    'function computeConcreteMix',
+    'function computeFinancialDecompte',
+    'function scheduleSrsEntry',
+    'function collectDueWordIds'
+  ].forEach(marker => {
+    assert.ok(html.includes(marker), `missing engine function in bundle: ${marker}`);
+    assert.equal(html.split(marker).length - 1, 1, `duplicated engine function: ${marker}`);
+  });
 });
 
 check('finance controls are wired into the calculator', () => {

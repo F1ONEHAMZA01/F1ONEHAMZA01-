@@ -4050,3 +4050,11 @@
         min-height: 46px;
       }
     }
+
+/* === Phase 5: Vocab header action buttons (export/import/reset) === */
+.vocab-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}

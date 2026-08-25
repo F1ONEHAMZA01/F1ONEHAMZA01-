@@ -1,4 +1,5 @@
 import { state } from '../state.js';
+import { FR_PRON_TOKENS } from '../../data/numbers-ref.js';
 import { NUMBERS_DATA } from '../../data/numbers-ref.js';
 import { appendTextElement, showToast, escapeHtml, playHaptic } from '../ui-utils.js';
 import { speakFrenchText, frWordsToPron } from '../audio.js';
@@ -272,18 +273,6 @@ export function updateChequeConverter() {
   }
 }
 
-const FR_PRON_TOKENS = {
-  "zéro": "زيرو", "un": "آن", "deux": "دو", "trois": "تروا", "quatre": "كاتر",
-  "cinq": "سانك", "six": "سيس", "sept": "سيت", "huit": "ويت", "neuf": "نوف",
-  "dix": "ديس", "onze": "أونز", "douze": "دوز", "treize": "تريز",
-  "quatorze": "كاتورز", "quinze": "كانز", "seize": "سيز",
-  "vingt": "فان", "vingts": "فان", "trente": "ترونت", "quarante": "كارونت",
-  "cinquante": "سانكونت", "soixante": "سواسونت",
-  "cent": "سون", "cents": "سون", "mille": "ميل",
-  "million": "ميليون", "millions": "ميليون", "et": "إي", "moins": "موان",
-  "dirham": "ديرهام", "dirhams": "ديرهام", "centime": "سونتيم", "centimes": "سونتيم",
-  "dix-sept": "ديس-سيت", "dix-huit": "ديز-ويت", "dix-neuf": "ديز-نوف"
-};
 
 export function setChequeAmount(v) {
   const input = document.getElementById('cheque-amount-input');

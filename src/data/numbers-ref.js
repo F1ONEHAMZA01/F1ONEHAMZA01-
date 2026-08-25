@@ -119,3 +119,17 @@ if (typeof window !== 'undefined') {
   window.NUMBERS_DATA = NUMBERS_DATA;
 }
 
+
+// Arabic phonetic transcription tokens for French number words (pronunciation guide)
+export const FR_PRON_TOKENS = {
+  "zéro": "زيرو", "un": "آن", "deux": "دو", "trois": "تروا", "quatre": "كاتر",
+  "cinq": "سانك", "six": "سيس", "sept": "سيت", "huit": "ويت", "neuf": "نوف",
+  "dix": "ديس", "onze": "أونز", "douze": "دوز", "treize": "تريز",
+  "quatorze": "كاتورز", "quinze": "كانز", "seize": "سيز",
+  "vingt": "فان", "vingts": "فان", "trente": "ترونت", "quarante": "كارونت",
+  "cinquante": "سانكونت", "soixante": "سواسونت",
+  "cent": "سون", "cents": "سون", "mille": "ميل",
+  "million": "ميليون", "millions": "ميليون", "et": "إي", "moins": "موان",
+  "dirham": "ديرهام", "dirhams": "ديرهام", "centime": "سونتيم", "centimes": "سونتيم",
+  "dix-sept": "ديس-سيت", "dix-huit": "ديز-ويت", "dix-neuf": "ديز-نوف"
+};

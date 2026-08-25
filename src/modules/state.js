@@ -67,6 +67,8 @@ export const state = {
   quizAnswers: [],
   /** @type {Record<string, number>} Error frequency tracker by word ID */
   wrongBank: {},
+  /** @type {Record<string, {ef:number, interval:number, reps:number, due:string}>} SM-2 spaced repetition schedule */
+  srs: {},
   /** @type {Object|null} Active question metadata */
   currentQuestion: null,
   /** @type {QuizConfig} Current quiz generator settings */
@@ -194,6 +196,7 @@ export function saveStateToLocalStorage(immediate = false) {
       localStorage.setItem('btp_checked_days', JSON.stringify(Array.from(state.checkedDays)));
       localStorage.setItem('btp_quiz_best', String(state.quizBestScore));
       localStorage.setItem('btp_quiz_wrong_bank', JSON.stringify(state.wrongBank || {}));
+      localStorage.setItem('btp_srs', JSON.stringify(state.srs || {}));
       localStorage.setItem('btp_reading_progress', JSON.stringify(state.readingProgress || {}));
     } catch(e) {
       console.warn('Failed to persist app state to localStorage:', e);
@@ -260,6 +263,26 @@ if (typeof window !== 'undefined') {
           console.warn('Failed to restore wrong-answer bank, resetting map:', e);
         }
       }
+      state.srs = {};
+      if (localStorage.getItem('btp_srs')) {
+        try {
+          const storedSrs = JSON.parse(localStorage.getItem('btp_srs'));
+          if (storedSrs && typeof storedSrs === 'object' && !Array.isArray(storedSrs)) {
+            Object.entries(storedSrs).forEach(([key, entry]) => {
+              if (entry && typeof entry === 'object' && typeof entry.ef === 'number' && typeof entry.due === 'string') {
+                state.srs[key] = {
+                  ef: Math.max(1.3, entry.ef),
+                  interval: Number(entry.interval) || 0,
+                  reps: Number(entry.reps) || 0,
+                  due: entry.due
+                };
+              }
+            });
+          }
+        } catch(e) {
+          console.warn('Failed to restore SRS schedule, resetting map:', e);
+        }
+      }
       if (localStorage.getItem('btp_reading_progress')) {
         try {
           const storedReading = JSON.parse(localStorage.getItem('btp_reading_progress'));
@@ -273,7 +296,7 @@ if (typeof window !== 'undefined') {
       saveStateToLocalStorage();
     }
 
-    function getVocabDataset() {
+    export function getVocabDataset() {
       if (typeof VOCAB_DATA !== 'undefined' && Array.isArray(VOCAB_DATA) && VOCAB_DATA.length > 0) {
         return VOCAB_DATA;
       }
@@ -283,7 +306,95 @@ if (typeof window !== 'undefined') {
       return [];
     }
 
-    function initStats() {
+    /**
+     * Builds a portable snapshot of all user progress
+     * @returns {Object} Progress payload safe to persist or share between devices
+     */
+    function buildProgressPayload() {
+      return {
+        app: 'francais-btp-maroc',
+        schema: 1,
+        exportedAt: new Date().toISOString(),
+        learned: Array.from(state.learned),
+        checkedDays: Array.from(state.checkedDays),
+        quizBestScore: state.quizBestScore,
+        wrongBank: state.wrongBank || {},
+        srs: state.srs || {},
+        readingProgress: state.readingProgress || {}
+      };
+    }
+
+    /** Downloads all progress as a JSON backup file */
+    function exportProgressData() {
+      try {
+        const payload = JSON.stringify(buildProgressPayload(), null, 2);
+        const blob = new Blob([payload], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const stamp = new Date().toISOString().slice(0, 10);
+        link.href = url;
+        link.download = `btp-maroc-progress-${stamp}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+        if (window.showToast) window.showToast('تم تصدير نسخة التقدم بنجاح! 📤', 'success');
+      } catch (err) {
+        console.error('Progress export failed:', err);
+        if (window.showToast) window.showToast('تعذر التصدير — تحقق من إعدادات المتصفح', 'error');
+      }
+    }
+
+    /** Restores progress from an exported JSON backup file */
+    function importProgressFile(fileInput) {
+      const file = fileInput && fileInput.files && fileInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(String(reader.result));
+          if (!data || data.app !== 'francais-btp-maroc') {
+            throw new Error('not a Français BTP Maroc backup file');
+          }
+
+          state.learned = migrateStoredWordKeys(Array.isArray(data.learned) ? data.learned : []);
+          state.checkedDays = new Set((Array.isArray(data.checkedDays) ? data.checkedDays : []).filter(n => Number.isInteger(n) && n >= 1 && n <= 999));
+          state.quizBestScore = Math.min(100, Math.max(0, Number(data.quizBestScore) || 0));
+          state.wrongBank = {};
+          Object.entries(data.wrongBank && typeof data.wrongBank === 'object' ? data.wrongBank : {}).forEach(([key, count]) => {
+            if (typeof key === 'string' && key.startsWith('word:')) state.wrongBank[key] = Math.max(1, Number(count) || 1);
+          });
+          state.srs = {};
+          Object.entries(data.srs && typeof data.srs === 'object' ? data.srs : {}).forEach(([key, entry]) => {
+            if (entry && typeof entry.ef === 'number' && typeof entry.due === 'string') {
+              state.srs[key] = { ef: Math.max(1.3, entry.ef), interval: Number(entry.interval) || 0, reps: Number(entry.reps) || 0, due: entry.due };
+            }
+          });
+          state.readingProgress = data.readingProgress && typeof data.readingProgress === 'object' && !Array.isArray(data.readingProgress)
+            ? data.readingProgress : {};
+
+          saveStateToLocalStorage(true);
+          initStats();
+          if (window.renderVocabList) window.renderVocabList(true);
+          if (window.renderStudyPlan) window.renderStudyPlan();
+          if (window.renderReadingDocsSelector) window.renderReadingDocsSelector();
+          if (window.showToast) window.showToast(`تم استيراد التقدم بنجاح! ✅ (${state.learned.size} كلمة متقنة)`, 'success');
+        } catch (err) {
+          console.warn('Progress import rejected:', err);
+          if (window.showToast) window.showToast('ملف غير صالح — استخدم ملف تصدير من نفس التطبيق', 'error');
+        } finally {
+          fileInput.value = '';
+        }
+      };
+      reader.onerror = () => {
+        if (window.showToast) window.showToast('تعذرت قراءة الملف', 'error');
+        fileInput.value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    export function initStats() {
       const dataset = getVocabDataset();
       const totalWords = dataset.length;
       const learnedCount = state.learned.size;
@@ -321,4 +432,6 @@ if (typeof window !== 'undefined') {
   window.getVocabDataset = getVocabDataset;
   window.getVocabSearchIndex = getVocabSearchIndex;
   window.initStats = initStats;
+  window.exportProgressData = exportProgressData;
+  window.importProgressFile = importProgressFile;
 }

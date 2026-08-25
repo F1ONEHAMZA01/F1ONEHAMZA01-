@@ -99,3 +99,40 @@ test.describe('Calculators (pure math via UI)', () => {
     await expect(page.locator('#calc-finance-result')).toContainText('110');
   });
 });
+
+test.describe('Phase 5 features', () => {
+  test('SRS flashcards subtab renders and grades a card', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => {
+      // Seed one due card using a stable word id from the dataset
+      const w = window.getVocabDataset()[0];
+      window.state.srs[window.getWordId(w)] = { ef: 2.5, interval: 0, reps: 0, due: '2020-01-01' };
+    });
+    await page.click('#tab-btn-quiz');
+    await page.click('#subtab-btn-quiz-srs');
+    await expect(page.locator('#quiz-view-srs')).toBeVisible();
+    await expect(page.locator('#srs-content-box')).toContainText('مستحقة');
+
+    await page.click('#srs-start-btn');
+    const card = page.locator('#srs-session-box .quiz-question-box').first();
+    await expect(card).toBeVisible();
+
+    await page.click('button:has-text("اكشف الإجابة")');
+    await expect(page.locator('#srs-answer-area')).toBeVisible();
+    await page.click('.fb-actions .quiz-option-btn.correct');
+    await expect(page.locator('#srs-session-box')).toBeVisible();
+  });
+
+  test('progress export/import buttons exist and import rejects bad files', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => window.exportProgressData());
+    await expect(page.locator('button[onclick="exportProgressData()"]')).toBeVisible();
+
+    await page.setInputFiles('#import-progress-input', {
+      name: 'bad.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from('{"app":"other-app"}')
+    });
+    await expect(page.locator('#toast')).toContainText(/غير صالح/);
+  });
+});
