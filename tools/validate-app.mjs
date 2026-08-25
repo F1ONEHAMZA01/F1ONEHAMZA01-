@@ -174,7 +174,7 @@ check('cheque editor and number game expose complete accessible controls', () =>
 });
 
 check('large number cards preserve left-to-right digit grouping', () => {
-  assert.match(html, /<bdi class="num-digit" dir="ltr">\$\{x\.n\}<\/bdi>/);
+  assert.match(html, /<bdi class="num-digit" dir="ltr">\$\{escapeHtml\(String\(x\.n\)\)\}<\/bdi>/);
   assert.match(html, /\.num-digit\s*\{[\s\S]*?direction:\s*ltr;[\s\S]*?unicode-bidi:\s*isolate;/);
 });
 

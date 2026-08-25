@@ -1,6 +1,6 @@
 import { state } from '../state.js';
 import { WRITING_TEMPLATES } from '../../data/writing-templates.js';
-import { appendTextElement, showToast, normalizeSearchText } from '../ui-utils.js';
+import { appendTextElement, showToast, normalizeSearchText, escapeHtml } from '../ui-utils.js';
 import { speakFrenchText } from '../audio.js';
 
 let activeWritingCategory = 'all';
@@ -560,7 +560,7 @@ export function updateEmailAssistantPreview() {
         🔊 <span>استماع</span>
       </button>
     </div>
-    <pre class="doc-viewer-card template-code-view" id="email-text-view" lang="fr" dir="ltr">${generatedEmail}</pre>
+    <pre class="doc-viewer-card template-code-view" id="email-text-view" lang="fr" dir="ltr">${escapeHtml(generatedEmail)}</pre>
   `;
   outBox.classList.remove('output-updated');
   void outBox.offsetWidth;

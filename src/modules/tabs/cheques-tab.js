@@ -748,7 +748,15 @@ export function newNumQuestion() {
     }
   } else if (numGame.mode === 'audio') {
     if (qType) qType.innerText = '🔊 استمع للمبلغ الفرنسي واكتبه أو اختر رقمه:';
-    if (targetEl) targetEl.innerHTML = `<button type="button" class="btn-primary" style="font-size:16px; padding:10px 24px; border-radius:12px;" onclick="speakFrenchText('${fr.replace(/'/g, "\\'")}')">🔊 استمع للمبلغ مرة أخرى</button>`;
+    if (targetEl) {
+      const replayBtn = document.createElement('button');
+      replayBtn.type = 'button';
+      replayBtn.className = 'btn-primary';
+      replayBtn.style.cssText = 'font-size:16px; padding:10px 24px; border-radius:12px;';
+      replayBtn.textContent = '🔊 استمع للمبلغ مرة أخرى';
+      replayBtn.addEventListener('click', () => speakFrenchText(fr));
+      targetEl.replaceChildren(replayBtn);
+    }
     if (promptEl) promptEl.innerText = 'انقر على الزر للاستماع';
     speakFrenchText(fr);
     if (optsEl) optsEl.classList.remove('hidden');
@@ -970,33 +978,33 @@ export function renderReferenceNumbersTable(category, search) {
     return `<tr class="ref-row-item">
       <td class="cell-amount" data-label="المبلغ">
         <div class="ref-amount-badge">
-          <span class="ref-amount-val">${formattedDigits}</span>
+          <span class="ref-amount-val">${escapeHtml(formattedDigits)}</span>
           <span class="ref-amount-cur">MAD</span>
         </div>
-        <span class="ref-cat-pill cat-${item.cat} ref-cat-mobile-pill">${item.catLabel}</span>
+        <span class="ref-cat-pill cat-${item.cat} ref-cat-mobile-pill">${escapeHtml(item.catLabel)}</span>
       </td>
       <td class="cell-french" data-label="بالفرنسية">
-        <div class="ref-french-title">${words.fr}</div>
-        <div class="ref-pron-sub">[ ${pron} ]</div>
-        <div class="ref-desc-sub">${item.desc}</div>
+        <div class="ref-french-title">${escapeHtml(words.fr)}</div>
+        <div class="ref-pron-sub">[ ${escapeHtml(pron)} ]</div>
+        <div class="ref-desc-sub">${escapeHtml(item.desc)}</div>
       </td>
       <td class="cell-arabic" data-label="بالعربية">
-        <div class="ref-arabic-title">${words.ar}</div>
+        <div class="ref-arabic-title">${escapeHtml(words.ar)}</div>
       </td>
       <td class="cell-category" data-label="التصنيف">
-        <span class="ref-cat-pill cat-${item.cat}">${item.catLabel}</span>
+        <span class="ref-cat-pill cat-${item.cat}">${escapeHtml(item.catLabel)}</span>
       </td>
       <td class="cell-actions" data-label="الإجراءات">
         <div class="ref-actions-group">
-          <button type="button" class="ref-icon-btn" onclick="speakFrenchText('${words.fr.replace(/'/g, "\\'")}')" title="استمع للنطق">
+          <button type="button" class="ref-icon-btn" data-ref-speak="${escapeHtml(words.fr)}" title="استمع للنطق">
             <span aria-hidden="true">🔊</span>
             <span class="btn-txt-mobile">استمع</span>
           </button>
-          <button type="button" class="ref-icon-btn" onclick="copyChequeTextDirect('${words.fr.replace(/'/g, "\\'")}')" title="نسخ المبلغ">
+          <button type="button" class="ref-icon-btn" data-ref-copy="${escapeHtml(words.fr)}" title="نسخ المبلغ">
             <span aria-hidden="true">📋</span>
             <span class="btn-txt-mobile">نسخ</span>
           </button>
-          <button type="button" class="ref-icon-btn gold" onclick="testNumberInCheque(${item.amt})" title="تجربة في محاكي الشيك">
+          <button type="button" class="ref-icon-btn gold" data-ref-try="${Number(item.amt)}" title="تجربة في محاكي الشيك">
             <span aria-hidden="true">✏️</span>
             <span class="btn-txt-mobile">جرب بالشيك</span>
           </button>
@@ -1004,6 +1012,13 @@ export function renderReferenceNumbersTable(category, search) {
       </td>
     </tr>`;
   }).join('');
+
+  tbody.querySelectorAll('[data-ref-speak]').forEach(b =>
+    b.addEventListener('click', () => speakFrenchText(b.dataset.refSpeak)));
+  tbody.querySelectorAll('[data-ref-copy]').forEach(b =>
+    b.addEventListener('click', () => copyChequeTextDirect(b.dataset.refCopy)));
+  tbody.querySelectorAll('[data-ref-try]').forEach(b =>
+    b.addEventListener('click', () => testNumberInCheque(Number(b.dataset.refTry))));
 }
 
 export function setRefTableCategory(cat, btnEl) {
@@ -1071,21 +1086,44 @@ export function renderNumbersChart(filter, search) {
   grid.innerHTML = filtered.map(x => {
     const groupBadge = NUMBER_GROUP_LABELS[x.g] || x.g;
     return `
-    <div class="num-card" onclick="speakNumberCard('${x.n}', '${x.fr.replace(/'/g, "\\'")}', this)">
+    <div class="num-card" data-num-n="${escapeHtml(String(x.n))}" data-num-fr="${escapeHtml(x.fr)}" role="button" tabindex="0">
       <div class="num-card-top">
-        <bdi class="num-digit" dir="ltr">${x.n}</bdi>
-        <span class="ref-cat-pill cat-${x.g}">${groupBadge}</span>
-        <button type="button" class="num-speaker-pill-btn" onclick="event.stopPropagation(); speakNumberCard('${x.n}', '${x.fr.replace(/'/g, "\\'")}', this.parentElement.parentElement)" title="استمع">🔊</button>
+        <bdi class="num-digit" dir="ltr">${escapeHtml(String(x.n))}</bdi>
+        <span class="ref-cat-pill cat-${x.g}">${escapeHtml(groupBadge)}</span>
+        <button type="button" class="num-speaker-pill-btn" data-num-speak title="استمع">🔊</button>
       </div>
-      <div class="num-fr">${x.fr}</div>
-      <div class="num-pron">[ ${x.pron} ]</div>
-      <div class="num-ar">${x.ar}</div>
+      <div class="num-fr">${escapeHtml(x.fr)}</div>
+      <div class="num-pron">[ ${escapeHtml(x.pron)} ]</div>
+      <div class="num-ar">${escapeHtml(x.ar)}</div>
       <div class="num-card-actions">
-        <button type="button" class="num-try-btn" onclick="event.stopPropagation(); testNumberInCheque('${x.n}')">جرب بالشيك ✏️</button>
-        <button type="button" class="num-copy-btn" onclick="event.stopPropagation(); copyChequeTextDirect('${x.fr.replace(/'/g, "\\'")}')" title="نسخ الكلمة">📋</button>
+        <button type="button" class="num-try-btn" data-num-try="${escapeHtml(String(x.n))}">جرب بالشيك ✏️</button>
+        <button type="button" class="num-copy-btn" data-num-copy="${escapeHtml(x.fr)}" title="نسخ الكلمة">📋</button>
       </div>
     </div>`;
   }).join('');
+
+  grid.querySelectorAll('.num-card').forEach(card => {
+    const speakCard = () => speakNumberCard(card.dataset.numN, card.dataset.numFr, card);
+    card.addEventListener('click', e => {
+      if (e.target.closest('button')) return;
+      speakCard();
+    });
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        speakCard();
+      }
+    });
+  });
+  grid.querySelectorAll('[data-num-speak]').forEach(b =>
+    b.addEventListener('click', () => {
+      const card = b.closest('.num-card');
+      speakNumberCard(card.dataset.numN, card.dataset.numFr, card);
+    }));
+  grid.querySelectorAll('[data-num-try]').forEach(b =>
+    b.addEventListener('click', () => testNumberInCheque(b.dataset.numTry)));
+  grid.querySelectorAll('[data-num-copy]').forEach(b =>
+    b.addEventListener('click', () => copyChequeTextDirect(b.dataset.numCopy)));
 }
 
 export function setNumbersFilter(f, btnEl) {
