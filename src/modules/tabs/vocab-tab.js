@@ -1,11 +1,97 @@
 import { state, getVocabDataset, getVocabSearchIndex, getWordId, normalizeSearchText, saveStateToLocalStorage, initStats } from '../state.js';
 import { appendTextElement, showToast } from '../ui-utils.js';
 import { speakFrenchText, ttsAvailable } from '../audio.js';
+import { attachBottomSheetDrag } from '../motion.js';
 import { renderStudyPlan } from './plan-tab.js';
 import { renderReadingDocsSelector } from './reading-tab.js';
 
 let searchDebounceTimer = null;
 let vocabScrollObserver = null;
+
+// ════════════════════════════════════════════════════════════════════════════
+// MOBILE FILTERS BOTTOM SHEET — relocates filter nodes on Nord-class screens
+// ════════════════════════════════════════════════════════════════════════════
+
+const SHEET_MEDIA = typeof matchMedia !== 'undefined' ? matchMedia('(max-width: 440px) and (orientation: portrait)') : null;
+let sheetOpen = false;
+
+function isSheetLayout() {
+  return !!(SHEET_MEDIA && SHEET_MEDIA.matches);
+}
+
+function relocateFiltersForSheet() {
+  const slot = document.getElementById('sheet-body-slot');
+  const levelBar = document.getElementById('level-filter-bar');
+  const categoryList = document.getElementById('category-filter-list');
+  if (!slot || !levelBar || !categoryList) return;
+  if (isSheetLayout()) {
+    if (levelBar.parentElement !== slot) slot.appendChild(levelBar);
+    if (categoryList.parentElement !== slot) slot.appendChild(categoryList);
+  } else {
+    const levelHome = document.querySelector('.vocab-toolbar');
+    const catHome = document.querySelector('.vocab-sidebar-card');
+    if (levelHome && levelBar.parentElement !== levelHome) levelHome.appendChild(levelBar);
+    if (catHome && categoryList.parentElement !== catHome) catHome.appendChild(categoryList);
+    closeFiltersSheet(true);
+  }
+  updateOpenFiltersLabel();
+}
+
+function updateOpenFiltersLabel() {
+  const label = document.getElementById('open-filters-active-cat');
+  if (!label) return;
+  const cat = state.activeCategory === 'all' ? '' : `· ${state.activeCategory.split('/')[0].trim()}`;
+  label.textContent = cat.length > 18 ? `${cat.slice(0, 17)}…` : cat;
+}
+
+export function openFiltersSheet() {
+  const sheet = document.getElementById('mobile-filters-sheet');
+  if (!sheet || sheetOpen) return;
+  relocateFiltersForSheet();
+  sheet.classList.remove('hidden');
+  requestAnimationFrame(() => sheet.classList.add('open'));
+  sheetOpen = true;
+  const firstItem = sheet.querySelector('button');
+  if (firstItem) firstItem.focus({ preventScroll: true });
+}
+
+export function closeFiltersSheet(instant = false) {
+  const sheet = document.getElementById('mobile-filters-sheet');
+  if (!sheet || !sheetOpen) return;
+  sheetOpen = false;
+  const panel = sheet.querySelector('.bottom-sheet-panel');
+  const finish = () => {
+    sheet.classList.add('hidden');
+    panel.style.transform = '';
+  };
+  if (instant || prefersReducedMotionSafe()) finish();
+  else {
+    sheet.classList.remove('open');
+    setTimeout(finish, 340);
+  }
+}
+
+function prefersReducedMotionSafe() {
+  return typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function initFiltersSheet() {
+  const sheet = document.getElementById('mobile-filters-sheet');
+  if (!sheet) return;
+
+  relocateFiltersForSheet();
+  if (SHEET_MEDIA) {
+    if (SHEET_MEDIA.addEventListener) SHEET_MEDIA.addEventListener('change', relocateFiltersForSheet);
+    else SHEET_MEDIA.addListener(relocateFiltersForSheet);
+  }
+
+  document.getElementById('open-filters-btn')?.addEventListener('click', openFiltersSheet);
+  sheet.querySelectorAll('[data-sheet-close]').forEach(el => el.addEventListener('click', () => closeFiltersSheet()));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFiltersSheet(); });
+
+  const panel = sheet.querySelector('.bottom-sheet-panel');
+  attachBottomSheetDrag(sheet, panel, () => closeFiltersSheet());
+}
 
 const PHASE_NAMES = {
       1: "1. الأساسات والحفر · Terrassement & Fondations",
@@ -357,4 +443,15 @@ if (typeof window !== 'undefined') {
   window.setupVocabInfiniteScroll = setupVocabInfiniteScroll;
   window.toggleWordLearned = toggleWordLearned;
   window.resetLearnedState = resetLearnedState;
+  window.openFiltersSheet = openFiltersSheet;
+  window.closeFiltersSheet = closeFiltersSheet;
+}
+
+// Boot the sheet relocation once DOM is parsed (module loads before appInit)
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFiltersSheet, { once: true });
+  } else {
+    initFiltersSheet();
+  }
 }

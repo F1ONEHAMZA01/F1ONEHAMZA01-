@@ -7,7 +7,6 @@
 main > section:not(.hidden) {
   animation: tabSectionEnter 0.28s var(--ease-out-expo) both;
   transform-origin: top center;
-  will-change: transform, opacity;
 }
 
 @keyframes tabSectionEnter {
@@ -29,7 +28,6 @@ main > section:not(.hidden) {
 .grammar-subview:not(.hidden),
 .calc-subview:not(.hidden) {
   animation: subviewSlideIn 0.24s var(--ease-out-expo) both;
-  will-change: transform, opacity;
 }
 
 @keyframes subviewSlideIn {
@@ -46,7 +44,6 @@ main > section:not(.hidden) {
 /* ─── 3. Tab Bar & Button Micro-Interactions ─── */
 .tab-btn {
   transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease, transform 0.28s var(--ease-spring), box-shadow 0.22s ease;
-  will-change: transform;
 }
 
 .tab-btn:hover {
@@ -71,7 +68,6 @@ main > section:not(.hidden) {
 .grammar-subtab-btn,
 .calc-subtab-btn {
   transition: all 0.22s var(--ease-out-expo);
-  will-change: transform;
 }
 
 .subtab-btn:hover,
@@ -113,7 +109,6 @@ main > section:not(.hidden) {
 /* ─── 4. General Cards & Elevation Physics ─── */
 .card {
   transition: var(--transition-card);
-  will-change: transform, box-shadow;
 }
 
 .card:hover {
@@ -127,7 +122,6 @@ main > section:not(.hidden) {
 /* ─── 5. Vocabulary Cards (Tab 1) ─── */
 .word-card {
   transition: var(--transition-card);
-  will-change: transform, box-shadow;
 }
 
 .word-card:hover {
@@ -147,7 +141,6 @@ main > section:not(.hidden) {
 /* Learn Button Pop & Toggle */
 .learn-btn {
   transition: all 0.22s var(--ease-spring);
-  will-change: transform;
 }
 
 .learn-btn:hover {
@@ -179,7 +172,6 @@ main > section:not(.hidden) {
 .speak-btn,
 .audio-btn {
   transition: transform 0.2s var(--ease-spring), background 0.2s ease, border-color 0.2s ease;
-  will-change: transform;
 }
 
 .speak-btn:hover,
@@ -217,7 +209,6 @@ main > section:not(.hidden) {
 .doc-tab-btn,
 .verb-tab-btn {
   transition: all 0.2s var(--ease-out-expo);
-  will-change: transform;
 }
 
 .category-item:hover,
@@ -237,7 +228,6 @@ main > section:not(.hidden) {
 /* ─── 6. Quiz Engine Motion & Feedback (Tab 2) ─── */
 #quiz-question-box.question-enter {
   animation: questionBoxEntrance 0.26s var(--ease-out-expo);
-  will-change: transform, opacity;
 }
 
 @keyframes questionBoxEntrance {
@@ -253,7 +243,6 @@ main > section:not(.hidden) {
 
 .quiz-preset-btn {
   transition: transform 0.24s var(--ease-out-expo), box-shadow 0.24s ease, border-color 0.24s ease;
-  will-change: transform;
 }
 
 .quiz-preset-btn:hover {
@@ -269,7 +258,6 @@ main > section:not(.hidden) {
 /* Quiz Option Buttons with Spring Physics */
 .quiz-option-btn {
   transition: transform 0.2s var(--ease-out-expo), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  will-change: transform;
 }
 
 .quiz-option-btn:hover:not(:disabled) {
@@ -324,7 +312,6 @@ main > section:not(.hidden) {
 /* Quiz Feedback Box Slide-Up */
 .quiz-feedback {
   animation: feedbackSlideUp 0.32s var(--ease-spring) both;
-  will-change: transform, opacity;
 }
 
 @keyframes feedbackSlideUp {
@@ -343,7 +330,6 @@ main > section:not(.hidden) {
 #plan-progress-bar-fill {
   transition: width 0.4s var(--ease-spring);
   position: relative;
-  will-change: width;
 }
 
 #quiz-progress-bar-fill::after,
@@ -437,7 +423,6 @@ main > section:not(.hidden) {
 /* Number Cards Floating */
 .num-card {
   transition: transform 0.22s var(--ease-out-expo), box-shadow 0.22s ease, border-color 0.22s ease;
-  will-change: transform;
 }
 
 .num-card:hover {
@@ -527,7 +512,6 @@ main > section:not(.hidden) {
 .copy-btn,
 .btn-copy {
   transition: all 0.2s var(--ease-spring);
-  will-change: transform;
 }
 
 .copy-btn:hover,
@@ -547,7 +531,6 @@ main > section:not(.hidden) {
 
 .accordion-arrow {
   transition: transform 0.3s var(--ease-spring);
-  will-change: transform;
 }
 
 .accordion-item.active-item .accordion-arrow {
@@ -556,13 +539,11 @@ main > section:not(.hidden) {
 
 .accordion-content {
   transition: max-height 0.35s var(--ease-out-expo), opacity 0.25s ease, padding 0.25s ease;
-  will-change: max-height, opacity;
 }
 
 /* ─── 11. Study Plan Checkbox Celebration (Tab 7) ─── */
 .day-task-checkbox {
   transition: transform 0.25s var(--ease-spring), background-color 0.2s ease;
-  will-change: transform;
 }
 
 .day-task-checkbox:active {
@@ -629,7 +610,6 @@ main > section:not(.hidden) {
   transition: transform 0.36s var(--ease-spring), opacity 0.24s ease;
   pointer-events: none;
   z-index: var(--z-toast, 5000);
-  will-change: transform, opacity;
 }
 
 #toast.show {
@@ -641,7 +621,6 @@ main > section:not(.hidden) {
 #back-to-top-btn {
   transition: transform 0.28s var(--ease-spring), background 0.2s ease, opacity 0.2s ease;
   animation: fabScaleEntrance 0.28s var(--ease-spring) both;
-  will-change: transform;
 }
 
 @keyframes fabScaleEntrance {
@@ -666,7 +645,6 @@ main > section:not(.hidden) {
 /* Primary & Secondary Action Buttons */
 .btn-primary {
   transition: transform 0.22s var(--ease-spring), filter 0.2s ease, box-shadow 0.22s ease;
-  will-change: transform;
 }
 
 .btn-primary:hover {
@@ -682,7 +660,6 @@ main > section:not(.hidden) {
 
 .btn-secondary {
   transition: transform 0.22s var(--ease-out-expo), background-color 0.2s ease, border-color 0.2s ease;
-  will-change: transform;
 }
 
 .btn-secondary:hover {
@@ -738,3 +715,179 @@ main > section:not(.hidden) {
   scroll-behavior: smooth;
 }
 
+
+/* ─── 16. MOTION PHYSICS LAYER (Phase: Motion & Physics) ────────────────── */
+
+/* Touch-origin ripple (span injected by motion.js) */
+.motion-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.5) 0%, rgba(240,165,0,.28) 45%, transparent 72%);
+  transform: scale(0);
+  opacity: .9;
+  animation: rippleExpand .55s var(--ease-out-expo) forwards;
+  pointer-events: none;
+}
+
+@keyframes rippleExpand {
+  to { transform: scale(2.6); opacity: 0; }
+}
+
+.tab-btn, .quiz-option-btn, .learn-btn, .quick-amt-btn, .lvl-btn,
+.category-item, .btn-primary, .btn-secondary, .quiz-subtab-btn,
+.cheques-subtab-btn, .reading-subtab-btn, .writing-subtab-btn,
+.grammar-subtab-btn, .calc-subtab-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Laptop card tilt + cursor-following glow */
+.word-card, .num-card { transition: var(--transition-card); }
+
+.motion-tilt {
+  will-change: transform;
+  z-index: 2;
+}
+
+.motion-tilt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+              rgba(240,165,0,.14), transparent 42%);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+
+.word-card:not(.motion-tilt)::after,
+.num-card:not(.motion-tilt)::after { content: none; }
+
+.btn-primary { transition: transform .18s cubic-bezier(.34,1.56,.64,1), filter .2s ease, box-shadow .22s ease; }
+
+/* Swipe affordance: allow horizontal pointer tracking while keeping vertical scroll */
+#tab-quiz, #tab-cheques, #tab-reading, #tab-writing, #tab-grammar, #tab-calc {
+  touch-action: pan-y;
+}
+
+/* ─── Bottom Sheet (mobile filters) ─── */
+.bottom-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 4500;
+}
+
+.bottom-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 6, 12, .55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity .28s ease;
+}
+
+.bottom-sheet.open .bottom-sheet-backdrop { opacity: 1; }
+
+.bottom-sheet-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--md-surface-container-low, #1d1b20);
+  border-radius: 24px 24px 0 0;
+  border-top: 1px solid rgba(202,196,208,.14);
+  box-shadow: 0 -12px 40px rgba(0,0,0,.5);
+  padding-bottom: calc(10px + var(--safe-bottom, 0px));
+  transform: translateY(100%);
+  transition: transform .32s var(--ease-out-expo);
+  will-change: transform;
+}
+
+.bottom-sheet.open .bottom-sheet-panel { transform: translateY(0); }
+
+.bottom-sheet-handle {
+  align-self: center;
+  width: 44px;
+  height: 26px;
+  margin: 8px 0 2px;
+  border: 0;
+  border-radius: 12px;
+  background:
+    radial-gradient(closest-side at center, var(--md-outline, #978f99) 0%, transparent 100%) center/36px 4px no-repeat,
+    transparent;
+  cursor: grab;
+  touch-action: none;
+}
+
+.bottom-sheet-handle:active { cursor: grabbing; }
+
+.bottom-sheet-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--md-on-surface, #e7e0e8);
+  padding: 4px 18px 8px;
+}
+
+.bottom-sheet-body {
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 14px 14px;
+}
+
+.bottom-sheet-body .phase-header { display: block !important; }
+.bottom-sheet-body #category-filter-list {
+  display: grid !important;
+  gap: 4px !important;
+  overflow: visible !important;
+}
+.bottom-sheet-body #category-filter-list .category-item {
+  width: 100% !important;
+  min-height: 46px !important;
+  border-radius: 12px !important;
+  white-space: normal !important;
+  text-align: right !important;
+}
+.bottom-sheet-body #level-filter-bar { margin: 6px 2px 12px; }
+
+/* Floating trigger pill shown only on small portrait screens */
+#open-filters-btn {
+  display: none;
+}
+
+@media (max-width: 440px) and (orientation: portrait) {
+  #open-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 8px 14px;
+    border: 1px solid rgba(240,165,0,.35);
+    border-radius: 999px;
+    background: rgba(240,165,0,.12);
+    color: var(--gold-light, #ffd60a);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  /* The inline strip is superseded by the sheet on Nord-class screens */
+  #category-filter-list { display: none !important; }
+  .vocab-sidebar-card .card-title { display: none; }
+  .vocab-sidebar-card { display: none; }
+  #level-filter-bar { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-ripple { display: none !important; }
+  .bottom-sheet-panel { transition: none !important; transform: none !important; position: static; }
+  .motion-tilt { transform: none !important; }
+  .motion-tilt::after { content: none !important; }
+  .btn-primary { transform: none !important; }
+}

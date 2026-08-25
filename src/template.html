@@ -118,6 +118,9 @@
         
         <div class="vocab-main-col">
           <div class="vocab-toolbar">
+            <button type="button" id="open-filters-btn" aria-haspopup="dialog" aria-controls="mobile-filters-sheet">
+              🎛️ <span>الفلاتر</span> <span id="open-filters-active-cat"></span>
+            </button>
             <div class="vocab-search-wrap">
               <input type="search" class="input-field" id="search-input" aria-label="البحث في المصطلحات" placeholder="🔍 ابحث بالفرنسية، العربية، النطق أو الكلمات الدلالية..." oninput="handleSearchInput()">
               <button type="button" id="clear-search-btn" class="search-clear-btn" aria-label="مسح نص البحث / Effacer la recherche" onclick="clearSearchInput()">✖</button>
@@ -1484,6 +1487,16 @@
     </section>
 
   </main>
+
+  <!-- Mobile Filters Bottom Sheet (populated by relocating #level-filter-bar & #category-filter-list) -->
+  <div id="mobile-filters-sheet" class="bottom-sheet hidden" role="dialog" aria-modal="true" aria-label="فلاتر المصطلحات">
+    <div class="bottom-sheet-backdrop" data-sheet-close></div>
+    <div class="bottom-sheet-panel" role="document">
+      <button type="button" class="bottom-sheet-handle" data-sheet-close aria-label="سحب للإغلاق أو إغلاق الفلاتر"></button>
+      <div class="bottom-sheet-title">🎛️ فلاتر المصطلحات</div>
+      <div class="bottom-sheet-body" id="sheet-body-slot"></div>
+    </div>
+  </div>
 
   <!-- Notification Toast -->
   <div id="toast" role="status" aria-live="polite">

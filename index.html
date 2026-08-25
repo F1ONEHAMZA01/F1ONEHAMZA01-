@@ -6352,7 +6352,6 @@ textarea:focus-visible,
 main > section:not(.hidden) {
   animation: tabSectionEnter 0.28s var(--ease-out-expo) both;
   transform-origin: top center;
-  will-change: transform, opacity;
 }
 
 @keyframes tabSectionEnter {
@@ -6374,7 +6373,6 @@ main > section:not(.hidden) {
 .grammar-subview:not(.hidden),
 .calc-subview:not(.hidden) {
   animation: subviewSlideIn 0.24s var(--ease-out-expo) both;
-  will-change: transform, opacity;
 }
 
 @keyframes subviewSlideIn {
@@ -6391,7 +6389,6 @@ main > section:not(.hidden) {
 /* ─── 3. Tab Bar & Button Micro-Interactions ─── */
 .tab-btn {
   transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease, transform 0.28s var(--ease-spring), box-shadow 0.22s ease;
-  will-change: transform;
 }
 
 .tab-btn:hover {
@@ -6416,7 +6413,6 @@ main > section:not(.hidden) {
 .grammar-subtab-btn,
 .calc-subtab-btn {
   transition: all 0.22s var(--ease-out-expo);
-  will-change: transform;
 }
 
 .subtab-btn:hover,
@@ -6458,7 +6454,6 @@ main > section:not(.hidden) {
 /* ─── 4. General Cards & Elevation Physics ─── */
 .card {
   transition: var(--transition-card);
-  will-change: transform, box-shadow;
 }
 
 .card:hover {
@@ -6472,7 +6467,6 @@ main > section:not(.hidden) {
 /* ─── 5. Vocabulary Cards (Tab 1) ─── */
 .word-card {
   transition: var(--transition-card);
-  will-change: transform, box-shadow;
 }
 
 .word-card:hover {
@@ -6492,7 +6486,6 @@ main > section:not(.hidden) {
 /* Learn Button Pop & Toggle */
 .learn-btn {
   transition: all 0.22s var(--ease-spring);
-  will-change: transform;
 }
 
 .learn-btn:hover {
@@ -6524,7 +6517,6 @@ main > section:not(.hidden) {
 .speak-btn,
 .audio-btn {
   transition: transform 0.2s var(--ease-spring), background 0.2s ease, border-color 0.2s ease;
-  will-change: transform;
 }
 
 .speak-btn:hover,
@@ -6562,7 +6554,6 @@ main > section:not(.hidden) {
 .doc-tab-btn,
 .verb-tab-btn {
   transition: all 0.2s var(--ease-out-expo);
-  will-change: transform;
 }
 
 .category-item:hover,
@@ -6582,7 +6573,6 @@ main > section:not(.hidden) {
 /* ─── 6. Quiz Engine Motion & Feedback (Tab 2) ─── */
 #quiz-question-box.question-enter {
   animation: questionBoxEntrance 0.26s var(--ease-out-expo);
-  will-change: transform, opacity;
 }
 
 @keyframes questionBoxEntrance {
@@ -6598,7 +6588,6 @@ main > section:not(.hidden) {
 
 .quiz-preset-btn {
   transition: transform 0.24s var(--ease-out-expo), box-shadow 0.24s ease, border-color 0.24s ease;
-  will-change: transform;
 }
 
 .quiz-preset-btn:hover {
@@ -6614,7 +6603,6 @@ main > section:not(.hidden) {
 /* Quiz Option Buttons with Spring Physics */
 .quiz-option-btn {
   transition: transform 0.2s var(--ease-out-expo), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  will-change: transform;
 }
 
 .quiz-option-btn:hover:not(:disabled) {
@@ -6669,7 +6657,6 @@ main > section:not(.hidden) {
 /* Quiz Feedback Box Slide-Up */
 .quiz-feedback {
   animation: feedbackSlideUp 0.32s var(--ease-spring) both;
-  will-change: transform, opacity;
 }
 
 @keyframes feedbackSlideUp {
@@ -6688,7 +6675,6 @@ main > section:not(.hidden) {
 #plan-progress-bar-fill {
   transition: width 0.4s var(--ease-spring);
   position: relative;
-  will-change: width;
 }
 
 #quiz-progress-bar-fill::after,
@@ -6782,7 +6768,6 @@ main > section:not(.hidden) {
 /* Number Cards Floating */
 .num-card {
   transition: transform 0.22s var(--ease-out-expo), box-shadow 0.22s ease, border-color 0.22s ease;
-  will-change: transform;
 }
 
 .num-card:hover {
@@ -6872,7 +6857,6 @@ main > section:not(.hidden) {
 .copy-btn,
 .btn-copy {
   transition: all 0.2s var(--ease-spring);
-  will-change: transform;
 }
 
 .copy-btn:hover,
@@ -6892,7 +6876,6 @@ main > section:not(.hidden) {
 
 .accordion-arrow {
   transition: transform 0.3s var(--ease-spring);
-  will-change: transform;
 }
 
 .accordion-item.active-item .accordion-arrow {
@@ -6901,13 +6884,11 @@ main > section:not(.hidden) {
 
 .accordion-content {
   transition: max-height 0.35s var(--ease-out-expo), opacity 0.25s ease, padding 0.25s ease;
-  will-change: max-height, opacity;
 }
 
 /* ─── 11. Study Plan Checkbox Celebration (Tab 7) ─── */
 .day-task-checkbox {
   transition: transform 0.25s var(--ease-spring), background-color 0.2s ease;
-  will-change: transform;
 }
 
 .day-task-checkbox:active {
@@ -6974,7 +6955,6 @@ main > section:not(.hidden) {
   transition: transform 0.36s var(--ease-spring), opacity 0.24s ease;
   pointer-events: none;
   z-index: var(--z-toast, 5000);
-  will-change: transform, opacity;
 }
 
 #toast.show {
@@ -6986,7 +6966,6 @@ main > section:not(.hidden) {
 #back-to-top-btn {
   transition: transform 0.28s var(--ease-spring), background 0.2s ease, opacity 0.2s ease;
   animation: fabScaleEntrance 0.28s var(--ease-spring) both;
-  will-change: transform;
 }
 
 @keyframes fabScaleEntrance {
@@ -7011,7 +6990,6 @@ main > section:not(.hidden) {
 /* Primary & Secondary Action Buttons */
 .btn-primary {
   transition: transform 0.22s var(--ease-spring), filter 0.2s ease, box-shadow 0.22s ease;
-  will-change: transform;
 }
 
 .btn-primary:hover {
@@ -7027,7 +7005,6 @@ main > section:not(.hidden) {
 
 .btn-secondary {
   transition: transform 0.22s var(--ease-out-expo), background-color 0.2s ease, border-color 0.2s ease;
-  will-change: transform;
 }
 
 .btn-secondary:hover {
@@ -7083,6 +7060,182 @@ main > section:not(.hidden) {
   scroll-behavior: smooth;
 }
 
+
+/* ─── 16. MOTION PHYSICS LAYER (Phase: Motion & Physics) ────────────────── */
+
+/* Touch-origin ripple (span injected by motion.js) */
+.motion-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.5) 0%, rgba(240,165,0,.28) 45%, transparent 72%);
+  transform: scale(0);
+  opacity: .9;
+  animation: rippleExpand .55s var(--ease-out-expo) forwards;
+  pointer-events: none;
+}
+
+@keyframes rippleExpand {
+  to { transform: scale(2.6); opacity: 0; }
+}
+
+.tab-btn, .quiz-option-btn, .learn-btn, .quick-amt-btn, .lvl-btn,
+.category-item, .btn-primary, .btn-secondary, .quiz-subtab-btn,
+.cheques-subtab-btn, .reading-subtab-btn, .writing-subtab-btn,
+.grammar-subtab-btn, .calc-subtab-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Laptop card tilt + cursor-following glow */
+.word-card, .num-card { transition: var(--transition-card); }
+
+.motion-tilt {
+  will-change: transform;
+  z-index: 2;
+}
+
+.motion-tilt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+              rgba(240,165,0,.14), transparent 42%);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+
+.word-card:not(.motion-tilt)::after,
+.num-card:not(.motion-tilt)::after { content: none; }
+
+.btn-primary { transition: transform .18s cubic-bezier(.34,1.56,.64,1), filter .2s ease, box-shadow .22s ease; }
+
+/* Swipe affordance: allow horizontal pointer tracking while keeping vertical scroll */
+#tab-quiz, #tab-cheques, #tab-reading, #tab-writing, #tab-grammar, #tab-calc {
+  touch-action: pan-y;
+}
+
+/* ─── Bottom Sheet (mobile filters) ─── */
+.bottom-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 4500;
+}
+
+.bottom-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 6, 12, .55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity .28s ease;
+}
+
+.bottom-sheet.open .bottom-sheet-backdrop { opacity: 1; }
+
+.bottom-sheet-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--md-surface-container-low, #1d1b20);
+  border-radius: 24px 24px 0 0;
+  border-top: 1px solid rgba(202,196,208,.14);
+  box-shadow: 0 -12px 40px rgba(0,0,0,.5);
+  padding-bottom: calc(10px + var(--safe-bottom, 0px));
+  transform: translateY(100%);
+  transition: transform .32s var(--ease-out-expo);
+  will-change: transform;
+}
+
+.bottom-sheet.open .bottom-sheet-panel { transform: translateY(0); }
+
+.bottom-sheet-handle {
+  align-self: center;
+  width: 44px;
+  height: 26px;
+  margin: 8px 0 2px;
+  border: 0;
+  border-radius: 12px;
+  background:
+    radial-gradient(closest-side at center, var(--md-outline, #978f99) 0%, transparent 100%) center/36px 4px no-repeat,
+    transparent;
+  cursor: grab;
+  touch-action: none;
+}
+
+.bottom-sheet-handle:active { cursor: grabbing; }
+
+.bottom-sheet-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--md-on-surface, #e7e0e8);
+  padding: 4px 18px 8px;
+}
+
+.bottom-sheet-body {
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 14px 14px;
+}
+
+.bottom-sheet-body .phase-header { display: block !important; }
+.bottom-sheet-body #category-filter-list {
+  display: grid !important;
+  gap: 4px !important;
+  overflow: visible !important;
+}
+.bottom-sheet-body #category-filter-list .category-item {
+  width: 100% !important;
+  min-height: 46px !important;
+  border-radius: 12px !important;
+  white-space: normal !important;
+  text-align: right !important;
+}
+.bottom-sheet-body #level-filter-bar { margin: 6px 2px 12px; }
+
+/* Floating trigger pill shown only on small portrait screens */
+#open-filters-btn {
+  display: none;
+}
+
+@media (max-width: 440px) and (orientation: portrait) {
+  #open-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 8px 14px;
+    border: 1px solid rgba(240,165,0,.35);
+    border-radius: 999px;
+    background: rgba(240,165,0,.12);
+    color: var(--gold-light, #ffd60a);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  /* The inline strip is superseded by the sheet on Nord-class screens */
+  #category-filter-list { display: none !important; }
+  .vocab-sidebar-card .card-title { display: none; }
+  .vocab-sidebar-card { display: none; }
+  #level-filter-bar { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-ripple { display: none !important; }
+  .bottom-sheet-panel { transition: none !important; transform: none !important; position: static; }
+  .motion-tilt { transform: none !important; }
+  .motion-tilt::after { content: none !important; }
+  .btn-primary { transform: none !important; }
+}
 
 
 /* === src/styles/mobile-nord5.css === */
@@ -7512,6 +7665,9 @@ main > section:not(.hidden) {
         
         <div class="vocab-main-col">
           <div class="vocab-toolbar">
+            <button type="button" id="open-filters-btn" aria-haspopup="dialog" aria-controls="mobile-filters-sheet">
+              🎛️ <span>الفلاتر</span> <span id="open-filters-active-cat"></span>
+            </button>
             <div class="vocab-search-wrap">
               <input type="search" class="input-field" id="search-input" aria-label="البحث في المصطلحات" placeholder="🔍 ابحث بالفرنسية، العربية، النطق أو الكلمات الدلالية..." oninput="handleSearchInput()">
               <button type="button" id="clear-search-btn" class="search-clear-btn" aria-label="مسح نص البحث / Effacer la recherche" onclick="clearSearchInput()">✖</button>
@@ -8879,6 +9035,16 @@ main > section:not(.hidden) {
 
   </main>
 
+  <!-- Mobile Filters Bottom Sheet (populated by relocating #level-filter-bar & #category-filter-list) -->
+  <div id="mobile-filters-sheet" class="bottom-sheet hidden" role="dialog" aria-modal="true" aria-label="فلاتر المصطلحات">
+    <div class="bottom-sheet-backdrop" data-sheet-close></div>
+    <div class="bottom-sheet-panel" role="document">
+      <button type="button" class="bottom-sheet-handle" data-sheet-close aria-label="سحب للإغلاق أو إغلاق الفلاتر"></button>
+      <div class="bottom-sheet-title">🎛️ فلاتر المصطلحات</div>
+      <div class="bottom-sheet-body" id="sheet-body-slot"></div>
+    </div>
+  </div>
+
   <!-- Notification Toast -->
   <div id="toast" role="status" aria-live="polite">
     <span>ℹ️</span> <span id="toast-message">تم نسخ النص بنجاح!</span>
@@ -9772,6 +9938,403 @@ if (typeof window !== 'undefined') {
   window.frWordsToPron = frWordsToPron;
 };
 
+/* === src/modules/motion.js === */
+/**
+ * Motion Physics Engine — real spring dynamics, touch-origin ripples,
+ * RTL-aware swipe navigation, bottom-sheet drag physics and pointer tilt.
+ *
+ * Every feature degrades gracefully:
+ *  - prefers-reduced-motion: reduce → everything disabled
+ *  - coarse pointers → laptop-only effects (tilt/magnet/parallax) skipped
+ */
+
+const REDUCED = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)');
+const prefersReducedMotion = () => !!(REDUCED && REDUCED.matches);
+const hasFinePointer = () =>
+  typeof matchMedia !== 'undefined' && matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+// ════════════════════════════════════════════════════════════════════════════
+// 1. SPRING SOLVER — one shared rAF loop for all dynamic motion
+// ════════════════════════════════════════════════════════════════════════════
+
+const activeSprings = new Set();
+let rafId = null;
+
+function tick() {
+  const now = performance.now();
+  activeSprings.forEach(spring => {
+    const dt = Math.min((now - spring.last) / 1000, 1 / 30);
+    spring.last = now;
+    const displacement = spring.value - spring.target;
+    const acceleration = -spring.stiffness * displacement - spring.damping * spring.velocity;
+    spring.velocity += acceleration * dt;
+    spring.value += spring.velocity * dt;
+
+    if (Math.abs(spring.value - spring.target) < 0.001 && Math.abs(spring.velocity) < 0.001) {
+      spring.value = spring.target;
+      spring.velocity = 0;
+      activeSprings.delete(spring);
+      if (spring.onDone) spring.onDone();
+      else spring.apply(spring.value);
+    } else {
+      spring.apply(spring.value);
+    }
+  });
+
+  rafId = activeSprings.size ? requestAnimationFrame(tick) : null;
+}
+
+/**
+ * Creates (or reuses) a spring driving `apply(value)`.
+ * @param {{value?:number, target:number, stiffness?:number, damping?:number,
+ *          apply:(v:number)=>void, onDone?:()=>void}} cfg
+ */
+function spring({ value = 0, target, stiffness = 170, damping = 22, apply, onDone }) {
+  const existing = [...activeSprings].find(s => s.owner === apply);
+  if (existing) {
+    existing.target = target;
+    return existing;
+  }
+  const spring = { owner: apply, value, target, stiffness, damping, velocity: 0, last: performance.now(), apply, onDone };
+  activeSprings.add(spring);
+  if (!rafId) rafId = requestAnimationFrame(tick);
+  return spring;
+}
+function cancelSpring(apply) {
+  const existing = [...activeSprings].find(s => s.owner === apply);
+  if (existing) {
+    activeSprings.delete(existing);
+    if (!activeSprings.size && rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }
+}
+
+/** Convenience: animate a numeric CSS custom property on an element. */
+function springCssVar(el, prop, target, opts = {}) {
+  const current = parseFloat(getComputedStyle(el).getPropertyValue(prop)) || 0;
+  if (prefersReducedMotion()) {
+    el.style.setProperty(prop, String(target));
+    return;
+  }
+  cancelSpring(v => el.style.setProperty(prop, String(v)));
+  spring({
+    value: current,
+    target,
+    stiffness: opts.stiffness ?? 170,
+    damping: opts.damping ?? 22,
+    apply: v => el.style.setProperty(prop, String(Math.round(v * 100) / 100))
+  });
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 2. TOUCH-ORIGIN RIPPLE — material feedback synced with haptics
+// ════════════════════════════════════════════════════════════════════════════
+
+const RIPPLE_SELECTOR = [
+  '.tab-btn', '.quiz-subtab-btn', '.cheques-subtab-btn', '.reading-subtab-btn',
+  '.writing-subtab-btn', '.grammar-subtab-btn', '.calc-subtab-btn', '.subtab-btn',
+  '.quiz-option-btn', '.learn-btn', '.quick-amt-btn', '.lvl-btn',
+  '.category-item', '.btn-primary', '.btn-secondary'
+].join(', ');
+
+function spawnRipple(event) {
+  if (prefersReducedMotion()) return;
+  const host = event.target.closest?.(RIPPLE_SELECTOR);
+  if (!host || host.disabled || host.matches('select, input, textarea')) return;
+
+  const rect = host.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  const x = (event.clientX || rect.left + rect.width / 2) - rect.left - size / 2;
+  const y = (event.clientY || rect.top + rect.height / 2) - rect.top - size / 2;
+
+  const ripple = document.createElement('span');
+  ripple.className = 'motion-ripple';
+  ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+  host.appendChild(ripple);
+  ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 3. RTL-AWARE SWIPE between sibling subviews (velocity + threshold)
+// ════════════════════════════════════════════════════════════════════════════
+
+const SUBVIEW_GROUPS = [
+  { navBtns: '.quiz-subtab-btn', view: '#tab-quiz' },
+  { navBtns: '.cheques-subtab-btn', view: '#tab-cheques' },
+  { navBtns: '.reading-subtab-btn', view: '#tab-reading' },
+  { navBtns: '.writing-subtab-btn', view: '#tab-writing' },
+  { navBtns: '.grammar-subtab-btn', view: '#tab-grammar' },
+  { navBtns: '.calc-subtab-btn', view: '#tab-calc' }
+];
+
+const SWIPE_IGNORED = 'input, textarea, select, button, a, [contenteditable="true"], .doc-inner-nav, #category-filter-list';
+
+function initSwipeNavigation() {
+  if (prefersReducedMotion()) return;
+
+  SUBVIEW_GROUPS.forEach(({ navBtns, view }) => {
+    const container = document.querySelector(view);
+    if (!container) return;
+
+    let startX = 0, startY = 0, startT = 0, tracking = false;
+
+    container.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'mouse') return;
+      if (e.target.closest(SWIPE_IGNORED)) return;
+      startX = e.clientX; startY = e.clientY; startT = performance.now();
+      tracking = true;
+    }, { passive: true });
+
+    container.addEventListener('pointerup', e => {
+      if (!tracking) return;
+      tracking = false;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      const dt = performance.now() - startT;
+      // Horizontal intent: dominant axis, fast enough, long enough
+      if (Math.abs(dx) < 64 || Math.abs(dx) < Math.abs(dy) * 1.4 || dt > 600) return;
+      if (Math.abs(dx / dt) < 0.25) return;
+
+      const buttons = [...container.querySelectorAll(navBtns)];
+      const currentIndex = buttons.findIndex(b => b.classList.contains('active'));
+      if (currentIndex === -1) return;
+
+      // RTL reading: content ahead lives to the LEFT → finger swipes left = next
+      const nextIndex = dx < 0 ? currentIndex + 1 : currentIndex - 1;
+      const target = buttons[Math.max(0, Math.min(buttons.length - 1, nextIndex))];
+      if (target && !target.classList.contains('active')) target.click();
+    }, { passive: true });
+
+    container.addEventListener('pointercancel', () => { tracking = false; }, { passive: true });
+  });
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 4. BOTTOM SHEET DRAG PHYSICS (rubber-band + velocity close)
+// ════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Attaches drag-to-dismiss physics to a bottom sheet panel.
+ * @param {HTMLElement} sheet root (.bottom-sheet)
+ * @param {HTMLElement} panel the sliding panel
+ * @param {() => void} onClose invoked after a committed close gesture
+ */
+function attachBottomSheetDrag(sheet, panel, onClose) {
+  let startY = 0, currentY = 0, dragging = false, lastY = 0, lastT = 0, velocity = 0;
+
+  const handle = panel.querySelector('.bottom-sheet-handle');
+  const grabZone = handle ? [handle] : [];
+
+  grabZone.forEach(zone => zone.addEventListener('pointerdown', begin));
+
+  function begin(e) {
+    if (prefersReducedMotion()) { onClose(); return; }
+    dragging = true;
+    startY = lastY = e.clientY;
+    lastT = performance.now();
+    velocity = 0;
+    panel.style.transition = 'none';
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  }
+
+  function move(e) {
+    if (!dragging) return;
+    currentY = e.clientY - startY;
+    const now = performance.now();
+    velocity = (e.clientY - lastY) / Math.max(now - lastT, 1);
+    lastY = e.clientY; lastT = now;
+
+    // Rubber-band resistance beyond natural height
+    if (currentY < 0) currentY = currentY / 3;
+    panel.style.transform = `translateY(${Math.max(currentY, 0)}px)`;
+  }
+
+  function end() {
+    if (!dragging) return;
+    dragging = false;
+    panel.style.transition = '';
+    const shouldClose = currentY > 96 || velocity > 0.6;
+    if (shouldClose) {
+      spring({
+        value: currentY,
+        target: panel.offsetHeight + 40,
+        stiffness: 380, damping: 34,
+        apply: v => { panel.style.transform = `translateY(${v}px)`; },
+        onDone: onClose
+      });
+    } else {
+      spring({
+        value: currentY, target: 0, stiffness: 300, damping: 26,
+        apply: v => { panel.style.transform = `translateY(${v}px)`; },
+        onDone: () => { panel.style.transform = ''; }
+      });
+    }
+    currentY = 0;
+  }
+
+  document.addEventListener('pointermove', move, { passive: true });
+  document.addEventListener('pointerup', end, { passive: true });
+  document.addEventListener('pointercancel', end, { passive: true });
+
+  return () => {
+    document.removeEventListener('pointermove', move);
+    document.removeEventListener('pointerup', end);
+    document.removeEventListener('pointercancel', end);
+  };
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 5. ODOMETER — spring-damped numeric rollups for amounts & scores
+// ════════════════════════════════════════════════════════════════════════════
+
+const NUMBER_RE = /^([^0-9]*)([\d\s\u00a0.,]+)([^0-9]*)$/u;
+
+/**
+ * Rolls an element's text toward `finalText` when both sides share a numeric
+ * core; falls back to an instant set otherwise. Keeps prefix/suffix (%, DH…).
+ */
+function rollValue(el, finalText, durationMs = 480) {
+  if (!el) return;
+  const from = el.textContent || '';
+  if (prefersReducedMotion() || from === finalText) { el.textContent = finalText; return; }
+
+  const a = NUMBER_RE.exec(from.trim());
+  const b = NUMBER_RE.exec(String(finalText).trim());
+  if (!a || !b || a[1] !== b[1] || a[3] !== b[3]) { el.textContent = finalText; return; }
+
+  const parseNum = s => parseFloat(s.replace(/[\s\u00a0]/g, '').replace(/,/g, '.').replace(/\.(?=.*\.)/g, '')) || 0;
+  const startVal = parseNum(a[2]);
+  const endVal = parseNum(b[2]);
+  if (!isFinite(startVal) || !isFinite(endVal)) { el.textContent = finalText; return; }
+
+  const decimals = (b[2].split(/[.,]/)[1] || '').length;
+  const t0 = performance.now();
+
+  cancelSpring(v => renderRoll(v));
+  spring({
+    value: startVal,
+    target: endVal,
+    stiffness: 120, damping: 24,
+    apply: renderRoll,
+    onDone: () => { el.textContent = finalText; }
+  });
+
+  function renderRoll(v) {
+    const progress = Math.min((performance.now() - t0) / durationMs, 1);
+    const eased = 1 - Math.pow(1 - progress, 4); // easeOutQuart shaping on top of spring
+    const val = startVal + (endVal - startVal) * eased;
+    el.textContent = `${b[1]}${val.toLocaleString('fr-FR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}${b[3]}`;
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 6. LAPTOP POINTER PHYSICS — card tilt + cursor glow + magnetic buttons
+// ════════════════════════════════════════════════════════════════════════════
+
+const TILT_CONTAINERS = ['#vocab-words-container', '.num-grid'];
+let tiltCard = null;
+
+function initPointerTilt() {
+  if (!hasFinePointer() || prefersReducedMotion()) return;
+
+  TILT_CONTAINERS.forEach(sel => {
+    const container = document.querySelector(sel);
+    if (!container) return;
+
+    container.addEventListener('pointermove', e => {
+      const card = e.target.closest?.('.word-card, .num-card');
+      if (!card) { resetTilt(); return; }
+      if (card !== tiltCard) { resetTilt(); tiltCard = card; card.classList.add('motion-tilt'); }
+
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      const ry = (px - 0.5) * 12;   // ±6°
+      const rx = (0.5 - py) * 10;   // ±5°
+
+      if (!card._tiltScheduled) {
+        card._tiltScheduled = true;
+        requestAnimationFrame(() => {
+          card._tiltScheduled = false;
+          if (card !== tiltCard) return;
+          card.style.transform = `perspective(800px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-2px)`;
+          card.style.setProperty('--glow-x', `${(px * 100).toFixed(1)}%`);
+          card.style.setProperty('--glow-y', `${(py * 100).toFixed(1)}%`);
+        });
+      }
+    }, { passive: true });
+
+    container.addEventListener('pointerleave', resetTilt, { passive: true });
+  });
+
+  function resetTilt() {
+    if (!tiltCard) return;
+    const card = tiltCard;
+    tiltCard = null;
+    card.style.transform = '';
+    card.classList.remove('motion-tilt');
+  }
+}
+
+function initMagneticButtons() {
+  if (!hasFinePointer() || prefersReducedMotion()) return;
+
+  document.addEventListener('pointerover', e => {
+    const btn = e.target.closest?.('.btn-primary');
+    if (!btn || btn._magnetBound) return;
+    btn._magnetBound = true;
+
+    btn.addEventListener('pointermove', ev => {
+      const rect = btn.getBoundingClientRect();
+      const dx = (ev.clientX - rect.left - rect.width / 2) / rect.width;
+      const dy = (ev.clientY - rect.top - rect.height / 2) / rect.height;
+      btn.style.transform = `translate(${(dx * 4).toFixed(1)}px, ${(dy * 3).toFixed(1)}px)`;
+    }, { passive: true });
+
+    btn.addEventListener('pointerleave', () => {
+      btn.style.transform = '';
+      setTimeout(() => { btn._magnetBound = false; }, 400);
+    });
+  }, { passive: true });
+}
+
+function initHeroParallax() {
+  if (!hasFinePointer() || prefersReducedMotion()) return;
+  const hero = document.querySelector('#tab-vocab .section-hero');
+  if (!hero) return;
+
+  let scheduled = false;
+  window.addEventListener('scroll', () => {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      scheduled = false;
+      const shift = Math.min(window.scrollY * 0.06, 24);
+      hero.style.transform = `translateY(${-shift.toFixed(1)}px)`;
+      hero.style.opacity = String(1 - shift / 90);
+    });
+  }, { passive: true });
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 7. BOOTSTRAP
+// ════════════════════════════════════════════════════════════════════════════
+function initMotion() {
+  document.addEventListener('pointerdown', spawnRipple, { passive: true });
+  initSwipeNavigation();
+  initPointerTilt();
+  initMagneticButtons();
+  initHeroParallax();
+}
+
+if (typeof window !== 'undefined') {
+  window.initMotion = initMotion;
+  window.rollValue = rollValue;
+  window.springCssVar = springCssVar;
+};
+
 /* === src/modules/btp-math.js === */
 /**
  * Pure BTP calculation formulas — no DOM dependencies, fully unit-testable.
@@ -9871,6 +10434,89 @@ function computePlasterBags(area) {
 /* === src/modules/tabs/vocab-tab.js === */
 let searchDebounceTimer = null;
 let vocabScrollObserver = null;
+
+// ════════════════════════════════════════════════════════════════════════════
+// MOBILE FILTERS BOTTOM SHEET — relocates filter nodes on Nord-class screens
+// ════════════════════════════════════════════════════════════════════════════
+
+const SHEET_MEDIA = typeof matchMedia !== 'undefined' ? matchMedia('(max-width: 440px) and (orientation: portrait)') : null;
+let sheetOpen = false;
+
+function isSheetLayout() {
+  return !!(SHEET_MEDIA && SHEET_MEDIA.matches);
+}
+
+function relocateFiltersForSheet() {
+  const slot = document.getElementById('sheet-body-slot');
+  const levelBar = document.getElementById('level-filter-bar');
+  const categoryList = document.getElementById('category-filter-list');
+  if (!slot || !levelBar || !categoryList) return;
+  if (isSheetLayout()) {
+    if (levelBar.parentElement !== slot) slot.appendChild(levelBar);
+    if (categoryList.parentElement !== slot) slot.appendChild(categoryList);
+  } else {
+    const levelHome = document.querySelector('.vocab-toolbar');
+    const catHome = document.querySelector('.vocab-sidebar-card');
+    if (levelHome && levelBar.parentElement !== levelHome) levelHome.appendChild(levelBar);
+    if (catHome && categoryList.parentElement !== catHome) catHome.appendChild(categoryList);
+    closeFiltersSheet(true);
+  }
+  updateOpenFiltersLabel();
+}
+
+function updateOpenFiltersLabel() {
+  const label = document.getElementById('open-filters-active-cat');
+  if (!label) return;
+  const cat = state.activeCategory === 'all' ? '' : `· ${state.activeCategory.split('/')[0].trim()}`;
+  label.textContent = cat.length > 18 ? `${cat.slice(0, 17)}…` : cat;
+}
+function openFiltersSheet() {
+  const sheet = document.getElementById('mobile-filters-sheet');
+  if (!sheet || sheetOpen) return;
+  relocateFiltersForSheet();
+  sheet.classList.remove('hidden');
+  requestAnimationFrame(() => sheet.classList.add('open'));
+  sheetOpen = true;
+  const firstItem = sheet.querySelector('button');
+  if (firstItem) firstItem.focus({ preventScroll: true });
+}
+function closeFiltersSheet(instant = false) {
+  const sheet = document.getElementById('mobile-filters-sheet');
+  if (!sheet || !sheetOpen) return;
+  sheetOpen = false;
+  const panel = sheet.querySelector('.bottom-sheet-panel');
+  const finish = () => {
+    sheet.classList.add('hidden');
+    panel.style.transform = '';
+  };
+  if (instant || prefersReducedMotionSafe()) finish();
+  else {
+    sheet.classList.remove('open');
+    setTimeout(finish, 340);
+  }
+}
+
+function prefersReducedMotionSafe() {
+  return typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function initFiltersSheet() {
+  const sheet = document.getElementById('mobile-filters-sheet');
+  if (!sheet) return;
+
+  relocateFiltersForSheet();
+  if (SHEET_MEDIA) {
+    if (SHEET_MEDIA.addEventListener) SHEET_MEDIA.addEventListener('change', relocateFiltersForSheet);
+    else SHEET_MEDIA.addListener(relocateFiltersForSheet);
+  }
+
+  document.getElementById('open-filters-btn')?.addEventListener('click', openFiltersSheet);
+  sheet.querySelectorAll('[data-sheet-close]').forEach(el => el.addEventListener('click', () => closeFiltersSheet()));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFiltersSheet(); });
+
+  const panel = sheet.querySelector('.bottom-sheet-panel');
+  attachBottomSheetDrag(sheet, panel, () => closeFiltersSheet());
+}
 
 const PHASE_NAMES = {
       1: "1. الأساسات والحفر · Terrassement & Fondations",
@@ -10221,6 +10867,17 @@ if (typeof window !== 'undefined') {
   window.setupVocabInfiniteScroll = setupVocabInfiniteScroll;
   window.toggleWordLearned = toggleWordLearned;
   window.resetLearnedState = resetLearnedState;
+  window.openFiltersSheet = openFiltersSheet;
+  window.closeFiltersSheet = closeFiltersSheet;
+}
+
+// Boot the sheet relocation once DOM is parsed (module loads before appInit)
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFiltersSheet, { once: true });
+  } else {
+    initFiltersSheet();
+  }
 };
 
 /* === src/modules/tabs/quiz-tab.js === */
@@ -10866,7 +11523,7 @@ function finishQuizSession() {
   document.getElementById('quiz-active-panel').classList.add('hidden');
   document.getElementById('quiz-results-panel').classList.remove('hidden');
   
-  document.getElementById('quiz-result-score-circle').innerText = `${finalScorePct}%`;
+  rollValue(document.getElementById('quiz-result-score-circle'), `${finalScorePct}%`);
   
   let title = '';
   if (state.quizRunKind === 'speed60') {
@@ -11480,7 +12137,7 @@ function updateChequeConverter() {
 
   const words = buildChequeAmountWords(totalCentimes);
 
-  if (digitBox) digitBox.innerText = `# ${normalizedAmount.toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} DH #`;
+  if (digitBox) rollValue(digitBox, `# ${normalizedAmount.toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} DH #`);
   if (wordLine) wordLine.innerText = words.fr;
   if (wordLineAr) wordLineAr.innerText = words.ar;
   if (pronLine) pronLine.innerText = frWordsToPron(words.fr);
@@ -14813,6 +15470,7 @@ if (typeof window !== 'undefined') {
 window.addEventListener('DOMContentLoaded', () => {
   loadStateFromLocalStorage();
   initializeTabs();
+  initMotion();
   initStats();
   
   renderVocabCategoryFilter();

@@ -3,6 +3,7 @@ import { appendTextElement, showToast, escapeHtml, playHaptic } from '../ui-util
 import { speakFrenchText, speakCurrentWord, markCurrentLearned, ttsAvailable } from '../audio.js';
 import { SHORT_PHASE_NAMES } from './vocab-tab.js';
 import { renderSrsView } from '../srs.js';
+import { rollValue } from '../motion.js';
 
 export const QUIZ_MODE_META = {
   fr_to_ar: { label: '🇫🇷 → 🇲🇦 اختر المعنى', answerField: 'ar' },
@@ -669,7 +670,7 @@ export function finishQuizSession() {
   document.getElementById('quiz-active-panel').classList.add('hidden');
   document.getElementById('quiz-results-panel').classList.remove('hidden');
   
-  document.getElementById('quiz-result-score-circle').innerText = `${finalScorePct}%`;
+  rollValue(document.getElementById('quiz-result-score-circle'), `${finalScorePct}%`);
   
   let title = '';
   if (state.quizRunKind === 'speed60') {

@@ -4,6 +4,7 @@ import { NUMBERS_DATA } from '../../data/numbers-ref.js';
 import { appendTextElement, showToast, escapeHtml, playHaptic } from '../ui-utils.js';
 import { speakFrenchText, frWordsToPron } from '../audio.js';
 import { shuffleArray } from './quiz-tab.js';
+import { rollValue } from '../motion.js';
 
 export function numberToFrench(n) {
   if (n === 0) return "zéro";
@@ -262,7 +263,7 @@ export function updateChequeConverter() {
 
   const words = buildChequeAmountWords(totalCentimes);
 
-  if (digitBox) digitBox.innerText = `# ${normalizedAmount.toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} DH #`;
+  if (digitBox) rollValue(digitBox, `# ${normalizedAmount.toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} DH #`);
   if (wordLine) wordLine.innerText = words.fr;
   if (wordLineAr) wordLineAr.innerText = words.ar;
   if (pronLine) pronLine.innerText = frWordsToPron(words.fr);

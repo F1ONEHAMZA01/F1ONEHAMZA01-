@@ -62,6 +62,7 @@ const moduleFiles = [
   'src/modules/state.js',
   'src/modules/ui-utils.js',
   'src/modules/audio.js',
+  'src/modules/motion.js',
   'src/modules/btp-math.js',
   'src/modules/tabs/vocab-tab.js',
   'src/modules/tabs/quiz-tab.js',
@@ -83,6 +84,7 @@ const appInit = `
 window.addEventListener('DOMContentLoaded', () => {
   loadStateFromLocalStorage();
   initializeTabs();
+  initMotion();
   initStats();
   
   renderVocabCategoryFilter();
