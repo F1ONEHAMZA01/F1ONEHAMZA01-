@@ -2,12 +2,15 @@
   "name": "francais-btp-maroc",
   "version": "3.1.1",
   "private": true,
+  "type": "module",
   "description": "Offline-capable Arabic/French construction learning app for Morocco.",
   "scripts": {
     "build": "node tools/build.mjs",
     "lint": "eslint src/ tools/ sw.js",
     "format": "prettier --write \"src/**/*.js\" \"tools/**/*.mjs\" \"*.js\"",
-    "test": "npm run lint && node tools/build.mjs && node tools/validate-app.mjs",
+    "test": "npm run lint && npm run test:unit && node tools/build.mjs && node tools/validate-app.mjs",
+    "test:unit": "node --test \"tests/unit/*.test.js\"",
+    "test:e2e": "playwright test",
     "validate": "node tools/build.mjs && node tools/validate-app.mjs",
     "build:netlify": "node tools/build.mjs && node tools/build-netlify.mjs",
     "deploy:check": "npm test && npm run build:netlify && node tools/validate-netlify.mjs",
@@ -17,6 +20,7 @@
     "node": ">=20"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "eslint": "^9.39.5",
     "globals": "^17.11.0",
     "prettier": "^3.9.6"

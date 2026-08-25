@@ -2,6 +2,10 @@
 dist/
 francais-btp-maroc-netlify-*.zip
 
+# Test artifacts
+playwright-report/
+test-results/
+
 # Dependencies
 node_modules/
 

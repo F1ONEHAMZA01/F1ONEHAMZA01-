@@ -1,4 +1,13 @@
 import { showToast } from '../ui-utils.js';
+import {
+  computeConcreteMix,
+  computeSteelWeight,
+  computeBrickwork,
+  computeTiling,
+  computeFinancialDecompte,
+  computeTruckLoads,
+  computePlasterBags
+} from '../btp-math.js';
 
 // ════════════════════════════════════════════════════════════════════════════
 // 1. SUB-TABS NAVIGATION (TOP LEVEL TAB 8)
@@ -37,23 +46,23 @@ export function calculateBtpBeton() {
   const w = parseFloat(document.getElementById('calc-beton-w')?.value) || 0;
   const h = parseFloat(document.getElementById('calc-beton-h')?.value) || 0;
   const dosage = parseFloat(document.getElementById('calc-beton-dosage')?.value) || 350;
+  const mix = computeConcreteMix({ l, w, h, dosage });
   const resEl = document.getElementById('calc-beton-result');
   if (!resEl) return;
-  
-  const vol = l * w * h;
-  const totalCementKg = vol * dosage;
-  const bags = Math.ceil(totalCementKg / 50);
-  const sand = (vol * 0.4).toFixed(2);
-  const gravel = (vol * 0.8).toFixed(2);
-  const waterLiters = Math.round(vol * dosage * 0.5); // E/C = 0.50
 
-  if (vol <= 0) {
+  if (!mix) {
     resEl.innerHTML = 'أدخل الأبعاد أعلاه لحساب التكعيب وعدد أكياس الإسمنت والرمل والحصى...';
     return;
   }
 
+  const vol = mix.vol;
+  const bags = mix.bags;
+  const sand = mix.sand;
+  const gravel = mix.gravel;
+  const waterLiters = mix.waterLiters;
+
   resEl.innerHTML = `
-    <div style="font-size:15px; font-weight:800; color:var(--gold); margin-bottom:6px;">📊 الحجم الإجمالي: ${vol.toFixed(2)} m³ (${(vol * 1.03).toFixed(2)} m³ مع الضياع 3%)</div>
+    <div style="font-size:15px; font-weight:800; color:var(--gold); margin-bottom:6px;">📊 الحجم الإجمالي: ${vol.toFixed(2)} m³ (${mix.volWithWaste.toFixed(2)} m³ مع الضياع 3%)</div>
     <div class="calc-mix-bar" style="display:flex; height:8px; border-radius:4px; overflow:hidden; margin:8px 0 4px; background:#0f172a; border:1px solid rgba(255,255,255,0.1);">
       <div style="width:25%; background:#94a3b8;" title="Ciment: 350kg"></div>
       <div style="width:25%; background:#f59e0b;" title="Sable: 400L"></div>
@@ -67,7 +76,7 @@ export function calculateBtpBeton() {
       <span>◽ ماء 12%</span>
     </div>
     <div style="font-size:12.5px; color:#e2e8f0; line-height:1.6;">
-      📦 <b>الإسمنت (${dosage} kg/m³ CPJ 45):</b> <strong>${bags} كيس</strong> (50kg) = ${(totalCementKg / 1000).toFixed(2)} طن<br>
+      📦 <b>الإسمنت (${dosage} kg/m³ CPJ 45):</b> <strong>${bags} كيس</strong> (50kg) = ${(mix.totalCementKg / 1000).toFixed(2)} طن<br>
       🏖️ <b>الرمل (Sable 0/4):</b> ~${sand} m³ &nbsp;|&nbsp; 🪨 <b>الحصى (Gravier 8/16):</b> ~${gravel} m³<br>
       💧 <b>ماء الخلط (Eau E/C 0.50):</b> ~${waterLiters} لتر
     </div>
@@ -102,18 +111,19 @@ export function calculateBtpAcier() {
   const len = parseFloat(document.getElementById('calc-acier-len')?.value) || 0;
   const resEl = document.getElementById('calc-acier-result');
   if (!resEl) return;
-  
-  const weights = { 6: 0.222, 8: 0.395, 10: 0.617, 12: 0.888, 14: 1.208, 16: 1.578, 20: 2.466, 25: 3.853 };
-  const unitW = weights[d] || 0.888;
-  const kg = len * unitW;
-  const tonnes = kg / 1000;
-  const barres12m = Math.ceil(len / 12);
-  const barres6m = Math.ceil(len / 6);
 
-  if (len <= 0) {
+  const steel = computeSteelWeight(d, len);
+
+  if (!steel) {
     resEl.innerHTML = 'أدخل الطول بالمتر لحساب الوزن الإجمالي وعدد القضبان (Barres 12m)...';
     return;
   }
+
+  const kg = steel.kg;
+  const tonnes = steel.tonnes;
+  const unitW = steel.unitW;
+  const barres12m = steel.barres12m;
+  const barres6m = steel.barres6m;
 
   resEl.innerHTML = `
     <div style="font-size:15px; font-weight:800; color:var(--gold); margin-bottom:6px;">⚖️ الوزن الإجمالي: ${kg.toFixed(2)} kg (${tonnes.toFixed(3)} Tonnes)</div>
@@ -135,15 +145,17 @@ export function calculateBtpBriques() {
   const rate = parseFloat(document.getElementById('calc-brique-type')?.value) || 12.5;
   const resEl = document.getElementById('calc-brique-result');
   if (!resEl) return;
-  
-  const count = Math.ceil(area * rate * 1.05); // 5% waste
-  const cimentBags = Math.ceil(area * 0.25); // ~0.25 bags/m² for mortar
-  const sandVolume = (area * 0.035).toFixed(2); // ~0.035 m³ sand/m²
 
-  if (area <= 0) {
+  const bricks = computeBrickwork(area, rate);
+
+  if (!bricks) {
     resEl.innerHTML = 'أدخل المساحة بالمتر المربع لحساب عدد الآجور وأكياس ملاط البناء...';
     return;
   }
+
+  const count = bricks.count;
+  const cimentBags = bricks.cimentBags;
+  const sandVolume = bricks.sandVolume;
 
   resEl.innerHTML = `
     <div style="font-size:15px; font-weight:800; color:var(--gold); margin-bottom:6px;">🧱 العدد المطلوب للشراء: <strong>${count} قطعة</strong></div>
@@ -163,15 +175,17 @@ export function calculateBtpCarrelage() {
   const waste = parseFloat(document.getElementById('calc-carrelage-waste')?.value) || 10;
   const resEl = document.getElementById('calc-carrelage-result');
   if (!resEl) return;
-  
-  const totalArea = area * (1 + waste / 100);
-  const colleBags = Math.ceil((totalArea * 4) / 25); // 4kg/m² -> 25kg bags
-  const jointBags = Math.ceil((totalArea * 0.3) / 5); // 0.3kg/m² -> 5kg bags
 
-  if (area <= 0) {
+  const tiles = computeTiling(area, waste);
+
+  if (!tiles) {
     resEl.innerHTML = 'أدخل مساحة الأرضية لحساب المساحة الصافية لشراء السيراميك وأكياس الغراء...';
     return;
   }
+
+  const totalArea = tiles.totalArea;
+  const colleBags = tiles.colleBags;
+  const jointBags = tiles.jointBags;
 
   resEl.innerHTML = `
     <div style="font-size:15px; font-weight:800; color:var(--gold); margin-bottom:6px;">🪟 المساحة الإجمالية للطلب: <strong>${totalArea.toFixed(2)} m²</strong></div>
@@ -195,17 +209,13 @@ export function calculateBtpFinances() {
   const retentionBasis = document.getElementById('calc-finance-basis')?.value === 'ttc' ? 'ttc' : 'ht';
   const resEl = document.getElementById('calc-finance-result');
   if (!resEl) return;
-  
-  const tva = ht * (tvaRate / 100);
-  const ttc = ht + tva;
-  const retentionBaseAmount = retentionBasis === 'ttc' ? ttc : ht;
-  const retenue = retentionBaseAmount * (retentionRate / 100);
-  const net = ttc - retenue;
 
   if (ht <= 0) {
     resEl.innerHTML = 'أدخل المبلغ دون ضريبة (HT) لحساب الضريبة واقتطاع الضمان والصافي للدفع...';
     return;
   }
+
+  const { tva, ttc, retenue, net } = computeFinancialDecompte(ht, tvaRate, retentionRate, retentionBasis);
 
   resEl.innerHTML = `
     <div style="font-size:15px; font-weight:800; color:var(--gold); margin-bottom:6px;">💰 المجموع شامل الضريبة (TTC): <strong>${ttc.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} DH</strong></div>
@@ -229,11 +239,11 @@ export function calculateBtpToupie() {
   const cap = parseFloat(document.getElementById('conv-toupie-cap')?.value) || 8;
   const res = document.getElementById('conv-toupie-res');
   if (!res) return;
-  if (vol <= 0) {
+  const toupies = computeTruckLoads(vol, cap);
+  if (toupies === null) {
     res.innerText = 'أدخل حجم الخرسانة بالمتر المكعب...';
     return;
   }
-  const toupies = Math.ceil(vol / cap);
   res.innerHTML = `🚚 تحتاج حوالي <strong>${toupies} شاحنة خلط (Toupie ${cap}m³)</strong> لتوصيل ${vol} m³ من الخرسانة.`;
 }
 
@@ -241,11 +251,11 @@ export function calculateBtpPlatre() {
   const area = parseFloat(document.getElementById('conv-platre-area')?.value) || 0;
   const res = document.getElementById('conv-platre-res');
   if (!res) return;
-  if (area <= 0) {
+  const sacsPlatre = computePlasterBags(area);
+  if (sacsPlatre === null) {
     res.innerText = 'أدخل مساحة الجدران والأسقف بالمتر المربع...';
     return;
   }
-  const sacsPlatre = Math.ceil((area * 10) / 40); // 10 kg/m² -> 40kg bags
   res.innerHTML = `🧱 تحتاج حوالي <strong>${sacsPlatre} كيس جبس (Plâtre 40kg)</strong> لتغطية ${area} m² (بمعدل 10 kg/m² لسمك 1 سم).`;
 }
 

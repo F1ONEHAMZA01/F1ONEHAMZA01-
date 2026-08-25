@@ -2,7 +2,16 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['dist/**', 'node_modules/**', 'graphify-out/**', 'index.html', 'data/btp_maroc_*.html']
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'graphify-out/**',
+      'index.html',
+      'data/btp_maroc_*.html',
+      'tests/e2e/**',
+      'playwright-report/**',
+      'test-results/**'
+    ]
   },
   {
     languageOptions: {

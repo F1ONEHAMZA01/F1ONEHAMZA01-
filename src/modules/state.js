@@ -99,7 +99,7 @@ export const state = {
  * @param {string} word - Raw word key
  * @returns {string} Clean base word
  */
-function legacyWordKey(word) {
+export function legacyWordKey(word) {
   let w = String(word || '').toLowerCase().trim();
   const articles = ["le ", "la ", "l'", "les ", "un ", "une ", "d'", "l’", "l' "];
   for (let art of articles) {
@@ -116,12 +116,12 @@ function legacyWordKey(word) {
  * @param {string} value - Raw string
  * @returns {string} Normalized searchable string
  */
-function normalizeSearchText(value) {
+export function normalizeSearchText(value) {
   return String(value || '')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/œ/g, 'oe')
     .toLocaleLowerCase()
+    .replace(/œ/g, 'oe')
     .trim();
 }
 
@@ -130,7 +130,7 @@ function normalizeSearchText(value) {
  * @param {string} value - String to hash
  * @returns {string} Base-36 hash representation
  */
-function hashString(value) {
+export function hashString(value) {
   let hash = 2166136261;
   for (let i = 0; i < value.length; i++) {
     hash ^= value.charCodeAt(i);
@@ -144,7 +144,7 @@ function hashString(value) {
  * @param {VocabWord} word - Vocabulary word item
  * @returns {string} Deterministic word identity key
  */
-function getWordId(word) {
+export function getWordId(word) {
   if (!word) return '';
   const identity = [word.fr, word.ar, word.source, word.category].map(value => String(value || '').trim()).join('|');
   return `word:${hashString(identity)}`;
