@@ -97,7 +97,9 @@ export function switchTab(tabId, btnEl) {
     activeSection.classList.remove('hidden');
     activeSection.hidden = false;
   }
-  
+
+  if (typeof window !== 'undefined' && window.updateTabGlide) window.updateTabGlide(btnEl);
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

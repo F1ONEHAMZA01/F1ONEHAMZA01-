@@ -67,6 +67,7 @@
 
     <nav class="tab-bar" aria-label="أقسام التطبيق / Sections de l'application">
       <div class="tab-bar-container" role="tablist" aria-label="الوحدات التعليمية">
+        <span id="tab-glide-pill" aria-hidden="true"></span>
         <button id="tab-btn-vocab" class="tab-btn active-tab" role="tab" aria-selected="true" aria-controls="tab-vocab" onclick="switchTab('vocab', this)"><span aria-hidden="true">🏗️</span> المفردات / Vocabulaire</button>
         <button id="tab-btn-quiz" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-quiz" onclick="switchTab('quiz', this)"><span aria-hidden="true">🎯</span> الاختبار / Quiz</button>
         <button id="tab-btn-cheques" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cheques" onclick="switchTab('cheques', this)"><span aria-hidden="true">💰</span> الشيكات والأرقام / Chèques & Nombres</button>
@@ -102,7 +103,8 @@
             <span class="reset-label-sm">استيراد</span>
           </button>
           <input type="file" id="import-progress-input" accept=".json,application/json" class="hidden" onchange="importProgressFile(this)" aria-hidden="true" tabindex="-1">
-          <button class="vocab-reset-btn-sm" type="button" onclick="resetLearnedState()" title="إعادة تعيين جميع بيانات التقدم" aria-label="إعادة تعيين جميع بيانات التقدم">
+          <button class="vocab-reset-btn-sm" type="button" id="hold-reset-btn" data-hold-reset title="اضغط مطولاً 900ms لمسح كل التقدم (بديل آمن عن نافذة التأكيد)" aria-label="اضغط مطولاً لمسح جميع بيانات التقدم">
+            <span class="hold-progress-fill" aria-hidden="true"></span>
             <span aria-hidden="true">🔄</span>
             <span class="reset-label-sm">مسح كل التقدم</span>
           </button>

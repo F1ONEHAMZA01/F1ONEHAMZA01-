@@ -379,6 +379,44 @@ function initHeroParallax() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
+// 6b. KINETICS PATTERNS — tab pill glide + digit bump
+// ════════════════════════════════════════════════════════════════════════════
+
+let glidePill = null;
+
+/** Measures the active tab and glides the indicator pill under it. */
+export function updateTabGlide(btnEl) {
+  if (prefersReducedMotion()) return;
+  const bar = document.querySelector('.tab-bar-container');
+  glidePill = glidePill || document.getElementById('tab-glide-pill');
+  if (!bar || !glidePill) return;
+
+  const btn = btnEl || bar.querySelector('.tab-btn.active-tab');
+  if (!btn) { glidePill.classList.remove('visible'); return; }
+
+  const barRect = bar.getBoundingClientRect();
+  const btnRect = btn.getBoundingClientRect();
+  glidePill.style.width = `${Math.round(btnRect.width * 0.6)}px`;
+  glidePill.style.transform = `translateX(${Math.round(btnRect.left - barRect.left + btnRect.width * 0.2)}px)`;
+  glidePill.classList.add('visible');
+}
+
+function initTabGlide() {
+  if (prefersReducedMotion()) return;
+  updateTabGlide();
+  window.addEventListener('resize', () => updateTabGlide(), { passive: true });
+}
+
+/** Brief springy pop on a value change (Kinetics digit-bump). */
+export function bumpEl(el) {
+  if (!el || prefersReducedMotion()) return;
+  el.classList.remove('digit-bump');
+  void el.offsetWidth;
+  el.classList.add('digit-bump');
+  el.addEventListener('animationend', () => el.classList.remove('digit-bump'), { once: true });
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 // 7. BOOTSTRAP
 // ════════════════════════════════════════════════════════════════════════════
 
@@ -388,10 +426,12 @@ export function initMotion() {
   initPointerTilt();
   initMagneticButtons();
   initHeroParallax();
+  initTabGlide();
 }
 
 if (typeof window !== 'undefined') {
   window.initMotion = initMotion;
   window.rollValue = rollValue;
   window.springCssVar = springCssVar;
+  window.updateTabGlide = updateTabGlide;
 }

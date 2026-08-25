@@ -6950,9 +6950,10 @@ main > section:not(.hidden) {
   position: fixed;
   bottom: 24px;
   left: 50%;
-  transform: translateX(-50%) translateY(120px) scale(0.9);
+  transform: translateX(-50%) translateY(140%) scale(0.92);
   opacity: 0;
-  transition: transform 0.36s var(--ease-spring), opacity 0.24s ease;
+  /* Kinetics toast-overshoot: slides past rest position, then settles */
+  transition: transform 0.55s cubic-bezier(0.18, 1.25, 0.4, 1), opacity 0.3s ease;
   pointer-events: none;
   z-index: var(--z-toast, 5000);
 }
@@ -7235,6 +7236,101 @@ main > section:not(.hidden) {
   .motion-tilt { transform: none !important; }
   .motion-tilt::after { content: none !important; }
   .btn-primary { transform: none !important; }
+}
+
+/* ─── 17. KINETICS-STYLE SPRING PATTERNS (kinetics.colorion.co) ─────────── */
+
+/* Squish press — asymmetric timing: fast compress, springy release */
+.tab-btn:active,
+.quiz-option-btn:active,
+.learn-btn:active,
+.quick-amt-btn:active,
+.lvl-btn:active,
+.category-item:active,
+.btn-primary:active,
+.btn-secondary:active {
+  transition-duration: 0.08s !important;
+  transition-timing-function: ease-out !important;
+}
+
+/* Choice chips pop (spring scale on activation) */
+@keyframes chipPop {
+  0% { transform: scale(0.92); }
+  55% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+.tab-btn.active-tab { animation: chipPop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.category-item.active-cat { animation: chipPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.lvl-btn.active { animation: chipPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* Tab Pill Glide indicator — measured width, glide easing */
+#tab-glide-pill {
+  position: absolute;
+  bottom: 4px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f0a500, #ffd60a);
+  box-shadow: 0 1px 8px rgba(240, 165, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.4s cubic-bezier(0.65, 0, 0.35, 1),
+    width 0.4s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.25s ease;
+  z-index: 2;
+}
+
+#tab-glide-pill.visible { opacity: 1; }
+
+/* Word-card staggered entrance (first paint of each batch) */
+.words-grid .word-card {
+  animation: cardStaggerIn 0.44s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.words-grid .word-card:nth-child(2) { animation-delay: 40ms; }
+.words-grid .word-card:nth-child(3) { animation-delay: 80ms; }
+.words-grid .word-card:nth-child(4) { animation-delay: 120ms; }
+.words-grid .word-card:nth-child(5) { animation-delay: 160ms; }
+.words-grid .word-card:nth-child(6) { animation-delay: 200ms; }
+.words-grid .word-card:nth-child(7) { animation-delay: 240ms; }
+.words-grid .word-card:nth-child(n+8) { animation-delay: 280ms; }
+
+@keyframes cardStaggerIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Digit bump (Kinetics number-counter) */
+@keyframes digitBump {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.22) translateY(-3px); }
+  100% { transform: scale(1); }
+}
+
+.digit-bump { animation: digitBump 0.38s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* Hold-to-confirm ring (Kinetics hold pattern) */
+.vocab-reset-btn-sm { position: relative; overflow: hidden; }
+
+.hold-progress-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: right center;
+  transform: scaleX(var(--hold-p, 0));
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.28), rgba(239, 68, 68, 0.5));
+  border-radius: inherit;
+  pointer-events: none;
+  transition: none;
+}
+
+.vocab-reset-btn-sm.holding { color: #fca5a5 !important; border-color: rgba(239, 68, 68, 0.55) !important; }
+.vocab-reset-btn-sm.holding .hold-progress-fill { will-change: transform; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-btn.active-tab, .category-item.active-cat, .lvl-btn.active,
+  .words-grid .word-card, .digit-bump { animation: none !important; }
+  #tab-glide-pill { display: none; }
 }
 
 
@@ -7614,6 +7710,7 @@ main > section:not(.hidden) {
 
     <nav class="tab-bar" aria-label="أقسام التطبيق / Sections de l'application">
       <div class="tab-bar-container" role="tablist" aria-label="الوحدات التعليمية">
+        <span id="tab-glide-pill" aria-hidden="true"></span>
         <button id="tab-btn-vocab" class="tab-btn active-tab" role="tab" aria-selected="true" aria-controls="tab-vocab" onclick="switchTab('vocab', this)"><span aria-hidden="true">🏗️</span> المفردات / Vocabulaire</button>
         <button id="tab-btn-quiz" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-quiz" onclick="switchTab('quiz', this)"><span aria-hidden="true">🎯</span> الاختبار / Quiz</button>
         <button id="tab-btn-cheques" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cheques" onclick="switchTab('cheques', this)"><span aria-hidden="true">💰</span> الشيكات والأرقام / Chèques & Nombres</button>
@@ -7649,7 +7746,8 @@ main > section:not(.hidden) {
             <span class="reset-label-sm">استيراد</span>
           </button>
           <input type="file" id="import-progress-input" accept=".json,application/json" class="hidden" onchange="importProgressFile(this)" aria-hidden="true" tabindex="-1">
-          <button class="vocab-reset-btn-sm" type="button" onclick="resetLearnedState()" title="إعادة تعيين جميع بيانات التقدم" aria-label="إعادة تعيين جميع بيانات التقدم">
+          <button class="vocab-reset-btn-sm" type="button" id="hold-reset-btn" data-hold-reset title="اضغط مطولاً 900ms لمسح كل التقدم (بديل آمن عن نافذة التأكيد)" aria-label="اضغط مطولاً لمسح جميع بيانات التقدم">
+            <span class="hold-progress-fill" aria-hidden="true"></span>
             <span aria-hidden="true">🔄</span>
             <span class="reset-label-sm">مسح كل التقدم</span>
           </button>
@@ -9747,7 +9845,9 @@ function switchTab(tabId, btnEl) {
     activeSection.classList.remove('hidden');
     activeSection.hidden = false;
   }
-  
+
+  if (typeof window !== 'undefined' && window.updateTabGlide) window.updateTabGlide(btnEl);
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -10319,6 +10419,44 @@ function initHeroParallax() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
+// 6b. KINETICS PATTERNS — tab pill glide + digit bump
+// ════════════════════════════════════════════════════════════════════════════
+
+let glidePill = null;
+
+/** Measures the active tab and glides the indicator pill under it. */
+function updateTabGlide(btnEl) {
+  if (prefersReducedMotion()) return;
+  const bar = document.querySelector('.tab-bar-container');
+  glidePill = glidePill || document.getElementById('tab-glide-pill');
+  if (!bar || !glidePill) return;
+
+  const btn = btnEl || bar.querySelector('.tab-btn.active-tab');
+  if (!btn) { glidePill.classList.remove('visible'); return; }
+
+  const barRect = bar.getBoundingClientRect();
+  const btnRect = btn.getBoundingClientRect();
+  glidePill.style.width = `${Math.round(btnRect.width * 0.6)}px`;
+  glidePill.style.transform = `translateX(${Math.round(btnRect.left - barRect.left + btnRect.width * 0.2)}px)`;
+  glidePill.classList.add('visible');
+}
+
+function initTabGlide() {
+  if (prefersReducedMotion()) return;
+  updateTabGlide();
+  window.addEventListener('resize', () => updateTabGlide(), { passive: true });
+}
+
+/** Brief springy pop on a value change (Kinetics digit-bump). */
+function bumpEl(el) {
+  if (!el || prefersReducedMotion()) return;
+  el.classList.remove('digit-bump');
+  void el.offsetWidth;
+  el.classList.add('digit-bump');
+  el.addEventListener('animationend', () => el.classList.remove('digit-bump'), { once: true });
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 // 7. BOOTSTRAP
 // ════════════════════════════════════════════════════════════════════════════
 function initMotion() {
@@ -10327,12 +10465,14 @@ function initMotion() {
   initPointerTilt();
   initMagneticButtons();
   initHeroParallax();
+  initTabGlide();
 }
 
 if (typeof window !== 'undefined') {
   window.initMotion = initMotion;
   window.rollValue = rollValue;
   window.springCssVar = springCssVar;
+  window.updateTabGlide = updateTabGlide;
 };
 
 /* === src/modules/btp-math.js === */
@@ -10839,18 +10979,79 @@ function getFilteredWords() {
 
     function resetLearnedState() {
       if (confirm('سيتم مسح الكلمات المتقنة وخطة الدراسة ونتائج الاختبار وتقدم تمارين القراءة. هل تريد المتابعة؟')) {
-        state.learned.clear();
-        state.checkedDays.clear();
-        state.quizBestScore = 0;
-        state.wrongBank = {};
-        state.readingProgress = {};
-        saveStateToLocalStorage();
-        initStats();
-        renderVocabList(true);
-        renderStudyPlan();
-        renderReadingDocsSelector();
-        showToast('تمت إعادة تعيين التقدم بنجاح!');
+        performProgressReset();
       }
+    }
+
+    const HOLD_DURATION_MS = 900;
+
+    /** Kinetics hold-to-confirm: ring fills over 900ms, early release cancels. */
+    function initHoldReset() {
+      const btn = document.getElementById('hold-reset-btn');
+      if (!btn) return;
+      const fill = btn.querySelector('.hold-progress-fill');
+      let rafId = null, startTime = 0, holding = false, done = false;
+
+      const setP = v => { if (fill) fill.style.setProperty('--hold-p', String(v)); };
+
+      const cancel = () => {
+        if (!holding || done) return;
+        holding = false;
+        btn.classList.remove('holding');
+        cancelAnimationFrame(rafId);
+        // Spring the fill back to zero
+        fill.style.transition = 'transform .35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        setP(0);
+        setTimeout(() => { fill.style.transition = 'none'; }, 380);
+      };
+
+      const start = e => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        done = false;
+        holding = true;
+        startTime = performance.now();
+        btn.classList.add('holding');
+        fill.style.transition = 'none';
+        const step = now => {
+          if (!holding || done) return;
+          const p = Math.min((now - startTime) / HOLD_DURATION_MS, 1);
+          setP(p);
+          if (p >= 1) {
+            done = true;
+            holding = false;
+            btn.classList.remove('holding');
+            setP(0);
+            performProgressReset();
+            return;
+          }
+          rafId = requestAnimationFrame(step);
+        };
+        rafId = requestAnimationFrame(step);
+      };
+
+      btn.addEventListener('pointerdown', start);
+      btn.addEventListener('pointerup', cancel);
+      btn.addEventListener('pointerleave', cancel);
+      btn.addEventListener('pointercancel', cancel);
+      // Keyboard users keep the explicit confirm dialog
+      btn.addEventListener('click', e => {
+        if (done) return;
+        if (btn.matches(':focus-visible')) resetLearnedState();
+      });
+    }
+
+    function performProgressReset() {
+      state.learned.clear();
+      state.checkedDays.clear();
+      state.quizBestScore = 0;
+      state.wrongBank = {};
+      state.readingProgress = {};
+      saveStateToLocalStorage();
+      initStats();
+      renderVocabList(true);
+      renderStudyPlan();
+      renderReadingDocsSelector();
+      showToast('تمت إعادة تعيين التقدم بنجاح!');
     }
 
 if (typeof window !== 'undefined') {
@@ -10873,10 +11074,11 @@ if (typeof window !== 'undefined') {
 
 // Boot the sheet relocation once DOM is parsed (module loads before appInit)
 if (typeof document !== 'undefined') {
+  const bootVocabExtras = () => { initFiltersSheet(); initHoldReset(); };
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFiltersSheet, { once: true });
+    document.addEventListener('DOMContentLoaded', bootVocabExtras, { once: true });
   } else {
-    initFiltersSheet();
+    bootVocabExtras();
   }
 };
 
@@ -11458,6 +11660,7 @@ function handleQuizAnswer(selectedOpt, btnEl) {
   document.getElementById('quiz-live-score').innerText = `✅ ${state.quizScore} صحيحة`;
   const streakDisplay = document.getElementById('quiz-streak-display');
   streakDisplay.innerText = `🔥 متتالية: ${state.quizStreak}`;
+  if (state.quizStreak >= 2) bumpEl(streakDisplay);
   streakDisplay.classList.toggle('has-streak', state.quizStreak >= 2);
   const completedPct = Math.round(((state.quizCurrentIndex + 1) / state.quizLength) * 100);
   document.getElementById('quiz-progress-bar-fill').style.width = `${completedPct}%`;

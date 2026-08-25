@@ -415,18 +415,79 @@ function getFilteredWords() {
 
     function resetLearnedState() {
       if (confirm('سيتم مسح الكلمات المتقنة وخطة الدراسة ونتائج الاختبار وتقدم تمارين القراءة. هل تريد المتابعة؟')) {
-        state.learned.clear();
-        state.checkedDays.clear();
-        state.quizBestScore = 0;
-        state.wrongBank = {};
-        state.readingProgress = {};
-        saveStateToLocalStorage();
-        initStats();
-        renderVocabList(true);
-        renderStudyPlan();
-        renderReadingDocsSelector();
-        showToast('تمت إعادة تعيين التقدم بنجاح!');
+        performProgressReset();
       }
+    }
+
+    const HOLD_DURATION_MS = 900;
+
+    /** Kinetics hold-to-confirm: ring fills over 900ms, early release cancels. */
+    function initHoldReset() {
+      const btn = document.getElementById('hold-reset-btn');
+      if (!btn) return;
+      const fill = btn.querySelector('.hold-progress-fill');
+      let rafId = null, startTime = 0, holding = false, done = false;
+
+      const setP = v => { if (fill) fill.style.setProperty('--hold-p', String(v)); };
+
+      const cancel = () => {
+        if (!holding || done) return;
+        holding = false;
+        btn.classList.remove('holding');
+        cancelAnimationFrame(rafId);
+        // Spring the fill back to zero
+        fill.style.transition = 'transform .35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        setP(0);
+        setTimeout(() => { fill.style.transition = 'none'; }, 380);
+      };
+
+      const start = e => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        done = false;
+        holding = true;
+        startTime = performance.now();
+        btn.classList.add('holding');
+        fill.style.transition = 'none';
+        const step = now => {
+          if (!holding || done) return;
+          const p = Math.min((now - startTime) / HOLD_DURATION_MS, 1);
+          setP(p);
+          if (p >= 1) {
+            done = true;
+            holding = false;
+            btn.classList.remove('holding');
+            setP(0);
+            performProgressReset();
+            return;
+          }
+          rafId = requestAnimationFrame(step);
+        };
+        rafId = requestAnimationFrame(step);
+      };
+
+      btn.addEventListener('pointerdown', start);
+      btn.addEventListener('pointerup', cancel);
+      btn.addEventListener('pointerleave', cancel);
+      btn.addEventListener('pointercancel', cancel);
+      // Keyboard users keep the explicit confirm dialog
+      btn.addEventListener('click', e => {
+        if (done) return;
+        if (btn.matches(':focus-visible')) resetLearnedState();
+      });
+    }
+
+    function performProgressReset() {
+      state.learned.clear();
+      state.checkedDays.clear();
+      state.quizBestScore = 0;
+      state.wrongBank = {};
+      state.readingProgress = {};
+      saveStateToLocalStorage();
+      initStats();
+      renderVocabList(true);
+      renderStudyPlan();
+      renderReadingDocsSelector();
+      showToast('تمت إعادة تعيين التقدم بنجاح!');
     }
 
 if (typeof window !== 'undefined') {
@@ -449,9 +510,10 @@ if (typeof window !== 'undefined') {
 
 // Boot the sheet relocation once DOM is parsed (module loads before appInit)
 if (typeof document !== 'undefined') {
+  const bootVocabExtras = () => { initFiltersSheet(); initHoldReset(); };
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFiltersSheet, { once: true });
+    document.addEventListener('DOMContentLoaded', bootVocabExtras, { once: true });
   } else {
-    initFiltersSheet();
+    bootVocabExtras();
   }
 }

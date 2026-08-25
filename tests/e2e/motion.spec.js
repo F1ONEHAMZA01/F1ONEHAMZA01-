@@ -67,3 +67,52 @@ test.describe('Motion physics layer', () => {
     await ctx.close();
   });
 });
+
+test.describe('Kinetics patterns', () => {
+  test('glide pill tracks the active tab position', async ({ page }) => {
+    await page.goto('/');
+    const pill = page.locator('#tab-glide-pill');
+    await expect(pill).toHaveClass(/visible/);
+    const before = await pill.evaluate(el => el.style.transform);
+
+    await page.click('#tab-btn-calc');
+    await page.waitForTimeout(500);
+    const after = await pill.evaluate(el => el.style.transform);
+    expect(after).not.toBe(before);
+  });
+
+  test('hold-to-confirm resets progress without dialog', async ({ page }) => {
+    await page.goto('/');
+    // Seed learned state, verify it exists
+    await page.evaluate(() => window.toggleWordLearned(
+      window.getWordId(window.getVocabDataset()[0]),
+      document.querySelector('.word-card .learn-btn'),
+      document.querySelector('.word-card'),
+      window.getVocabDataset()[0]
+    ));
+    const dialogMessages = [];
+    page.on('dialog', d => { dialogMessages.push(d.message()); d.dismiss(); });
+
+    const btn = page.locator('#hold-reset-btn');
+    const box = await btn.boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.waitForTimeout(1100);
+    await page.mouse.up();
+
+    await expect(page.locator('#toast')).toContainText('إعادة تعيين');
+    expect(dialogMessages.length).toBe(0);
+  });
+
+  test('early hold release cancels the reset', async ({ page }) => {
+    await page.goto('/');
+    const btn = page.locator('#hold-reset-btn');
+    const box = await btn.boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.waitForTimeout(200);
+    await page.mouse.up();
+    await page.waitForTimeout(300);
+    await expect(page.locator('#toast')).not.toContainText('إعادة تعيين');
+  });
+});

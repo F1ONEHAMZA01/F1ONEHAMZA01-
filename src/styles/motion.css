@@ -605,9 +605,10 @@ main > section:not(.hidden) {
   position: fixed;
   bottom: 24px;
   left: 50%;
-  transform: translateX(-50%) translateY(120px) scale(0.9);
+  transform: translateX(-50%) translateY(140%) scale(0.92);
   opacity: 0;
-  transition: transform 0.36s var(--ease-spring), opacity 0.24s ease;
+  /* Kinetics toast-overshoot: slides past rest position, then settles */
+  transition: transform 0.55s cubic-bezier(0.18, 1.25, 0.4, 1), opacity 0.3s ease;
   pointer-events: none;
   z-index: var(--z-toast, 5000);
 }
@@ -890,4 +891,99 @@ main > section:not(.hidden) {
   .motion-tilt { transform: none !important; }
   .motion-tilt::after { content: none !important; }
   .btn-primary { transform: none !important; }
+}
+
+/* ─── 17. KINETICS-STYLE SPRING PATTERNS (kinetics.colorion.co) ─────────── */
+
+/* Squish press — asymmetric timing: fast compress, springy release */
+.tab-btn:active,
+.quiz-option-btn:active,
+.learn-btn:active,
+.quick-amt-btn:active,
+.lvl-btn:active,
+.category-item:active,
+.btn-primary:active,
+.btn-secondary:active {
+  transition-duration: 0.08s !important;
+  transition-timing-function: ease-out !important;
+}
+
+/* Choice chips pop (spring scale on activation) */
+@keyframes chipPop {
+  0% { transform: scale(0.92); }
+  55% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+.tab-btn.active-tab { animation: chipPop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.category-item.active-cat { animation: chipPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.lvl-btn.active { animation: chipPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* Tab Pill Glide indicator — measured width, glide easing */
+#tab-glide-pill {
+  position: absolute;
+  bottom: 4px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f0a500, #ffd60a);
+  box-shadow: 0 1px 8px rgba(240, 165, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.4s cubic-bezier(0.65, 0, 0.35, 1),
+    width 0.4s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.25s ease;
+  z-index: 2;
+}
+
+#tab-glide-pill.visible { opacity: 1; }
+
+/* Word-card staggered entrance (first paint of each batch) */
+.words-grid .word-card {
+  animation: cardStaggerIn 0.44s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.words-grid .word-card:nth-child(2) { animation-delay: 40ms; }
+.words-grid .word-card:nth-child(3) { animation-delay: 80ms; }
+.words-grid .word-card:nth-child(4) { animation-delay: 120ms; }
+.words-grid .word-card:nth-child(5) { animation-delay: 160ms; }
+.words-grid .word-card:nth-child(6) { animation-delay: 200ms; }
+.words-grid .word-card:nth-child(7) { animation-delay: 240ms; }
+.words-grid .word-card:nth-child(n+8) { animation-delay: 280ms; }
+
+@keyframes cardStaggerIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Digit bump (Kinetics number-counter) */
+@keyframes digitBump {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.22) translateY(-3px); }
+  100% { transform: scale(1); }
+}
+
+.digit-bump { animation: digitBump 0.38s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* Hold-to-confirm ring (Kinetics hold pattern) */
+.vocab-reset-btn-sm { position: relative; overflow: hidden; }
+
+.hold-progress-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: right center;
+  transform: scaleX(var(--hold-p, 0));
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.28), rgba(239, 68, 68, 0.5));
+  border-radius: inherit;
+  pointer-events: none;
+  transition: none;
+}
+
+.vocab-reset-btn-sm.holding { color: #fca5a5 !important; border-color: rgba(239, 68, 68, 0.55) !important; }
+.vocab-reset-btn-sm.holding .hold-progress-fill { will-change: transform; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-btn.active-tab, .category-item.active-cat, .lvl-btn.active,
+  .words-grid .word-card, .digit-bump { animation: none !important; }
+  #tab-glide-pill { display: none; }
 }

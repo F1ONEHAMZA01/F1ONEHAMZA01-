@@ -3,7 +3,7 @@ import { appendTextElement, showToast, escapeHtml, playHaptic } from '../ui-util
 import { speakFrenchText, speakCurrentWord, markCurrentLearned, ttsAvailable } from '../audio.js';
 import { SHORT_PHASE_NAMES } from './vocab-tab.js';
 import { renderSrsView } from '../srs.js';
-import { rollValue } from '../motion.js';
+import { rollValue, bumpEl } from '../motion.js';
 
 export const QUIZ_MODE_META = {
   fr_to_ar: { label: '🇫🇷 → 🇲🇦 اختر المعنى', answerField: 'ar' },
@@ -602,6 +602,7 @@ export function handleQuizAnswer(selectedOpt, btnEl) {
   document.getElementById('quiz-live-score').innerText = `✅ ${state.quizScore} صحيحة`;
   const streakDisplay = document.getElementById('quiz-streak-display');
   streakDisplay.innerText = `🔥 متتالية: ${state.quizStreak}`;
+  if (state.quizStreak >= 2) bumpEl(streakDisplay);
   streakDisplay.classList.toggle('has-streak', state.quizStreak >= 2);
   const completedPct = Math.round(((state.quizCurrentIndex + 1) / state.quizLength) * 100);
   document.getElementById('quiz-progress-bar-fill').style.width = `${completedPct}%`;
