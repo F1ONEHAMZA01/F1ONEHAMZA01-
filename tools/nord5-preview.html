@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OnePlus Nord 5 viewport preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 18px;
+      overflow: auto;
+      padding: 10px;
+      background: #05070d;
+    }
+    figure { margin: 0; overflow: hidden; color: #cbd5e1; font: 12px system-ui, sans-serif; text-align: center; }
+    figcaption { margin-bottom: 7px; }
+    iframe {
+      border: 1px solid #334155;
+      border-radius: 18px;
+      background: #0a0e1a;
+      transform-origin: top left;
+    }
+    .portrait-shell { width: 300px; height: 680px; flex: 0 0 300px; }
+    .portrait-shell iframe { width: 424px; height: 933px; transform: scale(.70); }
+    .landscape-shell { width: 750px; height: 370px; flex: 0 0 750px; }
+    .landscape-shell iframe { width: 933px; height: 424px; transform: scale(.80); }
+  </style>
+</head>
+<body>
+  <figure class="portrait-shell">
+    <figcaption>Portrait · 424 × 933 CSS px</figcaption>
+    <iframe id="nord-frame" title="OnePlus Nord 5 portrait preview" src="../index.html?device=nord5-portrait"></iframe>
+  </figure>
+  <figure class="landscape-shell">
+    <figcaption>Landscape · 933 × 424 CSS px</figcaption>
+    <iframe id="nord-landscape-frame" title="OnePlus Nord 5 landscape preview" src="../index.html?device=nord5-landscape"></iframe>
+  </figure>
+  <script>
+    const requestedTab = new URLSearchParams(location.search).get('tab');
+    if (requestedTab) {
+      document.querySelectorAll('iframe').forEach(frame => {
+        frame.addEventListener('load', () => {
+          const button = frame.contentDocument?.getElementById(`tab-btn-${requestedTab}`);
+          frame.contentWindow?.switchTab?.(requestedTab, button);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

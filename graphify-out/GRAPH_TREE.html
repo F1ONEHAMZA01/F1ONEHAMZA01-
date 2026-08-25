@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>/ — graphify tree viewer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      margin: 20px 0 0 24px;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #1e3a56;
+    }
+    .controls {
+      margin: 20px 0 15px 24px;
+    }
+    button {
+      margin-right: 10px;
+      padding: 8px 18px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    button:active {
+      background: #004085;
+    }
+    #tree-container {
+      width: calc(100vw - 48px); /* Adjust for body margin/padding */
+      height: 85vh;
+      overflow: auto;
+      border-radius: 8px;
+      background: #fff;
+      margin-left: 24px;
+      margin-right: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid #ddd;
+    }
+    svg {
+      background: #fff;
+      border-radius: 8px;
+      display: block; /* Important for D3 */
+    }
+    .node circle {
+      stroke-width: 2.5px;
+    }
+    .node text { /* Base style for the <text> container */
+      font: 13px 'Segoe UI', sans-serif;
+      paint-order: stroke fill; /* Ensures text is readable over lines */
+      stroke: #fff; /* White halo */
+      stroke-width: 3px; /* Halo thickness */
+      stroke-linejoin: round;
+      stroke-opacity: 0.85; /* Halo opacity */
+    }
+    .link {
+      fill: none;
+      stroke-opacity: 0.7;
+      stroke-width: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>/ — Knowledge Graph</h1>
+  <div class="controls">
+    <button onclick="expandAll()">Expand All</button>
+    <button onclick="collapseAll()">Collapse All</button>
+    <button onclick="resetView()">Reset View</button>
+  </div>
+  <div id="tree-container">
+    <svg id="tree-svg" width="6000" height="8000"></svg>
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+    const initialJsonData = {"name":"/","total_count":293,"children":[{"name":"data","total_count":1,"children":[{"name":"vocab.js","total_count":1,"children":[]}]},{"name":"manifest.json","total_count":13,"children":[{"name":"background_color","total_count":1,"children":[]},{"name":"description","total_count":1,"children":[]},{"name":"dir","total_count":1,"children":[]},{"name":"display","total_count":1,"children":[]},{"name":"icons","total_count":1,"children":[]},{"name":"id","total_count":1,"children":[]},{"name":"lang","total_count":1,"children":[]},{"name":"name","total_count":1,"children":[]},{"name":"orientation","total_count":1,"children":[]},{"name":"scope","total_count":1,"children":[]},{"name":"short_name","total_count":1,"children":[]},{"name":"start_url","total_count":1,"children":[]},{"name":"theme_color","total_count":1,"children":[]}]},{"name":"package.json","total_count":13,"children":[{"name":"build","total_count":1,"children":[]},{"name":"build:netlify","total_count":1,"children":[]},{"name":"deploy:check","total_count":1,"children":[]},{"name":"description","total_count":1,"children":[]},{"name":"engines","total_count":1,"children":[]},{"name":"name","total_count":1,"children":[]},{"name":"node","total_count":1,"children":[]},{"name":"private","total_count":1,"children":[]},{"name":"scripts","total_count":1,"children":[]},{"name":"serve","total_count":1,"children":[]},{"name":"test","total_count":1,"children":[]},{"name":"validate","total_count":1,"children":[]},{"name":"version","total_count":1,"children":[]}]},{"name":"src","total_count":195,"children":[{"name":"app.js","total_count":1,"children":[{"name":"bootstrapApp()","total_count":1,"children":[]}]},{"name":"data","total_count":5,"children":[{"name":"grammar-lessons.js","total_count":1,"children":[{"name":"GRAMMAR_LESSONS","total_count":1,"children":[]}]},{"name":"numbers-ref.js","total_count":1,"children":[{"name":"NUMBERS_DATA","total_count":1,"children":[]}]},{"name":"plan-tasks.js","total_count":1,"children":[{"name":"PLAN_TASKS","total_count":1,"children":[]}]},{"name":"reading-docs.js","total_count":1,"children":[{"name":"READING_DOCS","total_count":1,"children":[]}]},{"name":"writing-templates.js","total_count":1,"children":[{"name":"WRITING_TEMPLATES","total_count":1,"children":[]}]}]},{"name":"modules","total_count":189,"children":[{"name":"audio.js","total_count":6,"children":[{"name":"frWordsToPron()","total_count":1,"children":[]},{"name":"markCurrentLearned()","total_count":1,"children":[]},{"name":"prewarmTtsVoices()","total_count":1,"children":[]},{"name":"speakCurrentWord()","total_count":1,"children":[]},{"name":"speakFrenchText()","total_count":1,"children":[]},{"name":"ttsAvailable()","total_count":1,"children":[]}]},{"name":"pwa.js","total_count":2,"children":[{"name":"initPWA()","total_count":1,"children":[]},{"name":"installPWAApp()","total_count":1,"children":[]}]},{"name":"state.js","total_count":11,"children":[{"name":"getVocabDataset()","total_count":1,"children":[]},{"name":"getVocabSearchIndex()","total_count":1,"children":[]},{"name":"getWordId()","total_count":1,"children":[]},{"name":"hashString()","total_count":1,"children":[]},{"name":"initStats()","total_count":1,"children":[]},{"name":"legacyWordKey()","total_count":1,"children":[]},{"name":"loadStateFromLocalStorage()","total_count":1,"children":[]},{"name":"migrateStoredWordKeys()","total_count":1,"children":[]},{"name":"normalizeSearchText()","total_count":1,"children":[]},{"name":"saveStateToLocalStorage()","total_count":1,"children":[]},{"name":"state","total_count":1,"children":[]}]},{"name":"tabs","total_count":163,"children":[{"name":"calc-tab.js","total_count":10,"children":[{"name":"calculateBtpAcier()","total_count":1,"children":[]},{"name":"calculateBtpBeton()","total_count":1,"children":[]},{"name":"calculateBtpBriques()","total_count":1,"children":[]},{"name":"calculateBtpCarrelage()","total_count":1,"children":[]},{"name":"calculateBtpFinances()","total_count":1,"children":[]},{"name":"calculateBtpPlatre()","total_count":1,"children":[]},{"name":"calculateBtpToupie()","total_count":1,"children":[]},{"name":"copyCalcResult()","total_count":1,"children":[]},{"name":"setBetonPreset()","total_count":1,"children":[]},{"name":"switchCalcSubTab()","total_count":1,"children":[]}]},{"name":"cheques-tab.js","total_count":51,"children":[{"name":"BANK_NAMES_MAP","total_count":1,"children":[]},{"name":"buildChequeAmountWords()","total_count":1,"children":[]},{"name":"checkNumInput()","total_count":1,"children":[]},{"name":"CHEQUE_MAX_AMOUNT","total_count":1,"children":[]},{"name":"copyChequeText()","total_count":1,"children":[]},{"name":"copyChequeTextDirect()","total_count":1,"children":[]},{"name":"filterNumbersChartLive()","total_count":1,"children":[]},{"name":"filterReferenceTableLive()","total_count":1,"children":[]},{"name":"finishNumGame()","total_count":1,"children":[]},{"name":"formatArabicCurrencyUnit()","total_count":1,"children":[]},{"name":"FR_PRON_TOKENS","total_count":1,"children":[]},{"name":"group()","total_count":1,"children":[]},{"name":"handleNumGameInputKey()","total_count":1,"children":[]},{"name":"newNumQuestion()","total_count":1,"children":[]},{"name":"normalizeChequeAmountField()","total_count":1,"children":[]},{"name":"NUMBER_GROUP_LABELS","total_count":1,"children":[]},{"name":"numberToArabic()","total_count":1,"children":[]},{"name":"numberToFrench()","total_count":1,"children":[]},{"name":"numGame","total_count":1,"children":[]},{"name":"numGameHud()","total_count":1,"children":[]},{"name":"numGameRandom()","total_count":1,"children":[]},{"name":"numGameResolve()","total_count":1,"children":[]},{"name":"parseLocalizedChequeAmount()","total_count":1,"children":[]},{"name":"pickNumOption()","total_count":1,"children":[]},{"name":"randomChequeAmount()","total_count":1,"children":[]},{"name":"randomChequeAmountAndSpeak()","total_count":1,"children":[]},{"name":"readNumberGameBest()","total_count":1,"children":[]},{"name":"REFERENCE_AMOUNTS_DATA","total_count":1,"children":[]},{"name":"renderNumbersChart()","total_count":1,"children":[]},{"name":"renderReferenceNumbersTable()","total_count":1,"children":[]},{"name":"resetChequeEditor()","total_count":1,"children":[]},{"name":"runNumberDecomposer()","total_count":1,"children":[]},{"name":"setChequeAmount()","total_count":1,"children":[]},{"name":"setChequeAmountAndSpeak()","total_count":1,"children":[]},{"name":"setNumbersFilter()","total_count":1,"children":[]},{"name":"setRefTableCategory()","total_count":1,"children":[]},{"name":"speakChequeText()","total_count":1,"children":[]},{"name":"speakDecomposedNumber()","total_count":1,"children":[]},{"name":"speakNumberCard()","total_count":1,"children":[]},{"name":"startNumGame()","total_count":1,"children":[]},{"name":"startNumGamePreset()","total_count":1,"children":[]},{"name":"stopNumGame()","total_count":1,"children":[]},{"name":"switchChequesSubTab()","total_count":1,"children":[]},{"name":"testNumberInCheque()","total_count":1,"children":[]},{"name":"toggleChequeBarre()","total_count":1,"children":[]},{"name":"toggleChequeCertifie()","total_count":1,"children":[]},{"name":"toLatinDigits()","total_count":1,"children":[]},{"name":"updateChequeBank()","total_count":1,"children":[]},{"name":"updateChequeConverter()","total_count":1,"children":[]},{"name":"updateChequeDetails()","total_count":1,"children":[]},{"name":"writeChequeClipboard()","total_count":1,"children":[]}]},{"name":"grammar-tab.js","total_count":13,"children":[{"name":"BTP_VERBS","total_count":1,"children":[]},{"name":"checkGrammarQuizOption()","total_count":1,"children":[]},{"name":"filterGrammarByCategory()","total_count":1,"children":[]},{"name":"GRAMMAR_QUIZ_QUESTIONS","total_count":1,"children":[]},{"name":"handleGrammarSearch()","total_count":1,"children":[]},{"name":"initGrammarQuiz()","total_count":1,"children":[]},{"name":"nextGrammarQuizQuestion()","total_count":1,"children":[]},{"name":"renderGrammarAccordions()","total_count":1,"children":[]},{"name":"renderGrammarQuizCard()","total_count":1,"children":[]},{"name":"renderGrammarVerbsTable()","total_count":1,"children":[]},{"name":"selectVerbConjugation()","total_count":1,"children":[]},{"name":"switchGrammarSubTab()","total_count":1,"children":[]},{"name":"toggleAccordion()","total_count":1,"children":[]}]},{"name":"plan-tab.js","total_count":10,"children":[{"name":"goToPlanTab()","total_count":1,"children":[]},{"name":"handlePlanSearch()","total_count":1,"children":[]},{"name":"PLAN_MONTH_TITLES","total_count":1,"children":[]},{"name":"renderStudyPlan()","total_count":1,"children":[]},{"name":"resetPlanProgress()","total_count":1,"children":[]},{"name":"setPlanMonthFilter()","total_count":1,"children":[]},{"name":"TAB_LABELS","total_count":1,"children":[]},{"name":"toggleAllPlanMonths()","total_count":1,"children":[]},{"name":"togglePlanDay()","total_count":1,"children":[]},{"name":"togglePlanUncompletedOnly()","total_count":1,"children":[]}]},{"name":"quiz-tab.js","total_count":30,"children":[{"name":"beginQuizRun()","total_count":1,"children":[]},{"name":"buildClozePrompt()","total_count":1,"children":[]},{"name":"buildQuizModeQueue()","total_count":1,"children":[]},{"name":"buildQuizOptions()","total_count":1,"children":[]},{"name":"finishQuizSession()","total_count":1,"children":[]},{"name":"getQuizAnswer()","total_count":1,"children":[]},{"name":"getQuizConfigFromControls()","total_count":1,"children":[]},{"name":"getQuizPool()","total_count":1,"children":[]},{"name":"handleQuizAnswer()","total_count":1,"children":[]},{"name":"handleQuizKeyboard()","total_count":1,"children":[]},{"name":"initQuizConfigSelects()","total_count":1,"children":[]},{"name":"nextQuizQuestion()","total_count":1,"children":[]},{"name":"orderQuizPool()","total_count":1,"children":[]},{"name":"quitQuizSession()","total_count":1,"children":[]},{"name":"QUIZ_MODE_META","total_count":1,"children":[]},{"name":"renderQuizQuestion()","total_count":1,"children":[]},{"name":"renderQuizStatsView()","total_count":1,"children":[]},{"name":"restartQuizConfig()","total_count":1,"children":[]},{"name":"retrySameQuiz()","total_count":1,"children":[]},{"name":"retryWrongOnly()","total_count":1,"children":[]},{"name":"showQuizHint()","total_count":1,"children":[]},{"name":"shuffleArray()","total_count":1,"children":[]},{"name":"startQuizPreset()","total_count":1,"children":[]},{"name":"startQuizSession()","total_count":1,"children":[]},{"name":"startSpeedRunTimer()","total_count":1,"children":[]},{"name":"switchQuizSubTab()","total_count":1,"children":[]},{"name":"toggleQuizAutoAdvance()","total_count":1,"children":[]},{"name":"toggleQuizAutoPronounce()","total_count":1,"children":[]},{"name":"updateQuizAvailability()","total_count":1,"children":[]},{"name":"updateQuizScopeCounts()","total_count":1,"children":[]}]},{"name":"reading-tab.js","total_count":22,"children":[{"name":"adjustReadingFont()","total_count":1,"children":[]},{"name":"assessReadingAnswer()","total_count":1,"children":[]},{"name":"buildReadingQuestion()","total_count":1,"children":[]},{"name":"checkReadingQuizOption()","total_count":1,"children":[]},{"name":"copyReadingDocument()","total_count":1,"children":[]},{"name":"filterReadingDocsByCategory()","total_count":1,"children":[]},{"name":"getReadingAssessment()","total_count":1,"children":[]},{"name":"getReadingProgress()","total_count":1,"children":[]},{"name":"initReadingQuiz()","total_count":1,"children":[]},{"name":"makeReadingStat()","total_count":1,"children":[]},{"name":"nextReadingQuizQuestion()","total_count":1,"children":[]},{"name":"READING_QUIZ_QUESTIONS","total_count":1,"children":[]},{"name":"renderBtpDocsGuide()","total_count":1,"children":[]},{"name":"renderReadingDoc()","total_count":1,"children":[]},{"name":"renderReadingDocsSelector()","total_count":1,"children":[]},{"name":"renderReadingQuizCard()","total_count":1,"children":[]},{"name":"resetReadingDocumentProgress()","total_count":1,"children":[]},{"name":"switchDocInnerTab()","total_count":1,"children":[]},{"name":"switchReadingSubTab()","total_count":1,"children":[]},{"name":"toggleAnswerReveal()","total_count":1,"children":[]},{"name":"updateReadingDocumentProgress()","total_count":1,"children":[]},{"name":"updateReadingOverallProgress()","total_count":1,"children":[]}]},{"name":"vocab-tab.js","total_count":13,"children":[{"name":"clearSearchInput()","total_count":1,"children":[]},{"name":"getFilteredWords()","total_count":1,"children":[]},{"name":"handleSearchInput()","total_count":1,"children":[]},{"name":"loadMoreWords()","total_count":1,"children":[]},{"name":"PHASE_NAMES","total_count":1,"children":[]},{"name":"renderVocabCategoryFilter()","total_count":1,"children":[]},{"name":"renderVocabList()","total_count":1,"children":[]},{"name":"resetLearnedState()","total_count":1,"children":[]},{"name":"setCategoryFilter()","total_count":1,"children":[]},{"name":"setLevelFilter()","total_count":1,"children":[]},{"name":"setupVocabInfiniteScroll()","total_count":1,"children":[]},{"name":"SHORT_PHASE_NAMES","total_count":1,"children":[]},{"name":"toggleWordLearned()","total_count":1,"children":[]}]},{"name":"writing-tab.js","total_count":14,"children":[{"name":"BTP_SITE_PHRASES","total_count":1,"children":[]},{"name":"copyTemplateToClipboard()","total_count":1,"children":[]},{"name":"EMAIL_SCENARIOS","total_count":1,"children":[]},{"name":"filterPhrasesByCategory()","total_count":1,"children":[]},{"name":"filterWritingTemplates()","total_count":1,"children":[]},{"name":"loadWritingTemplate()","total_count":1,"children":[]},{"name":"renderEmailAssistant()","total_count":1,"children":[]},{"name":"renderTemplateOutput()","total_count":1,"children":[]},{"name":"renderWritingPhrases()","total_count":1,"children":[]},{"name":"renderWritingTemplatesSelector()","total_count":1,"children":[]},{"name":"selectEmailScenario()","total_count":1,"children":[]},{"name":"switchWritingSubTab()","total_count":1,"children":[]},{"name":"updateEmailAssistantPreview()","total_count":1,"children":[]},{"name":"updateTemplateOutput()","total_count":1,"children":[]}]}]},{"name":"ui-utils.js","total_count":7,"children":[{"name":"appendTextElement()","total_count":1,"children":[]},{"name":"escapeHtml()","total_count":1,"children":[]},{"name":"initializeTabs()","total_count":1,"children":[]},{"name":"playHaptic()","total_count":1,"children":[]},{"name":"scrollToTopSmooth()","total_count":1,"children":[]},{"name":"showToast()","total_count":1,"children":[]},{"name":"switchTab()","total_count":1,"children":[]}]}]}]},{"name":"sw.js","total_count":5,"children":[{"name":"APP_SHELL","total_count":1,"children":[]},{"name":"cacheFirstContent()","total_count":1,"children":[]},{"name":"CONTENT_ASSETS","total_count":1,"children":[]},{"name":"networkFirstNavigation()","total_count":1,"children":[]},{"name":"staleWhileRevalidate()","total_count":1,"children":[]}]},{"name":"tools","total_count":66,"children":[{"name":"build-netlify.mjs","total_count":5,"children":[{"name":"files","total_count":1,"children":[]},{"name":"metadata","total_count":1,"children":[]},{"name":"output","total_count":1,"children":[]},{"name":"packageJson","total_count":1,"children":[]},{"name":"root","total_count":1,"children":[]}]},{"name":"build.mjs","total_count":16,"children":[{"name":"builtHtml","total_count":1,"children":[]},{"name":"cleanExports()","total_count":1,"children":[]},{"name":"combinedCss","total_count":1,"children":[]},{"name":"combinedDatasets","total_count":1,"children":[]},{"name":"combinedModules","total_count":1,"children":[]},{"name":"cssFiles","total_count":1,"children":[]},{"name":"grammarLessons","total_count":1,"children":[]},{"name":"moduleFiles","total_count":1,"children":[]},{"name":"numbersRef","total_count":1,"children":[]},{"name":"planTasks","total_count":1,"children":[]},{"name":"read()","total_count":1,"children":[]},{"name":"readingDocs","total_count":1,"children":[]},{"name":"root","total_count":1,"children":[]},{"name":"template","total_count":1,"children":[]},{"name":"write()","total_count":1,"children":[]},{"name":"writingTemplates","total_count":1,"children":[]}]},{"name":"extract-source.mjs","total_count":3,"children":[{"name":"targetHomePath","total_count":1,"children":[]},{"name":"targetProjectFile","total_count":1,"children":[]},{"name":"targetProjectsDir","total_count":1,"children":[]}]},{"name":"modularize.mjs","total_count":12,"children":[{"name":"numbersDataStart","total_count":1,"children":[]},{"name":"numbersDataStr","total_count":1,"children":[]},{"name":"pronTokensStart","total_count":1,"children":[]},{"name":"pronTokensStr","total_count":1,"children":[]},{"name":"rawCss","total_count":1,"children":[]},{"name":"rawJs","total_count":1,"children":[]},{"name":"root","total_count":1,"children":[]},{"name":"sliceCss()","total_count":1,"children":[]},{"name":"sliceFn()","total_count":1,"children":[]},{"name":"stateDef","total_count":1,"children":[]},{"name":"stateStart","total_count":1,"children":[]},{"name":"write()","total_count":1,"children":[]}]},{"name":"server.mjs","total_count":3,"children":[{"name":"MIME_TYPES","total_count":1,"children":[]},{"name":"root","total_count":1,"children":[]},{"name":"server","total_count":1,"children":[]}]},{"name":"validate-app.mjs","total_count":17,"children":[{"name":"check()","total_count":1,"children":[]},{"name":"checks","total_count":1,"children":[]},{"name":"html","total_count":1,"children":[]},{"name":"manifest","total_count":1,"children":[]},{"name":"modularSourceFiles","total_count":1,"children":[]},{"name":"numbersContext","total_count":1,"children":[]},{"name":"numbersEnd","total_count":1,"children":[]},{"name":"numbersStart","total_count":1,"children":[]},{"name":"read()","total_count":1,"children":[]},{"name":"readingDocs","total_count":1,"children":[]},{"name":"readingSource","total_count":1,"children":[]},{"name":"readingStart","total_count":1,"children":[]},{"name":"requiredFiles","total_count":1,"children":[]},{"name":"root","total_count":1,"children":[]},{"name":"serviceWorker","total_count":1,"children":[]},{"name":"vocabContext","total_count":1,"children":[]},{"name":"writingStart","total_count":1,"children":[]}]},{"name":"validate-netlify.mjs","total_count":10,"children":[{"name":"deployedFiles","total_count":1,"children":[]},{"name":"headers","total_count":1,"children":[]},{"name":"html","total_count":1,"children":[]},{"name":"manifest","total_count":1,"children":[]},{"name":"metadata","total_count":1,"children":[]},{"name":"required","total_count":1,"children":[]},{"name":"root","total_count":1,"children":[]},{"name":"sw","total_count":1,"children":[]},{"name":"totalBytes","total_count":1,"children":[]},{"name":"walk()","total_count":1,"children":[]}]}]}]};
+
+    function transformData(jsonData) {
+        // Helper function to recursively build the children structure
+        function processNode(node, parentL1StageName) {
+            let displayName = node.name;
+            // Append total_count if it exists and is not already in the name
+            if (node.total_count !== undefined) {
+                if (!/\(Total Count: \d+\)$/.test(displayName)) {
+                    displayName += ` (Total Count: ${node.total_count})`;
+                }
+            }
+
+            const newNode = { name: displayName };
+
+            if (parentL1StageName === "Root") {
+                 newNode.originalStageName = node.name;
+            } else {
+                newNode.originalStageName = parentL1StageName;
+            }
+
+            if (node.children && node.children.length > 0) {
+                const stageNameToPass = (parentL1StageName === "Root") ? node.name : parentL1StageName;
+                newNode.children = node.children.map(child => processNode(child, stageNameToPass));
+            }
+
+            return newNode;
+        }
+
+        let rootDisplayName = jsonData.name;
+        if (jsonData.total_count !== undefined && !/\(Total Count: \d+\)$/.test(rootDisplayName)) {
+            rootDisplayName += ` (Total Count: ${jsonData.total_count})`;
+        }
+
+        return {
+            name: rootDisplayName,
+            originalStageName: "Root",
+            children: (jsonData.children || []).map(child => processNode(child, "Root"))
+        };
+    }
+
+    const treeData = transformData(initialJsonData);
+
+    // Auto-populated phaseColors: every depth-1 child of the root gets
+    // a stable colour from a bigger palette so all top-level dirs are
+    // distinguishable.
+    const PALETTE = [
+      ["#3498DB","#2980B9","#AED6F1"], ["#2ECC71","#27AE60","#A9DFBF"],
+      ["#E74C3C","#C0392B","#F5B7B1"], ["#9B59B6","#8E44AD","#D7BDE2"],
+      ["#F39C12","#D68910","#FAD7A0"], ["#1ABC9C","#117864","#A2D9CE"],
+      ["#34495E","#1B2631","#ABB2B9"], ["#E67E22","#BA4A00","#F5CBA7"],
+      ["#16A085","#0E6655","#A2D9CE"], ["#D35400","#A04000","#EDBB99"],
+      ["#7F8C8D","#566573","#D5DBDB"], ["#C0392B","#7B241C","#F5B7B1"],
+      ["#2E86C1","#1B4F72","#A9CCE3"], ["#28B463","#196F3D","#A9DFBF"],
+      ["#AF7AC5","#6C3483","#D2B4DE"],
+    ];
+    const phaseColors = { "Root": { fill: "#4A4A4A", stroke: "#333333", collapsedFill: "#6C757D" },
+                          "Default": { fill: "#BDC3C7", stroke: "#95A5A6", collapsedFill: "#ECF0F1" } };
+    (initialJsonData.children || []).forEach((c, i) => {
+      const pal = PALETTE[i % PALETTE.length];
+      phaseColors[c.name] = { fill: pal[0], stroke: pal[1], collapsedFill: pal[2] };
+    });
+
+    const levelSpecificPalettes = {
+      0: { fill: "#4A4A4A", stroke: "#333333", collapsedFill: "#6C757D" },
+      2: { fill: "#6ab04c", stroke: "#508a38", collapsedFill: "#a3d391" },
+      3: { fill: "#f0932b", stroke: "#d0730f", collapsedFill: "#f6c07e" },
+      4: { fill: "#be2edd", stroke: "#a01cb3", collapsedFill: "#e08bf2" },
+      5: { fill: "#00a8ff", stroke: "#007ac1", collapsedFill: "#74d2ff" },
+      6: { fill: "#e55039", stroke: "#c23620", collapsedFill: "#f09a8d" },
+      default: { fill: "#747d8c", stroke: "#57606f", collapsedFill: "#a4b0be" }
+    };
+
+    const svgElement = d3.select("#tree-svg");
+    const initialSvgWidth = +svgElement.attr("width");
+    const initialSvgHeight = +svgElement.attr("height");
+    const margin = { top: 40, right: 120, bottom: 80, left: 450 };
+    let width = initialSvgWidth - margin.left - margin.right;
+    let height = initialSvgHeight - margin.top - margin.bottom;
+    const duration = 500;
+    let nodeCounter = 0;
+    const g = svgElement.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    const treemap = d3.tree().nodeSize([40, 0]);
+    let rootNode = d3.hierarchy(treeData, d => d.children);
+    rootNode.x0 = 0;
+    rootNode.y0 = 0;
+
+    if (rootNode.children) {
+      rootNode.children.forEach(d_child => {
+        if (d_child.children) { collapseBranch(d_child); }
+      });
+    }
+    updateTree(rootNode);
+
+    function collapseBranch(d) { if (d.children) { d._children = d.children; d._children.forEach(collapseBranch); d.children = null; } }
+    function expandBranch(d) { if (d._children) { d.children = d._children; d._children = null; } if (d.children) { d.children.forEach(expandBranch); } }
+    window.expandAll = () => { expandBranch(rootNode); updateTree(rootNode); };
+    window.collapseAll = () => { if (rootNode.children) { rootNode.children.forEach(collapseBranch); } updateTree(rootNode); };
+    window.resetView = () => { if (rootNode.children) { rootNode.children.forEach(d_child => { if (d_child.children || d_child._children) { collapseBranch(d_child); } }); } if (rootNode._children && !rootNode.children) { rootNode.children = rootNode._children; rootNode._children = null; } updateTree(rootNode); };
+
+    function updateTree(source) {
+      const treeLayoutData = treemap(rootNode);
+      let nodes = treeLayoutData.descendants();
+      let links = treeLayoutData.descendants().slice(1);
+
+      let minX = 0;
+      let maxX = 0;
+      if (nodes.length > 0) {
+        minX = d3.min(nodes, d => d.x);
+        maxX = d3.max(nodes, d => d.x);
+      }
+
+      let neededHeight = Math.max(initialSvgHeight, maxX - minX + margin.top + margin.bottom + 100);
+      svgElement.transition().duration(duration / 2).attr("height", neededHeight);
+      g.transition().duration(duration / 2).attr("transform", `translate(${margin.left},${margin.top - minX + 40})`);
+
+      nodes.forEach(d => { d.y = d.depth * 400; }); // Adjust horizontal separation if needed
+
+      const node = g.selectAll('g.node').data(nodes, d => d.id || (d.id = ++nodeCounter));
+      const nodeEnter = node.enter().append('g')
+        .attr('class', d => "node" + (d.children || d._children ? " node--internal" : " node--leaf") + (d._children ? " _children" : ""))
+        .attr('transform', d => `translate(${source.y0},${source.x0})`)
+        .on('click', (event, d) => { if (d.children) { d._children = d.children; d.children = null; } else if (d._children) { d.children = d._children; d._children = null; } updateTree(d); })
+        .style('cursor', d => (d.children || d._children) ? 'pointer' : 'default');
+
+      nodeEnter.append('circle').attr('r', 1e-6);
+
+      nodeEnter.append('text')
+        .attr('dy', '.35em')
+        .attr('x', d => d.children || d._children ? -14 : 14)
+        .attr('text-anchor', d => d.children || d._children ? 'end' : 'start')
+        .style("fill-opacity", 1e-6)
+        .call(wrapText, 380);
+
+      const nodeUpdate = nodeEnter.merge(node);
+      nodeUpdate.transition().duration(duration)
+        .attr('transform', d => `translate(${d.y},${d.x})`)
+        .attr('class', d => "node" + (d.children ? " node--internal" : " node--leaf") + (d._children ? " node--internal _children" : ""));
+
+      nodeUpdate.select('circle').attr('r', 8.5)
+        .style('fill', d => {
+            let palette;
+            if (d.depth === 0) {
+                palette = levelSpecificPalettes[0];
+            } else if (d.depth === 1) {
+                palette = phaseColors[d.data.originalStageName] || phaseColors.Default;
+            } else {
+                palette = levelSpecificPalettes[d.depth] || levelSpecificPalettes.default;
+            }
+            if (d._children) return palette.collapsedFill;
+            if (d.children) return palette.fill;
+            return "#fff";
+        })
+        .style('stroke', d => {
+            let palette;
+            if (d.depth === 0) {
+                palette = levelSpecificPalettes[0];
+            } else if (d.depth === 1) {
+                palette = phaseColors[d.data.originalStageName] || phaseColors.Default;
+            } else {
+                palette = levelSpecificPalettes[d.depth] || levelSpecificPalettes.default;
+            }
+            return palette.stroke;
+        });
+      nodeUpdate.select('text').style("fill-opacity", 1).call(wrapText, 380);
+
+      const nodeExit = node.exit().transition().duration(duration).attr('transform', d => `translate(${source.y},${source.x})`).remove();
+      nodeExit.select('circle').attr('r', 1e-6);
+      nodeExit.select('text').style('fill-opacity', 1e-6);
+
+      const link = g.selectAll('path.link').data(links, d => d.id);
+      const linkEnter = link.enter().insert('path', "g").attr('class', 'link').attr('d', d => { const o = { x: source.x0, y: source.y0 }; return diagonal(o, o); });
+
+      linkEnter.merge(link).transition().duration(duration).attr('d', d => diagonal(d, d.parent))
+        .style('stroke', d => {
+            const sourceNode = d.parent;
+            if (!sourceNode) return phaseColors.Default.stroke;
+            const l1AncestorName = sourceNode.data.originalStageName;
+            const colorPalette = phaseColors[l1AncestorName] || phaseColors.Default;
+            return colorPalette.stroke;
+        });
+      link.exit().transition().duration(duration).attr('d', d => { const o = { x: source.x, y: source.y }; return diagonal(o, o); }).remove();
+      nodes.forEach(d => { d.x0 = d.x; d.y0 = d.y; });
+    }
+
+    function diagonal(s, d) { return `M ${s.y} ${s.x} C ${(s.y + d.y) / 2} ${s.x}, ${(s.y + d.y) / 2} ${d.x}, ${d.y} ${d.x}`; }
+
+    function wrapText(textElements, maxWidth) {
+        const textPartColors = {
+            name: '#343a40',
+            count: '#0056b3'
+        };
+        const countRegex = /(\s\(Total Count: \d+\))$/;
+
+        textElements.each(function () {
+            const textD3 = d3.select(this);
+            const originalNodeText = textD3.datum().data.name;
+            const x = parseFloat(textD3.attr("x") || 0);
+            const initialDy = textD3.attr("dy");
+            const textAnchor = textD3.attr("text-anchor");
+            const lineHeight = 1.1;
+
+            textD3.text(null);
+
+            let namePart = originalNodeText;
+            let countPartText = "";
+
+            const countMatch = originalNodeText.match(countRegex);
+            if (countMatch && originalNodeText.endsWith(countMatch[0])) {
+                namePart = originalNodeText.substring(0, originalNodeText.length - countMatch[0].length).trim();
+                countPartText = countMatch[0].trim();
+            }
+
+            const tokens = [];
+            namePart.split(/\s+/).filter(Boolean).forEach(word => {
+                tokens.push({ text: word, type: 'name' });
+            });
+            if (countPartText) {
+                tokens.push({ text: countPartText, type: 'count' });
+            }
+
+            if (tokens.length === 0 && originalNodeText) {
+                tokens.push({ text: originalNodeText, type: 'name' });
+            }
+
+            let currentTspan = textD3.append("tspan").attr("x", x).attr("dy", initialDy);
+            if (textAnchor === "end") currentTspan.attr("text-anchor", "end");
+
+            let lineTokens = [];
+
+            for (let i = 0; i < tokens.length; i++) {
+                const tokenObj = tokens[i];
+
+                lineTokens.push(tokenObj);
+                currentTspan.text(lineTokens.map(t => t.text).join(" "));
+
+                if (currentTspan.node().getComputedTextLength() > maxWidth && lineTokens.length > 1) {
+                    lineTokens.pop();
+
+                    currentTspan.text(null);
+                    lineTokens.forEach((prevToken, idx) => {
+                        currentTspan.append("tspan")
+                            .text((idx > 0 ? " " : "") + prevToken.text)
+                            .style("fill", textPartColors[prevToken.type] || textPartColors.name)
+                            .style("font-weight", prevToken.type === 'count' ? "bold" : "normal");
+                    });
+
+                    lineTokens = [tokenObj];
+                    currentTspan = textD3.append("tspan").attr("x", x).attr("dy", lineHeight + "em");
+                    if (textAnchor === "end") currentTspan.attr("text-anchor", "end");
+                }
+            }
+
+            currentTspan.text(null);
+            lineTokens.forEach((token, idx) => {
+                currentTspan.append("tspan")
+                    .text((idx > 0 ? " " : "") + token.text)
+                    .style("fill", textPartColors[token.type] || textPartColors.name)
+                    .style("font-weight", token.type === 'count' ? "bold" : "normal");
+            });
+
+            if (textD3.selectAll("tspan > tspan").empty() && textD3.select("tspan").text().length === 0 && originalNodeText) {
+                let t = textD3.select("tspan");
+                let displayText = originalNodeText;
+                t.text(displayText).style("fill", textPartColors.name);
+                if (t.node() && t.node().getComputedTextLength() > maxWidth && displayText.length > 20) {
+                    let estimatedChars = Math.floor(maxWidth / (t.node().getComputedTextLength()/displayText.length) );
+                    displayText = displayText.substring(0, Math.max(0, estimatedChars - 3)) + "...";
+                    t.text(displayText);
+                }
+            }
+        });
+    }
+  </script>
+</body>
+</html>

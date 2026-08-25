@@ -1,0 +1,17 @@
+{
+  "name": "francais-btp-maroc",
+  "version": "3.1.1",
+  "private": true,
+  "description": "Offline-capable Arabic/French construction learning app for Morocco.",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "test": "node tools/build.mjs && node tools/validate-app.mjs",
+    "validate": "node tools/build.mjs && node tools/validate-app.mjs",
+    "build:netlify": "node tools/build.mjs && node tools/build-netlify.mjs",
+    "deploy:check": "npm test && npm run build:netlify && node tools/validate-netlify.mjs",
+    "serve": "node tools/server.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

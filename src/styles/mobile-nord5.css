@@ -1,0 +1,329 @@
+/* =======================================================================
+   ONEPLUS NORD 5 FINAL DEVICE PROFILE
+   Physical panel: 2800 x 1272 (19.8:9). Android/Chrome commonly exposes
+   a viewport near 424 CSS px wide; the range also covers display scaling.
+   This block intentionally comes last so earlier component rules cannot
+   override the device ergonomics.
+   ======================================================================= */
+    .word-card,
+    .qa-item,
+    .day-task-item,
+    .review-item,
+    .ref-row-item,
+    .quiz-preset-btn,
+    .calc-card,
+    .num-card {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 170px;
+    }
+
+    .tab-bar,
+    .app-header,
+    .quiz-box {
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+
+    .back-to-top-fab {
+      bottom: max(16px, var(--safe-bottom));
+      left: max(14px, var(--safe-left));
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button,
+      [role="button"] {
+        touch-action: manipulation;
+      }
+
+      .card:hover,
+      .word-card:hover,
+      .num-card:hover,
+      .tab-btn:hover,
+      .btn-primary:hover,
+      .btn-secondary:hover {
+        transform: none;
+      }
+
+      .pwa-install-pill { animation: none; }
+    }
+
+    @media (min-width: 400px) and (max-width: 440px) and (orientation: portrait) {
+      :root { --transition: all 160ms cubic-bezier(.2, 0, 0, 1); }
+
+      body {
+        padding-bottom: var(--safe-bottom);
+        overscroll-behavior-y: none;
+      }
+
+      .app-header {
+        padding-top: var(--safe-top);
+        padding-right: var(--safe-right);
+        padding-left: var(--safe-left);
+        background: var(--md-surface);
+      }
+
+      .header-content {
+        min-height: 58px;
+        padding: 8px 12px;
+        gap: 8px;
+      }
+
+      .logo-section { min-width: 0; gap: 9px; }
+      .title-group { min-width: 0; }
+      .flag-icon { width: 40px; height: 40px; border-radius: 13px; font-size: 20px; }
+      .app-title {
+        min-width: 0;
+        overflow: hidden;
+        font-size: 15px;
+        line-height: 1.35;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .app-title-tag,
+      .app-subtitle,
+      #stats-words,
+      #stats-quiz,
+      #stats-plan { display: none !important; }
+      .global-stats { flex: 0 0 auto; min-width: 0; }
+      .stats-scroll-wrapper { overflow: visible; }
+      .stat-badge { min-height: 34px; padding: 5px 9px; font-size: 10px; }
+
+      .tab-bar {
+        top: 0;
+        padding: 5px max(8px, var(--safe-right)) 6px max(8px, var(--safe-left));
+        background: rgba(20, 18, 24, .96);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      .tab-bar-container {
+        gap: 6px;
+        padding: 3px;
+        scroll-padding-inline: 8px;
+      }
+
+      .tab-btn {
+        min-height: var(--touch-target);
+        padding: 8px 14px;
+        font-size: 12.5px;
+        scroll-snap-align: center;
+      }
+
+      .container {
+        padding: 12px max(12px, var(--safe-right)) calc(78px + var(--safe-bottom)) max(12px, var(--safe-left));
+      }
+
+      .card { padding: 16px 14px; margin-bottom: 16px; }
+      .section-hero { min-height: 96px; padding: 16px 14px; }
+      .section-hero p { font-size: 12.5px; line-height: 1.65; }
+
+      .input-field,
+      .select-dropdown,
+      .tab-btn,
+      .category-item,
+      .btn-primary,
+      .btn-secondary,
+      .load-more-btn,
+      .quick-amt-btn,
+      .day-goto-btn,
+      .fb-action-btn,
+      .quiz-option-btn,
+      .learn-btn,
+      .copy-btn,
+      .qa-question .btn-secondary,
+      .reading-toolbar-actions .btn-secondary {
+        min-height: var(--touch-target);
+      }
+
+      #category-filter-list .category-item {
+        min-height: var(--touch-target) !important;
+      }
+
+      #tab-cheques .quick-amt-btn,
+      #tab-cheques .lvl-btn {
+        min-height: var(--touch-target);
+      }
+
+      .input-field,
+      .select-dropdown,
+      textarea { font-size: 16px; }
+      .speak-btn { width: var(--touch-target); height: var(--touch-target); }
+      .quiz-options { gap: 12px; }
+      .quiz-option-btn { padding: 13px 14px; line-height: 1.45; }
+      .qa-question { gap: 10px; }
+
+      /* OnePlus Mobile Sub-Tabs Sizing & Layout */
+      .quiz-subtabs-nav,
+      .reading-subtabs-nav,
+      .writing-subtabs-nav,
+      .grammar-subtabs-nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 5px !important;
+        padding: 4px !important;
+        margin-bottom: 14px !important;
+        border-radius: 16px !important;
+      }
+
+      .quiz-subtab-btn,
+      .reading-subtab-btn,
+      .writing-subtab-btn,
+      .grammar-subtab-btn {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 8px 4px !important;
+        min-height: 56px !important;
+        gap: 3px !important;
+        border-radius: 12px !important;
+      }
+
+      .quiz-subtab-btn strong,
+      .reading-subtab-btn strong,
+      .writing-subtab-btn strong,
+      .grammar-subtab-btn strong {
+        font-size: 11px !important;
+        line-height: 1.25 !important;
+        white-space: normal !important;
+      }
+
+      .quiz-subtab-btn small,
+      .reading-subtab-btn small,
+      .writing-subtab-btn small,
+      .grammar-subtab-btn small {
+        display: none !important;
+      }
+
+      .quiz-subtab-btn .subtab-icon,
+      .reading-subtab-btn .subtab-icon,
+      .writing-subtab-btn .subtab-icon,
+      .grammar-subtab-btn .subtab-icon {
+        font-size: 18px !important;
+      }
+
+      /* 4-Item Sub-Tabs Switchers (Cheques & Calculator) */
+      .cheques-subtabs-nav,
+      .calc-subtabs-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+        padding: 5px !important;
+        margin-bottom: 14px !important;
+        border-radius: 16px !important;
+      }
+
+      .cheques-subtab-btn,
+      .calc-subtab-btn {
+        flex-direction: row !important;
+        align-items: center !important;
+        padding: 8px 10px !important;
+        min-height: 48px !important;
+        gap: 8px !important;
+        border-radius: 12px !important;
+      }
+
+      .cheques-subtab-btn strong,
+      .calc-subtab-btn strong {
+        font-size: 11.5px !important;
+        line-height: 1.25 !important;
+        white-space: normal !important;
+      }
+
+      .cheques-subtab-btn small,
+      .calc-subtab-btn small {
+        display: none !important;
+      }
+
+      .cheques-subtab-btn .subtab-icon,
+      .calc-subtab-btn .subtab-icon {
+        font-size: 18px !important;
+      }
+
+      /* Preset Cards 1-Column on Mobile with full breathing room */
+      .quiz-presets-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      .quiz-preset-btn {
+        padding: 16px !important;
+        min-height: 130px !important;
+      }
+
+      /* Grids & Cards on Mobile */
+      .num-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+      }
+
+      .calc-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+
+      .words-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Reading Inner Navigation Bar */
+      .doc-inner-nav {
+        display: flex !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        gap: 6px !important;
+        padding-bottom: 4px !important;
+      }
+
+      .doc-tab-btn {
+        flex-shrink: 0 !important;
+        font-size: 12px !important;
+        padding: 6px 12px !important;
+      }
+
+      .quiz-footer {
+        position: sticky;
+        bottom: max(8px, var(--safe-bottom));
+        z-index: 30;
+        margin: 16px -4px -4px;
+        padding: 8px;
+        background: color-mix(in srgb, var(--md-surface-container-high) 94%, transparent);
+        border: 1px solid rgba(202, 196, 208, .12);
+        border-radius: 16px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      #back-to-top-btn {
+        bottom: max(18px, var(--safe-bottom));
+        left: max(14px, var(--safe-left));
+        width: var(--touch-target);
+        height: var(--touch-target);
+      }
+    }
+
+    @media (orientation: landscape) and (max-height: 500px) and (min-width: 780px) {
+      .app-header { padding-inline: max(8px, var(--safe-left)) max(8px, var(--safe-right)); }
+      .header-content { min-height: 42px; padding-block: 4px; }
+      .flag-icon { width: 34px; height: 34px; border-radius: 11px; font-size: 17px; }
+      .app-title { font-size: 14px; }
+      .app-subtitle,
+      .global-stats { display: none !important; }
+      .tab-bar {
+        position: sticky;
+        top: 0;
+        padding: 4px max(10px, var(--safe-right)) 5px max(10px, var(--safe-left));
+      }
+      .tab-bar-container { padding-block: 2px; }
+      .tab-btn { min-height: 42px; padding-block: 6px; }
+      .container {
+        padding: 8px max(14px, var(--safe-right)) calc(54px + var(--safe-bottom)) max(14px, var(--safe-left));
+      }
+      .section-hero { min-height: 72px; padding: 12px 16px; }
+      .section-hero-icon { width: 38px; height: 38px; }
+      .section-hero p { margin-top: 2px; font-size: 11.5px; line-height: 1.45; }
+    }

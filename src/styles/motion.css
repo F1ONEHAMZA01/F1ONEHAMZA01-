@@ -1,0 +1,740 @@
+/* ==========================================================================
+   FRANÇAIS BTP MAROC PRO — COMPREHENSIVE MOTION DESIGN SYSTEM (120FPS)
+   Hardware-accelerated transitions, interactive micro-animations & spring easing
+   ========================================================================== */
+
+/* ─── 1. Main Tab & Section Entrance Animations ─── */
+main > section:not(.hidden) {
+  animation: tabSectionEnter 0.28s var(--ease-out-expo) both;
+  transform-origin: top center;
+  will-change: transform, opacity;
+}
+
+@keyframes tabSectionEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── 2. Segmented Sub-Tab Views Entrance ─── */
+.quiz-subview:not(.hidden),
+.cheques-subview:not(.hidden),
+.reading-subview:not(.hidden),
+.writing-subview:not(.hidden),
+.grammar-subview:not(.hidden),
+.calc-subview:not(.hidden) {
+  animation: subviewSlideIn 0.24s var(--ease-out-expo) both;
+  will-change: transform, opacity;
+}
+
+@keyframes subviewSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── 3. Tab Bar & Button Micro-Interactions ─── */
+.tab-btn {
+  transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease, transform 0.28s var(--ease-spring), box-shadow 0.22s ease;
+  will-change: transform;
+}
+
+.tab-btn:hover {
+  transform: translateY(-2px);
+}
+
+.tab-btn:active {
+  transform: scale(0.95) !important;
+  transition-duration: 0.08s;
+}
+
+.tab-btn.active-tab {
+  transform: scale(1.02) !important;
+}
+
+/* Sub-Tab Navigation Buttons */
+.subtab-btn,
+.cheques-subtab-btn,
+.quiz-subtab-btn,
+.reading-subtab-btn,
+.writing-subtab-btn,
+.grammar-subtab-btn,
+.calc-subtab-btn {
+  transition: all 0.22s var(--ease-out-expo);
+  will-change: transform;
+}
+
+.subtab-btn:hover,
+.cheques-subtab-btn:hover,
+.quiz-subtab-btn:hover,
+.reading-subtab-btn:hover,
+.writing-subtab-btn:hover,
+.grammar-subtab-btn:hover,
+.calc-subtab-btn:hover {
+  transform: translateY(-1.5px);
+}
+
+.subtab-btn:active,
+.cheques-subtab-btn:active,
+.quiz-subtab-btn:active,
+.reading-subtab-btn:active,
+.writing-subtab-btn:active,
+.grammar-subtab-btn:active,
+.calc-subtab-btn:active {
+  transform: scale(0.96) !important;
+}
+
+.subtab-btn.active .subtab-icon,
+.cheques-subtab-btn.active .subtab-icon,
+.quiz-subtab-btn.active .subtab-icon,
+.reading-subtab-btn.active .subtab-icon,
+.writing-subtab-btn.active .subtab-icon,
+.grammar-subtab-btn.active .subtab-icon,
+.calc-subtab-btn.active .subtab-icon {
+  animation: iconSpringPop 0.35s var(--ease-spring);
+}
+
+@keyframes iconSpringPop {
+  0% { transform: scale(0.85); }
+  50% { transform: scale(1.22); }
+  100% { transform: scale(1.15); }
+}
+
+/* ─── 4. General Cards & Elevation Physics ─── */
+.card {
+  transition: var(--transition-card);
+  will-change: transform, box-shadow;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card:active {
+  transform: scale(0.995);
+}
+
+/* ─── 5. Vocabulary Cards (Tab 1) ─── */
+.word-card {
+  transition: var(--transition-card);
+  will-change: transform, box-shadow;
+}
+
+.word-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(240, 165, 0, 0.32);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36), 0 0 0 1px rgba(240, 165, 0, 0.15);
+}
+
+.word-card:active {
+  transform: scale(0.985);
+}
+
+.word-card.learned-card {
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* Learn Button Pop & Toggle */
+.learn-btn {
+  transition: all 0.22s var(--ease-spring);
+  will-change: transform;
+}
+
+.learn-btn:hover {
+  transform: translateY(-1.5px) scale(1.03);
+}
+
+.learn-btn:active {
+  transform: scale(0.92) !important;
+}
+
+.learn-btn.is-learned {
+  animation: badgeSuccessPop 0.36s var(--ease-spring);
+}
+
+@keyframes badgeSuccessPop {
+  0% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.18);
+    box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Audio Button Interaction & Soundwave Pulse */
+.speak-btn,
+.audio-btn {
+  transition: transform 0.2s var(--ease-spring), background 0.2s ease, border-color 0.2s ease;
+  will-change: transform;
+}
+
+.speak-btn:hover,
+.audio-btn:hover {
+  transform: scale(1.12);
+  border-color: var(--gold-light);
+}
+
+.speak-btn:active,
+.audio-btn:active {
+  transform: scale(0.9) !important;
+}
+
+.btn-speaking,
+.speak-btn.is-speaking {
+  animation: soundwavePulse 0.9s infinite alternate var(--ease-smooth);
+  border-color: var(--gold-light) !important;
+  box-shadow: 0 0 16px rgba(255, 214, 10, 0.5) !important;
+}
+
+@keyframes soundwavePulse {
+  0% {
+    transform: scale(1.05);
+    filter: brightness(1.05);
+  }
+  100% {
+    transform: scale(1.18);
+    filter: brightness(1.25);
+  }
+}
+
+/* Category Filter Pills */
+.category-item,
+.lvl-btn,
+.doc-tab-btn,
+.verb-tab-btn {
+  transition: all 0.2s var(--ease-out-expo);
+  will-change: transform;
+}
+
+.category-item:hover,
+.lvl-btn:hover,
+.doc-tab-btn:hover,
+.verb-tab-btn:hover {
+  transform: translateY(-1.5px);
+}
+
+.category-item:active,
+.lvl-btn:active,
+.doc-tab-btn:active,
+.verb-tab-btn:active {
+  transform: scale(0.94) !important;
+}
+
+/* ─── 6. Quiz Engine Motion & Feedback (Tab 2) ─── */
+#quiz-question-box.question-enter {
+  animation: questionBoxEntrance 0.26s var(--ease-out-expo);
+  will-change: transform, opacity;
+}
+
+@keyframes questionBoxEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.quiz-preset-btn {
+  transition: transform 0.24s var(--ease-out-expo), box-shadow 0.24s ease, border-color 0.24s ease;
+  will-change: transform;
+}
+
+.quiz-preset-btn:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(240, 165, 0, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(240, 165, 0, 0.15);
+}
+
+.quiz-preset-btn:active {
+  transform: scale(0.97) !important;
+}
+
+/* Quiz Option Buttons with Spring Physics */
+.quiz-option-btn {
+  transition: transform 0.2s var(--ease-out-expo), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.quiz-option-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), 0 0 12px rgba(240, 165, 0, 0.2);
+}
+
+.quiz-option-btn:active:not(:disabled) {
+  transform: scale(0.96) !important;
+}
+
+.quiz-option-btn .quiz-option-index {
+  transition: transform 0.2s var(--ease-spring), background-color 0.2s ease;
+}
+
+.quiz-option-btn:hover:not(:disabled) .opt-letter {
+  transform: scale(1.1);
+  background: rgba(240, 165, 0, 0.2);
+}
+
+/* Correct Answer Success Pop */
+.quiz-option-btn.correct {
+  animation: correctOptionPop 0.38s var(--ease-spring) both !important;
+}
+
+@keyframes correctOptionPop {
+  0% {
+    transform: scale(0.97);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Wrong Answer Shake */
+.quiz-option-btn.wrong {
+  animation: wrongOptionShake 0.38s ease-in-out both !important;
+}
+
+@keyframes wrongOptionShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* Quiz Feedback Box Slide-Up */
+.quiz-feedback {
+  animation: feedbackSlideUp 0.32s var(--ease-spring) both;
+  will-change: transform, opacity;
+}
+
+@keyframes feedbackSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Progress Bar Glowing Fill */
+#quiz-progress-bar-fill,
+#plan-progress-bar-fill {
+  transition: width 0.4s var(--ease-spring);
+  position: relative;
+  will-change: width;
+}
+
+#quiz-progress-bar-fill::after,
+#plan-progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7));
+  border-radius: var(--radius-pill);
+  animation: progressEdgeShimmer 1.5s infinite linear;
+}
+
+@keyframes progressEdgeShimmer {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.3; }
+}
+
+/* Streak Flame Animation */
+#quiz-streak-display {
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.25s var(--ease-spring);
+}
+
+.has-streak#quiz-streak-display {
+  animation: flameGlowPulse 1.6s infinite alternate ease-in-out;
+}
+
+@keyframes flameGlowPulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(240, 165, 0, 0.4));
+  }
+  100% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 8px rgba(240, 165, 0, 0.8));
+  }
+}
+
+/* Speedrun Urgent Pulse */
+.quiz-timer-chip.timer-danger {
+  animation: timerUrgentHeartbeat 0.7s infinite alternate ease-in-out !important;
+  color: #ef4444 !important;
+  border-color: #ef4444 !important;
+}
+
+@keyframes timerUrgentHeartbeat {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.4);
+  }
+  100% {
+    transform: scale(1.12);
+    box-shadow: 0 0 18px rgba(239, 68, 68, 0.85);
+  }
+}
+
+/* ─── 7. Moroccan Cheque & Numbers Motion (Tab 3) ─── */
+.cheque-mockup {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.cheque-mockup:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Certified Stamp Slam Effect */
+#cheque-certifie-stamp:not(.hidden) {
+  animation: stampSlamDrop 0.36s var(--ease-spring) both;
+  transform-origin: center center;
+}
+
+@keyframes stampSlamDrop {
+  0% {
+    opacity: 0;
+    transform: scale(1.4) rotate(0deg);
+  }
+  60% {
+    transform: scale(0.95) rotate(-9deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(-8deg);
+  }
+}
+
+/* Number Cards Floating */
+.num-card {
+  transition: transform 0.22s var(--ease-out-expo), box-shadow 0.22s ease, border-color 0.22s ease;
+  will-change: transform;
+}
+
+.num-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: var(--gold);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 12px rgba(240, 165, 0, 0.15);
+}
+
+.num-card:active {
+  transform: scale(0.96) !important;
+}
+
+.decomposer-result-box {
+  animation: unfoldDecompBox 0.26s var(--ease-out-expo) both;
+}
+
+@keyframes unfoldDecompBox {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── 8. Document Reader (Tab 4) ─── */
+#reading-document-active-view {
+  animation: docViewTransition 0.28s var(--ease-out-expo) both;
+}
+
+@keyframes docViewTransition {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.qa-answer-box.revealed {
+  animation: qaRevealSmooth 0.3s var(--ease-out-expo) both;
+}
+
+@keyframes qaRevealSmooth {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── 9. Writing & Template Generation (Tab 5) ─── */
+#builder-output-text, #email-assistant-output {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.output-updated {
+  animation: outputFlashGlow 0.35s ease-out;
+}
+
+@keyframes outputFlashGlow {
+  0% {
+    box-shadow: 0 0 0 2px rgba(240, 165, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(240, 165, 0, 0);
+  }
+}
+
+.phrase-card {
+  transition: transform 0.2s var(--ease-out-expo), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.phrase-card:hover {
+  transform: translateX(-4px);
+  border-color: rgba(240, 165, 0, 0.35);
+}
+
+/* Copy Button Feedback Pop */
+.copy-btn,
+.btn-copy {
+  transition: all 0.2s var(--ease-spring);
+  will-change: transform;
+}
+
+.copy-btn:hover,
+.btn-copy:hover {
+  transform: scale(1.05);
+}
+
+.copy-btn:active,
+.btn-copy:active {
+  transform: scale(0.9) !important;
+}
+
+/* ─── 10. Grammar Accordion Smooth Expand (Tab 6) ─── */
+.accordion-header {
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.accordion-arrow {
+  transition: transform 0.3s var(--ease-spring);
+  will-change: transform;
+}
+
+.accordion-item.active-item .accordion-arrow {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  transition: max-height 0.35s var(--ease-out-expo), opacity 0.25s ease, padding 0.25s ease;
+  will-change: max-height, opacity;
+}
+
+/* ─── 11. Study Plan Checkbox Celebration (Tab 7) ─── */
+.day-task-checkbox {
+  transition: transform 0.25s var(--ease-spring), background-color 0.2s ease;
+  will-change: transform;
+}
+
+.day-task-checkbox:active {
+  transform: scale(0.85);
+}
+
+.day-checkbox:checked {
+  animation: checkboxCheckPop 0.34s var(--ease-spring);
+}
+
+@keyframes checkboxCheckPop {
+  0% { transform: scale(0.7); }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.day-task-item {
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s var(--ease-out-expo);
+}
+
+.day-task-item:hover {
+  transform: translateY(-1.5px);
+}
+
+/* ─── 12. Calculator Output Animations (Tab 8) ─── */
+.calc-result-box {
+  animation: calcResultEntrance 0.28s var(--ease-out-expo) both;
+}
+
+@keyframes calcResultEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.quick-amt-btn,
+.calc-presets .lvl-btn {
+  transition: all 0.2s var(--ease-out-expo);
+}
+
+.quick-amt-btn:hover,
+.calc-presets .lvl-btn:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--gold);
+}
+
+.quick-amt-btn:active,
+.calc-presets .lvl-btn:active {
+  transform: scale(0.94) !important;
+}
+
+/* ─── 13. Toasts, FAB & Global Controls ─── */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px) scale(0.9);
+  opacity: 0;
+  transition: transform 0.36s var(--ease-spring), opacity 0.24s ease;
+  pointer-events: none;
+  z-index: var(--z-toast, 5000);
+  will-change: transform, opacity;
+}
+
+#toast.show {
+  transform: translateX(-50%) translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#back-to-top-btn {
+  transition: transform 0.28s var(--ease-spring), background 0.2s ease, opacity 0.2s ease;
+  animation: fabScaleEntrance 0.28s var(--ease-spring) both;
+  will-change: transform;
+}
+
+@keyframes fabScaleEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+#back-to-top-btn:hover {
+  transform: translateY(-3px) scale(1.08);
+}
+
+#back-to-top-btn:active {
+  transform: scale(0.9) !important;
+}
+
+/* Primary & Secondary Action Buttons */
+.btn-primary {
+  transition: transform 0.22s var(--ease-spring), filter 0.2s ease, box-shadow 0.22s ease;
+  will-change: transform;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 22px rgba(240, 165, 0, 0.4);
+}
+
+.btn-primary:active {
+  transform: scale(0.96) !important;
+  box-shadow: 0 2px 8px rgba(240, 165, 0, 0.3);
+}
+
+.btn-secondary {
+  transition: transform 0.22s var(--ease-out-expo), background-color 0.2s ease, border-color 0.2s ease;
+  will-change: transform;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-1.5px);
+}
+
+.btn-secondary:active {
+  transform: scale(0.96) !important;
+}
+
+/* ─── 14. Reduced Motion (WCAG 2.2 AAA Compliance) ─── */
+@media (prefers-reduced-motion: reduce) {
+  main > section:not(.hidden),
+  .quiz-subview:not(.hidden),
+  .cheques-subview:not(.hidden),
+  .reading-subview:not(.hidden),
+  .writing-subview:not(.hidden),
+  .grammar-subview:not(.hidden),
+  .calc-subview:not(.hidden),
+  #quiz-question-box,
+  .quiz-option-btn.correct,
+  .quiz-option-btn.wrong,
+  .quiz-feedback,
+  #cheque-certifie-stamp:not(.hidden),
+  .learn-btn.is-learned,
+  .btn-speaking,
+  .speak-btn.is-speaking,
+  #back-to-top-btn,
+  .calc-result-box {
+    animation: none !important;
+    transform: none !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ─── 15. 120Hz High-Performance Rendering & Content Visibility ─── */
+.plan-month,
+.week-card,
+.day-task-item,
+.accordion-item,
+.doc-viewer-card,
+.phrase-item-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 120px;
+}
+
+.stats-scroll-wrapper,
+.tab-nav-bar,
+.lvl-filters,
+.doc-inner-nav {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+}
+

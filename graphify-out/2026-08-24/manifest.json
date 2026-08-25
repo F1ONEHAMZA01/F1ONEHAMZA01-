@@ -1,0 +1,254 @@
+{
+  "data/vocab.js": {
+    "mtime": 1786283902.5273912,
+    "seen": 1787258767.0145693,
+    "ast_hash": "724fde41ae0699b7adbc6b43877b4859",
+    "semantic_hash": "724fde41ae0699b7adbc6b43877b4859"
+  },
+  "deploy-metadata.json": {
+    "mtime": 1786580243.1276617,
+    "seen": 1787258767.014574,
+    "ast_hash": "db042334c7e431f6e311210d9a8176f6",
+    "semantic_hash": "db042334c7e431f6e311210d9a8176f6"
+  },
+  "manifest.json": {
+    "mtime": 1786574407.230913,
+    "seen": 1787258767.014576,
+    "ast_hash": "1f4f5cad79d81ffe1e00808b3482c981",
+    "semantic_hash": "1f4f5cad79d81ffe1e00808b3482c981"
+  },
+  "package.json": {
+    "mtime": 1786746111.9680061,
+    "seen": 1787258767.014577,
+    "ast_hash": "d0e5668f1fcdf0d37f9f015a1440f5eb",
+    "semantic_hash": "d0e5668f1fcdf0d37f9f015a1440f5eb"
+  },
+  "src/app.js": {
+    "mtime": 1786725194.8389776,
+    "seen": 1787258767.0145776,
+    "ast_hash": "e7f30e658d7581e0445e9c1f46d291eb",
+    "semantic_hash": "e7f30e658d7581e0445e9c1f46d291eb"
+  },
+  "src/data/grammar-lessons.js": {
+    "mtime": 1786829689.7011645,
+    "seen": 1787258767.0145783,
+    "ast_hash": "360f27f763950da13e5fcff9b94dcc27",
+    "semantic_hash": "360f27f763950da13e5fcff9b94dcc27"
+  },
+  "src/data/numbers-ref.js": {
+    "mtime": 1786747514.7065327,
+    "seen": 1787258767.0145793,
+    "ast_hash": "3d138bd75725869b63e1027881e6f23d",
+    "semantic_hash": "3d138bd75725869b63e1027881e6f23d"
+  },
+  "src/data/plan-tasks.js": {
+    "mtime": 1786725222.8761382,
+    "seen": 1787258767.01458,
+    "ast_hash": "d3e90380c0a220911e71574349c52203",
+    "semantic_hash": "d3e90380c0a220911e71574349c52203"
+  },
+  "src/data/reading-docs.js": {
+    "mtime": 1786834244.8980906,
+    "seen": 1787258767.0145807,
+    "ast_hash": "bb327f5b84f2ecc39ac3cadf600c6aac",
+    "semantic_hash": "bb327f5b84f2ecc39ac3cadf600c6aac"
+  },
+  "src/data/writing-templates.js": {
+    "mtime": 1786834525.2701988,
+    "seen": 1787258767.0145814,
+    "ast_hash": "4fcab49173c1bbf109b8efbfdaa2ae5c",
+    "semantic_hash": "4fcab49173c1bbf109b8efbfdaa2ae5c"
+  },
+  "src/modules/audio.js": {
+    "mtime": 1787128142.7496886,
+    "seen": 1787258767.0145822,
+    "ast_hash": "d584da9ef65ceb15570da5173c995e92",
+    "semantic_hash": "d584da9ef65ceb15570da5173c995e92"
+  },
+  "src/modules/pwa.js": {
+    "mtime": 1787128148.2946155,
+    "seen": 1787258767.014583,
+    "ast_hash": "0bb595c7b5cbbd5a9183710d41997481",
+    "semantic_hash": "0bb595c7b5cbbd5a9183710d41997481"
+  },
+  "src/modules/state.js": {
+    "mtime": 1787128117.5131736,
+    "seen": 1787258767.0145838,
+    "ast_hash": "633abea7efe82ea0d3a0ebb915bcf142",
+    "semantic_hash": "633abea7efe82ea0d3a0ebb915bcf142"
+  },
+  "src/modules/tabs/calc-tab.js": {
+    "mtime": 1787127925.0258672,
+    "seen": 1787258767.0145845,
+    "ast_hash": "c004d335db76483f57342813169477f2",
+    "semantic_hash": "c004d335db76483f57342813169477f2"
+  },
+  "src/modules/tabs/cheques-tab.js": {
+    "mtime": 1786895762.088318,
+    "seen": 1787258767.014585,
+    "ast_hash": "75805b550beebafc4b26930cd4d2a8e0",
+    "semantic_hash": "75805b550beebafc4b26930cd4d2a8e0"
+  },
+  "src/modules/tabs/grammar-tab.js": {
+    "mtime": 1786895791.9684236,
+    "seen": 1787258767.014586,
+    "ast_hash": "8f9d84bd0493f3e16d83b33bfa001d88",
+    "semantic_hash": "8f9d84bd0493f3e16d83b33bfa001d88"
+  },
+  "src/modules/tabs/plan-tab.js": {
+    "mtime": 1786895783.4844,
+    "seen": 1787258767.0145867,
+    "ast_hash": "68f0aa6eeb9799a72e495be1cecc8326",
+    "semantic_hash": "68f0aa6eeb9799a72e495be1cecc8326"
+  },
+  "src/modules/tabs/quiz-tab.js": {
+    "mtime": 1786895729.0644207,
+    "seen": 1787258767.0145874,
+    "ast_hash": "f078c2257a73ffa5bd3398340644e272",
+    "semantic_hash": "f078c2257a73ffa5bd3398340644e272"
+  },
+  "src/modules/tabs/reading-tab.js": {
+    "mtime": 1786834377.5220737,
+    "seen": 1787258767.0145879,
+    "ast_hash": "6faedea0ca8adc7f6e3fc381d1bbc8f8",
+    "semantic_hash": "6faedea0ca8adc7f6e3fc381d1bbc8f8"
+  },
+  "src/modules/tabs/vocab-tab.js": {
+    "mtime": 1786835866.2643569,
+    "seen": 1787258767.0145888,
+    "ast_hash": "9ac943ed08606b1864c878d652a59d25",
+    "semantic_hash": "9ac943ed08606b1864c878d652a59d25"
+  },
+  "src/modules/tabs/writing-tab.js": {
+    "mtime": 1786895744.237592,
+    "seen": 1787258767.0145895,
+    "ast_hash": "ad73b989b52ab6fbc18c0805f8332218",
+    "semantic_hash": "ad73b989b52ab6fbc18c0805f8332218"
+  },
+  "src/modules/ui-utils.js": {
+    "mtime": 1787128135.2433667,
+    "seen": 1787258767.0145903,
+    "ast_hash": "b2acc464a8f3fce6f99c8d0626a14774",
+    "semantic_hash": "b2acc464a8f3fce6f99c8d0626a14774"
+  },
+  "sw.js": {
+    "mtime": 1786580241.9477267,
+    "seen": 1787258767.0145912,
+    "ast_hash": "4a3e3ebf345b073ca5ef3bb4925f1898",
+    "semantic_hash": "4a3e3ebf345b073ca5ef3bb4925f1898"
+  },
+  "tools/build-netlify.mjs": {
+    "mtime": 1786577961.3905346,
+    "seen": 1787258767.0145917,
+    "ast_hash": "c758e0b50abec8b9b27e29bf13f9ed45",
+    "semantic_hash": "c758e0b50abec8b9b27e29bf13f9ed45"
+  },
+  "tools/build.mjs": {
+    "mtime": 1786895222.0110283,
+    "seen": 1787258767.0145924,
+    "ast_hash": "3067ccdf69997e3b9a8f4e21474ab337",
+    "semantic_hash": "3067ccdf69997e3b9a8f4e21474ab337"
+  },
+  "tools/extract-source.mjs": {
+    "mtime": 1787153984.4852483,
+    "seen": 1787258767.0145931,
+    "ast_hash": "47a84ffb85eb7d7bd677dd7e178a5335",
+    "semantic_hash": "47a84ffb85eb7d7bd677dd7e178a5335"
+  },
+  "tools/modularize.mjs": {
+    "mtime": 1786725173.9793224,
+    "seen": 1787258767.0145938,
+    "ast_hash": "34f15eca4277a0047dd0c104b87c8ad6",
+    "semantic_hash": "34f15eca4277a0047dd0c104b87c8ad6"
+  },
+  "tools/server.mjs": {
+    "mtime": 1786746089.2732978,
+    "seen": 1787258767.0145948,
+    "ast_hash": "9293a563eb75fd2243e4b3e0e4b3c426",
+    "semantic_hash": "9293a563eb75fd2243e4b3e0e4b3c426"
+  },
+  "tools/validate-app.mjs": {
+    "mtime": 1787128157.1770594,
+    "seen": 1787258767.0145953,
+    "ast_hash": "ba552c99aa42a583506b250612e33e15",
+    "semantic_hash": "ba552c99aa42a583506b250612e33e15"
+  },
+  "tools/validate-netlify.mjs": {
+    "mtime": 1786580244.6798513,
+    "seen": 1787258767.014596,
+    "ast_hash": "fff261f3802f55b2762ea38bf77bfcd1",
+    "semantic_hash": "fff261f3802f55b2762ea38bf77bfcd1"
+  },
+  ".agents/rules/graphify.md": {
+    "mtime": 1787258773.91099,
+    "seen": 1787259355.385384,
+    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
+    "semantic_hash": ""
+  },
+  ".agents/workflows/graphify.md": {
+    "mtime": 1787258773.9120078,
+    "seen": 1787259355.3853858,
+    "ast_hash": "a831cf3669f1e6ab85d8a80ebe655f99",
+    "semantic_hash": ""
+  },
+  "NETLIFY-DEPLOY.md": {
+    "mtime": 1786580246.2396288,
+    "seen": 1787259355.3853867,
+    "ast_hash": "acd2fc5e965bcf812f2a521e31795747",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1787259511.263177,
+    "seen": 1787259516.6272292,
+    "ast_hash": "652cfcccba6e8746ca476e67a311d693",
+    "semantic_hash": ""
+  },
+  "data/btp_maroc_app.html": {
+    "mtime": 1786186372.147188,
+    "seen": 1787259355.3853884,
+    "ast_hash": "9d7c097957b027b34ba055a1b3ed6b64",
+    "semantic_hash": ""
+  },
+  "data/btp_maroc_offline.html": {
+    "mtime": 1786186106.4174545,
+    "seen": 1787259355.3853893,
+    "ast_hash": "9114a1882ce122c519822884b281d894",
+    "semantic_hash": ""
+  },
+  "docs/IMPROVEMENT-ROADMAP.md": {
+    "mtime": 1786725323.0463738,
+    "seen": 1787259355.3853898,
+    "ast_hash": "667bac5d030faf1c113df6820a328cd3",
+    "semantic_hash": ""
+  },
+  "index.html": {
+    "mtime": 1787259157.3459842,
+    "seen": 1787259355.3853905,
+    "ast_hash": "a52a401e1de6786a2fd1e95a2a71adb5",
+    "semantic_hash": ""
+  },
+  "src/template.html": {
+    "mtime": 1786992301.5396223,
+    "seen": 1787259355.3853915,
+    "ast_hash": "ed266a46d6757fd60bde025c5bbbef74",
+    "semantic_hash": ""
+  },
+  "tools/nord5-preview.html": {
+    "mtime": 1786579627.5889928,
+    "seen": 1787259355.3853924,
+    "ast_hash": "dca8702733e94983dcbc2d11f5aaf7e8",
+    "semantic_hash": ""
+  },
+  "icons/icon-maskable.svg": {
+    "mtime": 1786574409.384295,
+    "seen": 1787259355.385393,
+    "ast_hash": "7d2f29c325b61e439ae92e4430307246",
+    "semantic_hash": ""
+  },
+  "icons/icon.svg": {
+    "mtime": 1786574408.3602755,
+    "seen": 1787259355.3853939,
+    "ast_hash": "aef3af3770404a90cb857ad0a88f5fd2",
+    "semantic_hash": ""
+  }
+}

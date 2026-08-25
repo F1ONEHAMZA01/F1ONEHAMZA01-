@@ -1,0 +1,150 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 120px;
+}
+
+body {
+  font-family: var(--font-ar);
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  line-height: var(--leading-relaxed, 1.65);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg);
+}
+
+/* Accessible Skip to Content Link */
+.skip-link {
+  position: fixed;
+  top: -120px;
+  right: 50%;
+  transform: translateX(50%);
+  background: var(--gold-gradient);
+  color: #1a1202;
+  font-weight: 800;
+  font-size: var(--text-base, 14px);
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  z-index: var(--z-skip, 99999);
+  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 0 2px #ffffff;
+  transition: top 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 14px;
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* Focus Visibility & Accessibility Outlines */
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible {
+  outline: 3px solid var(--gold) !important;
+  outline-offset: 2px !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* Utility classes */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-4, 16px);
+  flex: 1;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Reduced Motion Support (WCAG 2.2 Criterion 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .skip-link {
+    transition: none !important;
+  }
+}
+
+/* High Contrast / Forced Colors Support (Windows / Android Assistive Mode) */
+@media (forced-colors: active) {
+  .card,
+  .tab-btn,
+  .btn-primary,
+  .btn-secondary,
+  .word-card,
+  .num-card,
+  .input-field,
+  .select-dropdown,
+  .quiz-option-btn,
+  .plan-stat-card,
+  .cheque-mockup,
+  .calc-card,
+  .ref-row-item {
+    border: 2px solid ButtonText !important;
+  }
+  .tab-btn.active-tab {
+    border: 3px solid Highlight !important;
+    background: Highlight !important;
+    color: HighlightText !important;
+  }
+  :focus-visible {
+    outline: 3px solid Highlight !important;
+  }
+}
