@@ -1,5 +1,4 @@
 import { state, saveStateToLocalStorage } from '../state.js';
-import { READING_DOCS } from '../../data/reading-docs.js';
 import { appendTextElement, showToast, normalizeSearchText } from '../ui-utils.js';
 import { speakFrenchText } from '../audio.js';
 

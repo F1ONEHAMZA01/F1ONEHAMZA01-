@@ -11,7 +11,10 @@ export default [
       globals: {
         ...globals.browser,
         VOCAB_DATA: 'readonly',
-        PLAN_TASKS: 'readonly'
+        PLAN_TASKS: 'readonly',
+        READING_DOCS: 'readonly',
+        WRITING_TEMPLATES: 'readonly',
+        GRAMMAR_LESSONS: 'readonly'
       }
     },
     rules: {

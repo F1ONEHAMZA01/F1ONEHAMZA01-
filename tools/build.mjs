@@ -18,6 +18,7 @@ console.log('Building Français BTP Maroc from modular sources...');
 
 // 1. Combine CSS in dependency order
 const cssFiles = [
+  'src/styles/fonts.css',
   'src/styles/tokens.css',
   'src/styles/base.css',
   'src/styles/md3-theme.css',
@@ -27,12 +28,8 @@ const cssFiles = [
 ];
 const combinedCss = cssFiles.map(f => `/* === ${f} === */\n` + read(f)).join('\n\n');
 
-// 2. Combine Datasets
+// 2. Inline dataset (numbers-ref stays inline: needed at startup by cheques/audio)
 const numbersRef = read('src/data/numbers-ref.js');
-const readingDocs = read('src/data/reading-docs.js');
-const writingTemplates = read('src/data/writing-templates.js');
-const grammarLessons = read('src/data/grammar-lessons.js');
-const planTasks = read('src/data/plan-tasks.js');
 
 function cleanExports(js) {
   return js
@@ -44,13 +41,21 @@ function cleanExports(js) {
     .replace(/;+$/, '') + ';';
 }
 
-const combinedDatasets = [
-  cleanExports(numbersRef),
-  cleanExports(readingDocs),
-  cleanExports(writingTemplates),
-  cleanExports(grammarLessons),
-  cleanExports(planTasks)
-].join('\n\n');
+const combinedDatasets = cleanExports(numbersRef);
+
+// 2b. Emit deferred external datasets as window-global classic scripts
+const externalDatasets = [
+  ['src/data/reading-docs.js', 'READING_DOCS'],
+  ['src/data/writing-templates.js', 'WRITING_TEMPLATES'],
+  ['src/data/grammar-lessons.js', 'GRAMMAR_LESSONS'],
+  ['src/data/plan-tasks.js', 'PLAN_TASKS']
+];
+
+for (const [sourcePath, globalName] of externalDatasets) {
+  const body = read(sourcePath)
+    .replace(new RegExp(`^export const ${globalName} = `, 'm'), `window.${globalName} = `);
+  write(`data/${sourcePath.split('/').pop()}`, `${body}\n`);
+}
 
 // 3. Combine JavaScript Modules
 const moduleFiles = [

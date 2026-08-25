@@ -1,5 +1,4 @@
 import { state } from '../state.js';
-import { WRITING_TEMPLATES } from '../../data/writing-templates.js';
 import { appendTextElement, showToast, normalizeSearchText, escapeHtml } from '../ui-utils.js';
 import { speakFrenchText } from '../audio.js';
 

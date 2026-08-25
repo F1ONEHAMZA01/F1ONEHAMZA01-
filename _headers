@@ -3,7 +3,7 @@
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; media-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; media-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'
 
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
@@ -16,6 +16,21 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /data/vocab.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/reading-docs.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/writing-templates.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/grammar-lessons.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/plan-tasks.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
 /icons/*

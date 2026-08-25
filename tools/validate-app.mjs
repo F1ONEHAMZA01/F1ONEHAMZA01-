@@ -17,6 +17,13 @@ const requiredFiles = [
   'manifest.json',
   'sw.js',
   'data/vocab.js',
+  'data/reading-docs.js',
+  'data/writing-templates.js',
+  'data/grammar-lessons.js',
+  'data/plan-tasks.js',
+  'fonts/cairo-arabic.woff2',
+  'fonts/cairo-latin.woff2',
+  'fonts/roboto-flex-latin.woff2',
   'icons/icon.svg',
   'icons/icon-maskable.svg'
 ];
@@ -265,12 +272,10 @@ check('quiz uses balanced modes and unbiased shuffling', () => {
   assert.doesNotMatch(html, /\.sort\(\(\) => Math\.random\(\) - 0\.5\)/);
 });
 
-const readingStartMarker = 'const READING_DOCS = ';
-const readingStart = html.indexOf(readingStartMarker);
-const writingStart = html.indexOf('const WRITING_TEMPLATES = ', readingStart);
-assert.ok(readingStart > -1 && writingStart > readingStart, 'embedded reading dataset was not found');
-const readingSource = html.slice(readingStart + readingStartMarker.length, writingStart).trim().replace(/;$/, '').trim();
-const readingDocs = JSON.parse(readingSource);
+const readingDocsContext = { window: {} };
+vm.createContext(readingDocsContext);
+vm.runInContext(read('src/data/reading-docs.js'), readingDocsContext);
+const readingDocs = readingDocsContext.window.READING_DOCS;
 
 check('reading documents have complete learning content', () => {
   assert.ok(Array.isArray(readingDocs) && readingDocs.length >= 8);

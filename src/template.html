@@ -17,14 +17,11 @@
   <meta name="description" content="تطبيق تفاعلي احترافي لتعلم اللغة الفرنسية الخاصة بقطاع البناء والأشغال العمومية (BTP) في المغرب. يحتوي على مفردات، اختبارات، مصحح شيكات، قراءة وثائق ونماذج كتابة.">
   <meta name="author" content="Antigravity AI">
 
-  <!-- Fonts: Cairo (Arabic) + Roboto Flex (Latin). Progressive enhancement with font-display swap -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&display=swap"></noscript>
+  <!-- Fonts: Cairo (Arabic) + Roboto Flex (Latin) — self-hosted for full offline support -->
+  <link rel="preload" href="fonts/cairo-arabic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/cairo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/roboto-flex-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-  
   <link rel="stylesheet" href="src/styles/all.css">
 
 </head>
@@ -1482,10 +1479,14 @@
   </footer>
 
   <!-- ==========================================================================
-       EMBEDDED DATASETS
+       EXTERNAL DATASETS (deferred: non-blocking, individually cacheable, SW pre-cached)
        ========================================================================== -->
-  
+
   <script src="data/vocab.js?v=3.1.1"></script>
+  <script src="data/reading-docs.js" defer></script>
+  <script src="data/writing-templates.js" defer></script>
+  <script src="data/grammar-lessons.js" defer></script>
+  <script src="data/plan-tasks.js" defer></script>
   <script type="module" src="src/app.js"></script>
 </body>
 </html>

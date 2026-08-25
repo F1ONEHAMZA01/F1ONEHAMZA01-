@@ -1,4 +1,3 @@
-import { GRAMMAR_LESSONS } from '../../data/grammar-lessons.js';
 import { normalizeSearchText } from '../state.js';
 import { speakFrenchText } from '../audio.js';
 import { showToast, playHaptic } from '../ui-utils.js';

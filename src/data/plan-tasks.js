@@ -1,4 +1,4 @@
-export const PLAN_TASKS = [
+window.PLAN_TASKS = [
       {"month": 1, "week": 1, "day": 1, "tab": "vocab", "desc": "تعرّف على مصطلحات أدوات الورش والمعدات الأساسية (pelle, pioche, bétonnière, niveau a bulle) وقراءتها بالنطق.", "time": "30 دقيقة"},
       {"month": 1, "week": 1, "day": 2, "tab": "vocab", "desc": "تعلم أسماء اليد العاملة والمهن الميدانية (maçon, coffreur, ferrailleur, chef de chantier).", "time": "30 دقيقة"},
       {"month": 1, "week": 1, "day": 3, "tab": "cheques", "desc": "دراسة الأرقام من 0 إلى 20 وكتابة المبالغ الأولى بالفرنسية.", "time": "30 دقيقة"},

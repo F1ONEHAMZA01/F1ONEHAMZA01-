@@ -1,4 +1,4 @@
-export const READING_DOCS = [
+window.READING_DOCS = [
   {
     "id": "bl",
     "title": "وصل تسليم / Bon de Livraison",

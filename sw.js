@@ -7,11 +7,18 @@ const APP_SHELL = [
   './index.html',
   './manifest.json',
   './icons/icon.svg',
-  './icons/icon-maskable.svg'
+  './icons/icon-maskable.svg',
+  './fonts/cairo-arabic.woff2',
+  './fonts/cairo-latin.woff2',
+  './fonts/roboto-flex-latin.woff2'
 ];
 
 const CONTENT_ASSETS = [
-  './data/vocab.js?v=3.1.1'
+  './data/vocab.js?v=3.1.1',
+  './data/reading-docs.js',
+  './data/writing-templates.js',
+  './data/grammar-lessons.js',
+  './data/plan-tasks.js'
 ];
 
 self.addEventListener('install', event => {
@@ -78,7 +85,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  if (url.pathname.endsWith('/data/vocab.js')) {
+  if (url.pathname.startsWith('/data/') || url.pathname.startsWith('/fonts/')) {
     event.respondWith(cacheFirstContent(event.request));
     return;
   }

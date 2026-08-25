@@ -1,5 +1,4 @@
 import { state, saveStateToLocalStorage, initStats } from '../state.js';
-import { PLAN_TASKS } from '../../data/plan-tasks.js';
 import { switchTab, showToast, playHaptic } from '../ui-utils.js';
 
 export const PLAN_MONTH_TITLES = {

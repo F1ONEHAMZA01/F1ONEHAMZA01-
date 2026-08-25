@@ -1,4 +1,4 @@
-export const GRAMMAR_LESSONS = [
+window.GRAMMAR_LESSONS = [
   {
     id: "imperatif",
     category: "orders",

@@ -1,4 +1,4 @@
-export const WRITING_TEMPLATES = [
+window.WRITING_TEMPLATES = [
   {
     "id": "bc",
     "title": "وصل طلب شراء مواد / Bon de Commande",
