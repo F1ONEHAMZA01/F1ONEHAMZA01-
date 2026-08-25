@@ -7,12 +7,14 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Version-3.1.1%20(2026)-gold?style=for-the-badge&logo=appveyor" alt="Version 3.1.1" />
-  <img src="https://img.shields.io/badge/Quality_Score-10%20%2F%2010%20(Mastered)-success?style=for-the-badge&logo=checkmarx" alt="Quality Score" />
-  <img src="https://img.shields.io/badge/Automated_Tests-23%20%2F%2023%20Passed%20(100%25)-brightgreen?style=for-the-badge&logo=vitest" alt="Automated Tests" />
-  <img src="https://img.shields.io/badge/PWA-100%25%20Offline%20First-blue?style=for-the-badge&logo=pwa" alt="PWA Ready" />
-  <img src="https://img.shields.io/badge/Dependencies-0%20(Pure%20Vanilla%20ES6)-purple?style=for-the-badge&logo=javascript" alt="Zero Dependencies" />
-  <img src="https://img.shields.io/badge/Motion_Engine-120_FPS%20%2B%20Haptics-red?style=for-the-badge&logo=framer" alt="Motion Engine" />
-  <img src="https://img.shields.io/badge/Hardware-OnePlus%20Nord%205%20Calibrated-orange?style=for-the-badge&logo=android" alt="OnePlus Support" />
+  <img src="https://img.shields.io/badge/Quality_Score-9.1%2F10-success?style=for-the-badge&logo=checkmarx" alt="Quality Score" />
+  <img src="https://img.shields.io/badge/Unit_Tests-29%20%2F%2029-brightgreen?style=for-the-badge&logo=vitest" alt="Unit Tests" />
+  <img src="https://img.shields.io/badge/E2E_Playwright-10%20%2F%2010-brightgreen?style=for-the-badge&logo=playwright" alt="E2E Tests" />
+  <img src="https://img.shields.io/badge/Validation_Checks-24%20%2F%2024-blue?style=for-the-badge&logo=githubactions" alt="Validation Checks" />
+  <img src="https://img.shields.io/badge/CI-GitHub_Actions-blueviolet?style=for-the-badge&logo=githubactions" alt="CI" />
+  <img src="https://img.shields.io/badge/PWA-100%25_Offline_First_(Self_Hosted_Fonts)-blue?style=for-the-badge&logo=pwa" alt="PWA Ready" />
+  <img src="https://img.shields.io/badge/Runtime_Dependencies-0_(Pure_Vanilla_ES6)-purple?style=for-the-badge&logo=javascript" alt="Zero Dependencies" />
+  <img src="https://img.shields.io/badge/Motion_Engine-120_FPS_%2B_Haptics-red?style=for-the-badge&logo=framer" alt="Motion Engine" />
 </p>
 
 ---
@@ -23,7 +25,7 @@
 2. [⚙️ المعمارية البرمجية وخريطة النظام (System Architecture)](#️-المعمارية-البرمجية-وخريطة-النظام-system-architecture)
 3. [🧠 المنهج العلمي للاكتساب النشط للمفردات (Pedagogical Protocol)](#-المنهج-العلمي-للاكتساب-النشط-للمفردات-pedagogical-protocol)
 4. [📦 التحليل الهندسي والوظيفي للأقسام الثمانية (The 8 Workspaces)](#-التحليل-الهندسي-والوظيفي-للأقسام-الثمانية-the-8-workspaces)
-   - [القسم 1: 📚 المفردات الميدانية (1,961 مصطلحاً هندسياً)](#القسم-1--المفردات-الميدانية-1934-مصطلحا-هندسيا)
+   - [القسم 1: 📚 المفردات الميدانية (1,961 مصطلحاً هندسياً)](#القسم-1--المفردات-الميدانية-1961-مصطلحا-هندسيا)
    - [القسم 2: 🎯 محرك الاختبارات وبنك الأخطاء الذكي](#القسم-2--محرك-الاختبارات-وبنك-الأخطاء-الذكي)
    - [القسم 3: 🏦 محاكي الشيكات والأرقام والمبالغ المرجعية](#القسم-3--محاكي-الشيكات-والأرقام-والمبالغ-المرجعية)
    - [القسم 4: 📑 قراءة وتحليل وثائق الورش المغربية (10 وثائق حقيقية)](#القسم-4--قراءة-وتحليل-وثائق-الورش-المغربية-10-وثائق-حقيقية)
@@ -35,7 +37,7 @@
 6. [📱 التوافق الميداني مع الهواتف الذكية (OnePlus Nord 5 Profile)](#-التوافق-الميداني-مع-الهواتف-الذكية-oneplus-nord-5-profile)
 7. [♿ معايير إمكانية الوصول والتنقل (Accessibility & WCAG 2.1 AA)](#-معايير-إمكانية-الوصول-والتنقل-accessibility--wcag-21-aa)
 8. [📶 العمل أوفلاين والويب التقدمي (Service Worker & Cache Storage)](#-العمل-أوفلاين-والويب-التقدمي-service-worker--cache-storage)
-9. [🧪 منظومة الاختبارات وضمان الجودة (23 Automated Checks)](#-منظومة-الاختبارات-وضمان-الجودة-23-automated-checks)
+9. [🧪 منظومة الاختبارات وضمان الجودة (Full Test Pyramid)](#-منظومة-الاختبارات-وضمان-الجودة-full-test-pyramid)
 10. [📊 شبكة المعرفة البرمجية (Graphify Knowledge Graph)](#-شبكة-المعرفة-البرمجية-graphify-knowledge-graph)
 11. [🔗 الارتباط بنظام الحياة والإنتاجية (HMZ Life OS Integration)](#-الارتباط-بنظام-الحياة-والإنتاجية-hmz-life-os-integration)
 12. [🚀 أوامر التشغيل والبناء والنشر (Deployment Guide)](#-أوامر-التشغيل-والبناء-والنشر-deployment-guide)
@@ -55,11 +57,13 @@
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                    Français BTP Maroc Pro — Core Strengths                  │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│ ⚡ أداء لحظي فائق: إقلاع في <50ms وتمرير سلس عند 120 FPS عبر تسريع GPU عتادي │
-│ 📴 أوفلاين بنسبة 100%: تخزين محلي كامل عبر Service Worker وتثبيت فوري كـ PWA │
+│ ⚡ أداء لحظي فائق: إقلاع سريع وتمرير سلس عند 120 FPS عبر تسريع GPU عتادي    │
+│ 📴 أوفلاين بنسبة 100%: خطوط وبيانات مستضافة محلياً + Service Worker شامل    │
+│ 🧠 مراجعة علمية: بطاقات تكرار متباعد SM-2 لبناء ذاكرة طويلة المدى           │
 │ 🏗️ مرجعية مغربية دقيقة: موافقة لـ CCAG-T Maroc، ونسب الخرسانة، واقتطاع 10% │
-│ 🧩 كود نظيف موثق: معمارية نمطية Modular ES6 موثقة بالكامل بـ JSDoc Types     │
-│ 🛡️ استقرار مطلق: 23 فحصاً آلياً شاملاً بنسبة نجاح 100% وخلو تام من الأخطاء  │
+│ 🔐 أمان مُختبَر: CSP بلا أطراف خارجية، تنقية HTML، حماية من Path Traversal │
+│ 🧪 هرم اختبارات كامل: 29 Unit + 10 E2E + 24 فحصاً بنيوياً على GitHub Actions│
+│ 📤 نقل التقدم: تصدير/استيراد نسخة JSON بين الأجهزة بلا أي خادم             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -73,7 +77,7 @@
 graph TD
     subgraph UI_Layer [طبقة واجهات المستخدم والتفاعل - UI Workspaces]
         T1["Tab 1: Vocabulaire (المفردات)"]
-        T2["Tab 2: Quiz Engine (الاختبار)"]
+        T2["Tab 2: Quiz + Flashcards SM-2"]
         T3["Tab 3: Chèques & Nombres (الشيكات)"]
         T4["Tab 4: Lecture Technique (الوثائق)"]
         T5["Tab 5: Rédaction (المراسلات)"]
@@ -84,19 +88,21 @@ graph TD
 
     subgraph Core_Engine [طبقة المحركات المركزية - Core Engine]
         App["app.js (Bootstrap & Orchestrator)"]
-        State["state.js (Reactive State & FNV-1a Id Indexer)"]
+        State["state.js (Reactive State + FNV-1a Ids + Export/Import)"]
         AudioEngine["audio.js (Web Speech TTS Engine)"]
+        SRS["srs.js (SM-2 Spaced Repetition Engine)"]
+        BtpMath["btp-math.js (Pure Calculation Formulas)"]
         UIUtils["ui-utils.js (Haptic API & DOM Builder)"]
-        PWAEngine["pwa.js (ServiceWorker & Install Prompt)"]
+        PWAEngine["pwa.js (ServiceWorker + Update Prompt)"]
     end
 
-    subgraph Data_Layer [طبقة البيانات الهندسية - Data Layer]
-        D_Vocab["vocab.js (1,961 Termes)"]
-        D_Docs["reading-docs.js (10 CPS & PVs)"]
-        D_Templates["writing-templates.js (11 Modèles)"]
-        D_Grammar["grammar-lessons.js (10 Leçons)"]
-        D_Plan["plan-tasks.js (168 Tasks)"]
-        D_Numbers["numbers-ref.js (64 Cards & Tokens)"]
+    subgraph Data_Layer [طبقة البيانات - Deferred & Individually Cacheable]
+        D_Vocab["data/vocab.js (1,961 Termes)"]
+        D_Docs["data/reading-docs.js (10 CPS & PVs)"]
+        D_Templates["data/writing-templates.js (11 Modèles)"]
+        D_Grammar["data/grammar-lessons.js (10 Leçons)"]
+        D_Plan["data/plan-tasks.js (168 Tasks)"]
+        D_Numbers["numbers-ref.js (inline at startup)"]
     end
 
     App --> UI_Layer
@@ -105,54 +111,59 @@ graph TD
     State -->|requestIdleCallback Debounced| LocalStorage[(Local Storage)]
 ```
 
+> **ملاحظة معمارية (2026):** قواعد البيانات الأربعة الكبرى (`reading-docs`, `writing-templates`, `grammar-lessons`, `plan-tasks`) تُحمَّل عبر `<script defer>` كملفات خارجية مستقلة — لا تعطل أول رسم للصفحة، ويُخزَّن كل منها في Service Worker وشبكة CDN بمدة `immutable` منفصلة. أما `numbers-ref.js` فيبقى مضمّناً لأن محرك الشيكات يعتمد عليه عند الإقلاع.
+
 ### هيكل المستودع المنظم (Repository File Tree):
 
 ```text
 .
 ├── src/                          # كود المصدر المعياري النقي
 │   ├── styles/                   # طبقات CSS المعيارية المنفصلة
+│   │   ├── fonts.css             # @font-face للخطوط المتغيرة المستضافة محلياً
 │   │   ├── tokens.css            # متغيرات التصميم والمسافات (Design Tokens)
 │   │   ├── base.css              # التصفير، الخطوط، وتجاوب إمكانية الوصول
 │   │   ├── components.css        # أنماط المكونات، البطاقات، والتبويبات
 │   │   ├── md3-theme.css         # سمة الدار البيضاء Casablanca Dusk و Material You
 │   │   ├── motion.css            # محرك الرسوم وتسريع GPU بمعدل 120Hz
 │   │   └── mobile-nord5.css      # ملف التجاوب المخصص لشاشات هواتف أندرويد
-│   ├── data/                     # مجموعات البيانات المتخصصة
+│   ├── data/                     # مجموعات البيانات (المصدر الكنسي)
 │   │   ├── reading-docs.js       # وثائق الورش العشر
 │   │   ├── writing-templates.js  # نماذج المراسلات الـ 11
 │   │   ├── grammar-lessons.js    # دروس القواعد العشر وجداول الأفعال
 │   │   ├── plan-tasks.js         # مهام الخطة الـ 168 يوماً
-│   │   └── numbers-ref.js        # مراجع الأرقام والشيكات
-│   ├── modules/                  # المنطق البرمجي والمتحكمات (موثقة بالكامل بـ JSDoc)
-│   │   ├── state.js              # إدارة الحالة، فهرس البحث، وحفظ الذاكرة المؤجل
+│   │   └── numbers-ref.js        # مراجع الأرقام + رموز النطق العربي
+│   ├── modules/                  # المنطق البرمجي والمتحكمات
+│   │   ├── state.js              # الحالة، البصمات الثابتة، تصدير/استيراد التقدم
+│   │   ├── btp-math.js           # دوال الحساب النقية القابلة للاختبار
+│   │   ├── srs.js                # محرك التكرار المتباعد SM-2
 │   │   ├── audio.js              # محرك النطق الصوتي TTS والتسخين المسبق
 │   │   ├── ui-utils.js           # دوال DOM، التوست، والتفاعل اللمسي Haptic
-│   │   ├── pwa.js                # إدارة التثبيت والـ Service Worker
+│   │   ├── pwa.js                # التثبيت + Service Worker + بانر التحديث
 │   │   └── tabs/                 # متحكمات التبويبات الثمانية المستقلة
-│   │       ├── vocab-tab.js      # متحكم المفردات والتمرير اللانهائي
-│   │       ├── quiz-tab.js       # متحكم الاختبار وبنك الأخطاء
-│   │       ├── cheques-tab.js    # متحكم الشيكات ولعبة الأرقام
-│   │       ├── reading-tab.js    # متحكم قراءة وتحليل الوثائق
-│   │       ├── writing-tab.js    # متحكم توليد النماذج والإيميلات
-│   │       ├── grammar-tab.js    # متحكم القواعد وتصريف الأفعال
-│   │       ├── plan-tab.js       # متحكم خطة الـ 6 أشهر
-│   │       └── calc-tab.js       # متحكم الحاسبات الميدانية
+│   │       ├── vocab-tab.js ... calc-tab.js
 │   ├── app.js                    # نقطة الانطلاق الرئيسية (Entry Bootstrap)
 │   └── template.html             # هيكل الواجهة الدلالي HTML5
-├── data/
-│   └── vocab.js                  # قاعدة المفردات الكبرى (1,961 كلمة - 1.16MB)
-├── dist/                         # حزمة الإنتاج الجاهزة للنشر على Netlify (10 ملفات - 1.77MB)
+├── data/                         # ملفات البيانات المولّدة للتشغيل (window globals)
+├── fonts/                        # Cairo + Roboto Flex متغيرة (woff2 — مستضافة محلياً)
+├── tests/
+│   ├── unit/                     # 29 اختبار وحدة (node:test) — أرقام، رياضيات BTP، SM-2، حالة
+│   ├── e2e/                      # 10 سيناريوهات Playwright على متصفح Chromium حقيقي
+│   └── helpers/                  # محمّل موديولات VM لبيئة المتصفح المحاكاة
+├── .github/workflows/ci.yml      # خط CI: lint → build → validate → unit → e2e
+├── dist/                         # حزمة الإنتاج الجاهزة للنشر على Netlify
 ├── graphify-out/                 # شبكة المعرفة البرمجية (375 عقدة و 739 رابطاً)
 ├── icons/                        # أيقونات الـ PWA المعيارية
-├── tools/                        # أدوات البناء والفحص بدون أي حزم خارجية
-│   ├── build.mjs                 # مجمّع البناء السريع من المصادر المعيارية
-│   ├── validate-app.mjs          # مجموعة الفحوصات الـ 23 المؤتمتة الصارمة
+├── tools/                        # أدوات البناء والفحص بدون أي حزم تشغيلية
+│   ├── build.mjs                 # مجمّع البناء: يولّد index.html + data/*.js
+│   ├── validate-app.mjs          # 24 فحصاً بنيوياً صارماً
 │   ├── build-netlify.mjs         # مُنشئ حزمة التوزيع الخاصة بـ Netlify
-│   └── validate-netlify.mjs      # فاحص حزمة التوزيع النهائية
-├── sw.js                         # الـ Service Worker الإصدار 3.1.1
+│   └── server.mjs                # خادم تطوير آمن: CSP + حماية Path Traversal
+├── eslint.config.js              # قواعد ESLint 9 (flat config)
+├── playwright.config.js          # إعدادات E2E مع خادم تلقائي
+├── sw.js                         # الـ Service Worker — تخزين شامل للأصول والخطوط
 ├── manifest.json                 # ملف تعريف تطبيق الويب PWA
 ├── index.html                    # الملف المترجم المستقل الجاهز للتشغيل
-└── package.json
+└── package.json                  # type: module — أوامر test/lint/format/e2e
 ```
 
 ---
@@ -219,8 +230,18 @@ flowchart LR
   - **تحدي الـ 10 السريعة:** جلسة سريعة لتثبيت المعلومات.
   - **سباق الـ 60 ثانية (Speed Drill):** اختبار السرعة تحت الضغط مع مؤقت تنازلي حي.
   - **معالجة أخطائي السابقة:** جلسة تدريبية مخصصة للكلمات المسجلة في بنك الأخطاء.
+* **🃏 بطاقات التكرار المتباعد SM-2 (جديد 2026):**
+  - محرك مراجعة علمي كامل (`src/modules/srs.js`) بمعادلات SM-2 المعتمدة: عامل السهولة EF (بحد أدنى 1.3)، سلالم الفواصل (1 يوم ← 6 أيام ← مضاعفة حسب الإتقان).
+  - أربعة أزرار تقييم بعد كشف الإجابة: 😵 نسيت · 😅 صعب · 👍 جيد · ⚡ سهل — وكل تقييم يعيد جدولة البطاقة تلقائياً.
+  - عداد «المستحق اليوم» وجلسات بحد 20 بطاقة مرتبة بحسب أقرب موعد استحقاق.
+  - اختصارات لوحة مفاتيح كاملة: `Enter` لكشف الإجابة، `1–4` للتقييم.
 * **نظام المتتالية الحماسية (🔥 Streak):** عداد بصري يحفز الاستمرارية مع اهتزازات لمسية تصاعدية.
 * **دعم اختصارات الكيبورد:** الأزرار `1-4` للإجابة، `Enter` للتالي، `A` للاستماع، و `H` للتلميح.
+
+### 📤 نقل التقدم بين الأجهزة (Progress Portability)
+* **تصدير بنقرة واحدة:** زر `📤 تصدير` في رأس تبويب المفردات يُنزّل ملف `btp-maroc-progress-YYYY-MM-DD.json` يضم: الكلمات المتقنة، أيام الخطة، أفضل نتيجة، بنك الأخطاء، جدول SM-2، وتقدم القراءة.
+* **استيراد مُتحقق منه:** زر `📥 استيراد` يقرأ الملف ويصادق على مخطط البيانات (`app: francais-btp-maroc`) قبل الدمج، مع هجرة المفاتيح القديمة تلقائياً ورفض الملفات الغريبة برسالة واضحة.
+* **بدون أي خادم:** النسخ الاحتياطي يتم عبر ملف محلي تحفظه أنت — خصوصية كاملة وسيادة تامة على بياناتك.
 
 ---
 
@@ -347,48 +368,51 @@ flowchart LR
 
 ## 📶 العمل أوفلاين والويب التقدمي (Service Worker & Cache Storage)
 
-* **استراتيجية التخزين الثنائي (Cache-First Shell Strategy):**
-  - `STATIC_CACHE`: تخزين واجهة التطبيق والأيقونات والخطوط المحلية.
-  - `CONTENT_CACHE`: تخزين قاعدة المفردات الكبرى (`vocab.js`) للعمل في أبعد الأوراش الجبلية دون اتصال بالشبكة.
-* **التثبيت المستقل:** زر مدمج ذكي لتثبيت التطبيق على الشاشة الرئيسية للهاتف أو سطح المكتب بنقرة واحدة.
+* **استقلال تام عن أي طرف خارجي:** خطوط Cairo و Roboto Flex **مستضافة محلياً** في `fonts/` كملفات متغيرة (Variable woff2 — 145KB فقط لجميع الأوزان)، مع `preload` للمجموعات الحرجة العربية واللاتينية. لا يوجد أي طلب شبكي لـ Google Fonts بعد الآن.
+* **استراتيجيات تخزين ثلاثية:**
+  - `STATIC_CACHE`: قشرة التطبيق + الأيقونات + الخطوط.
+  - `CONTENT_CACHE`: كل ملفات البيانات (`vocab.js`, `reading-docs.js`, `writing-templates.js`, `grammar-lessons.js`, `plan-tasks.js`) تُخزَّن مسبقاً عند التثبيت وتُقدَّم بأسلوب Cache-First.
+  - التنقل عبر Network-First مع سقوط احتياطي للقشرة المخزنة.
+* **تخزين مؤقت منفصل لكل أصل:** ملفات البيانات والخطوط تُخدَّم بمدة `Cache-Control: immutable` — تحديث القشرة لا يعيد تنزيل البيانات الثابتة.
+* **التثبيت المستقل:** زر مدمج ذكي لتثبيت التطبيق على الشاشة الرئيسية بنقرة واحدة.
+* **🔔 بانر التحديث الفوري (جديد):** عند توفر إصدار جديد، يظهر إشعار أنيق «🔄 إصدار جديد جاهز» بزر «تحديث الآن» يعيد التشغيل إلى النسخة الجديدة فوراً بدل انتظار الإغلاق اليدوي.
+
+## 🔐 الأمان (Security Hardening 2026)
+
+* **سياسة CSP صارمة بلا أطراف خارجية:** `script-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; frame-ancestors 'none'` — لا مصادر شبكة غريبة إطلاقاً.
+* **تنقية شاملة لمخرجات HTML:** كل حقن ديناميكي في بطاقات الأرقام وجداول المراجع ومعاينة الإيميلات يمر عبر `escapeHtml()`.
+* **صفر بناء أحداث نصية هشّ:** الأزرار المولّدة برمجياً تستعمل `data-*` attributes + `addEventListener` بدل السلاسل النصية المُسلسلة يدوياً.
+* **خادم تطوير مُحصّن:** حماية مجربة من Path Traversal (كل محاولات `../` و `%2e%2e` ترجع 403) + نفس رؤوس الأمان الخاصة بالإنتاج (CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy).
+* **فحوصات ESLint أمنية:** قواعد `no-eval`, `no-implied-eval`, `no-empty` (مع رفض catch الفارغة) مفروضة على كل الكود.
 
 ---
 
-## 🧪 منظومة الاختبارات وضمان الجودة (23 Automated Checks)
+## 🧪 منظومة الاختبارات وضمان الجودة (Full Test Pyramid)
 
-يتضمن المشروع حزمة اختبارات ذاتية صارمة ومستقلة (`tools/validate-app.mjs`) تنفذ **23 فحصاً آلياً شاملاً** بنسبة نجاح **100%**:
+يعتمد المشروع **هرم اختبارات ثلاثي الطبقات** يعمل محلياً وعلى GitHub Actions عند كل تعديل:
 
 ```text
-✓ Built: index.html
-✓ index.html successfully compiled from modular src/
-✓ required application files exist
-✓ all modular ES6 JavaScript sources exist and adhere to clean architecture
-✓ inline JavaScript parses
-✓ HTML ids are unique
-✓ static label targets exist
-✓ tab semantics are complete
-✓ manifest uses local installable icons
-✓ service worker has versioned app-shell caching
-✓ OnePlus Nord 5 mobile profile is safe and responsive
-✓ cheque number conversion handles French and localized input edge cases
-✓ cheque editor and number game expose complete accessible controls
-✓ large number cards preserve left-to-right digit grouping
-✓ vocabulary dataset has valid required fields
-✓ stable vocabulary identities do not collide
-✓ cloze-eligible examples produce a visible blank
-✓ critical functions are defined only once
-✓ finance controls are wired into the calculator
-✓ quiz controls and live regions are complete
-✓ quiz uses balanced modes and unbiased shuffling
-✓ reading documents have complete learning content
-✓ reading workflow is accessible and progress-aware
-✓ skip-link and keyboard focus-visible standards are fully wired
-✓ assistive media queries and accessible button states are present
-
-============================================================
-23 validation checks passed (100% Success Rate).
-============================================================
+┌────────────────────────────────────────────────────────────────────────────┐
+│ الطبقة 3: فحوص بنيوية (tools/validate-app.mjs)          → 24 / 24 ✅      │
+│   دلالة HTML، إمكانية الوصول، سلامة المخطط، اكتمال المحركات المجمعة       │
+│ ┌──────────────────────────────────────────────────────────────────────┐   │
+│ │ الطبقة 2: E2E — Playwright/Chromium (tests/e2e)       → 10 / 10 ✅   │   │
+│ │   التنقل RTL، البحث، حفظ التقدم بعد reload، جلسة كويز كاملة،         │   │
+│ │   حاسبات عبر الواجهة الحقيقية، بطاقات SM-2، رفض ملفات الاستيراد السيئة│  │
+│ │ ┌──────────────────────────────────────────────────────────────────┐ │   │
+│ │ │ الطبقة 1: وحدات — node:test (tests/unit)          → 29 / 29 ✅  │ │   │
+│ │ │  • numberToFrench: 32 حالة أكاديمية (71/80/81/200/80000...)     │ │   │
+│ │ │  • parseLocalizedChequeAmount: صيغ مغربية/أوروبية/أرقام عربية    │ │   │
+│ │ │  • btp-math: خرسانة، حديد NM D²/162، آجور، سيراميك، CCAG-T      │ │   │
+│ │ │  • srs: سلالم SM-2 وحد EF الدنيا ومسارات التقييم                │ │   │
+│ │ │  • state-utils: بصمات FNV-1a، تطبيع Œ/الشدة، هجرة المفاتيح     │ │   │
+│ │ └──────────────────────────────────────────────────────────────────┘ │   │
+│ └──────────────────────────────────────────────────────────────────────┘   │
+│ CI: lint → build → validate → unit (quality job) · e2e مع Chromium        │
+└────────────────────────────────────────────────────────────────────────────┘
 ```
+
+> 💡 **سجل الإنجاز:** هذا الهرم اصطاد فعلياً أربعة أعطال خفية قبل النشر — بحث «Œuvre» بالحرف الكبير كان معطلاً، محرك `btp-math` كان غائباً عن الحزمة المجمعة، رسم الاستيراد ESM كان مكسوراً خفية، وكان ملخص جلسة المراجعة يمحو نفسه.
 
 ---
 
@@ -422,8 +446,15 @@ npm run serve
 
 ### 2. الفحص والاختبار الشامل (Validation & Test):
 ```powershell
-# تجميع المصادر وتشغيل الـ 23 فحصاً آلياً
+# ESLint + 29 اختبار وحدة + تجميع + 24 فحصاً بنيوياً
 npm test
+
+# اختبارات المتصفح E2E (يشغل خادماً تلقائياً)
+npm run test:e2e
+
+# فحص الأسلوب فقط / إعادة التنسيق
+npm run lint
+npm run format
 ```
 
 ### 3. بناء حزمة الإنتاج والتحقق لـ Netlify:
