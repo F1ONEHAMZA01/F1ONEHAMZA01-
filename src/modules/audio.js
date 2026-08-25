@@ -18,10 +18,12 @@ export function prewarmTtsVoices() {
     window.speechSynthesis.getVoices();
     if ('onvoiceschanged' in window.speechSynthesis) {
       window.speechSynthesis.onvoiceschanged = () => {
-        try { window.speechSynthesis.getVoices(); } catch(e) {}
+        try { window.speechSynthesis.getVoices(); } catch(e) { console.warn('TTS voices refresh failed:', e); }
       };
     }
-  } catch(e) {}
+  } catch(e) {
+    console.warn('TTS prewarm failed:', e);
+  }
 }
 
 if (typeof window !== 'undefined') {
@@ -42,7 +44,9 @@ export function speakFrenchText(text, btnEl) {
 
   try {
     window.speechSynthesis.cancel();
-  } catch(e) {}
+  } catch(e) {
+    console.warn('TTS cancel failed:', e);
+  }
 
   if (btnEl) {
     btnEl.classList.add('btn-speaking');

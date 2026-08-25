@@ -195,7 +195,9 @@ export function saveStateToLocalStorage(immediate = false) {
       localStorage.setItem('btp_quiz_best', String(state.quizBestScore));
       localStorage.setItem('btp_quiz_wrong_bank', JSON.stringify(state.wrongBank || {}));
       localStorage.setItem('btp_reading_progress', JSON.stringify(state.readingProgress || {}));
-    } catch(e) {}
+    } catch(e) {
+      console.warn('Failed to persist app state to localStorage:', e);
+    }
   };
 
   if (immediate) {
@@ -227,13 +229,17 @@ if (typeof window !== 'undefined') {
         try {
           const list = JSON.parse(localStorage.getItem('btp_learned'));
           state.learned = migrateStoredWordKeys(list);
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Failed to restore learned words, resetting set:', e);
+        }
       }
       if (localStorage.getItem('btp_checked_days')) {
         try {
           const list = JSON.parse(localStorage.getItem('btp_checked_days'));
           state.checkedDays = new Set(list);
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Failed to restore checked days, resetting set:', e);
+        }
       }
       if (localStorage.getItem('btp_quiz_best')) {
         state.quizBestScore = parseInt(localStorage.getItem('btp_quiz_best')) || 0;
@@ -250,7 +256,9 @@ if (typeof window !== 'undefined') {
               state.wrongBank[migratedKey] = Math.max(1, Number(count) || 1);
             }
           });
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Failed to restore wrong-answer bank, resetting map:', e);
+        }
       }
       if (localStorage.getItem('btp_reading_progress')) {
         try {
@@ -258,7 +266,9 @@ if (typeof window !== 'undefined') {
           if (storedReading && typeof storedReading === 'object' && !Array.isArray(storedReading)) {
             state.readingProgress = storedReading;
           }
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Failed to restore reading progress, resetting object:', e);
+        }
       }
       saveStateToLocalStorage();
     }

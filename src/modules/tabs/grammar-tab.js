@@ -1,7 +1,7 @@
 import { GRAMMAR_LESSONS } from '../../data/grammar-lessons.js';
 import { normalizeSearchText } from '../state.js';
 import { speakFrenchText } from '../audio.js';
-import { showToast } from '../ui-utils.js';
+import { showToast, playHaptic } from '../ui-utils.js';
 
 let currentGrammarCategory = 'all';
 let currentGrammarSearch = '';
@@ -113,7 +113,7 @@ export function toggleAccordion(idx) {
     if (btn) btn.setAttribute('aria-expanded', 'true');
     // Using scrollHeight instead of 5000px ensures a perfectly paced CSS transition
     content.style.maxHeight = content.scrollHeight + 'px';
-    if (typeof playHaptic !== 'undefined') playHaptic(10);
+    playHaptic(10);
   }
 }
 

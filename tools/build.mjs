@@ -36,9 +36,9 @@ const planTasks = read('src/data/plan-tasks.js');
 
 function cleanExports(js) {
   return js
-    .replace(/^export\s+(const|let|var)\s+/gm, '$1 ')
-    .replace(/^export\s+(async\s+)?function\s+/gm, (match, asyncPart) => (asyncPart || '') + 'function ')
-    .replace(/^export\s+default\s+/gm, '')
+    .replace(/^\s*export\s+(const|let|var)\s+/gm, '$1 ')
+    .replace(/^\s*export\s+(async\s+)?function\s+/gm, (match, asyncPart) => (asyncPart || '') + 'function ')
+    .replace(/^\s*export\s+default\s+/gm, '')
     .replace(/^import\s+[\s\S]*?from\s+['"][^'"]+['"];?/gm, '')
     .trim()
     .replace(/;+$/, '') + ';';

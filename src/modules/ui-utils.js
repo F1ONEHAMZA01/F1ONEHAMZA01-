@@ -62,7 +62,9 @@ export function playHaptic(pattern) {
   if (typeof navigator !== 'undefined' && navigator.vibrate) {
     try {
       navigator.vibrate(pattern);
-    } catch(e) {}
+    } catch(e) {
+      console.warn('Haptic vibration failed:', e);
+    }
   }
 }
 

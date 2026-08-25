@@ -5,7 +5,9 @@
   "description": "Offline-capable Arabic/French construction learning app for Morocco.",
   "scripts": {
     "build": "node tools/build.mjs",
-    "test": "node tools/build.mjs && node tools/validate-app.mjs",
+    "lint": "eslint src/ tools/ sw.js",
+    "format": "prettier --write \"src/**/*.js\" \"tools/**/*.mjs\" \"*.js\"",
+    "test": "npm run lint && node tools/build.mjs && node tools/validate-app.mjs",
     "validate": "node tools/build.mjs && node tools/validate-app.mjs",
     "build:netlify": "node tools/build.mjs && node tools/build-netlify.mjs",
     "deploy:check": "npm test && npm run build:netlify && node tools/validate-netlify.mjs",
@@ -13,5 +15,10 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.5",
+    "globals": "^17.11.0",
+    "prettier": "^3.9.6"
   }
 }

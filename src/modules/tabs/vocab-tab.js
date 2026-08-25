@@ -1,6 +1,8 @@
 import { state, getVocabDataset, getVocabSearchIndex, getWordId, normalizeSearchText, saveStateToLocalStorage, initStats } from '../state.js';
 import { appendTextElement, showToast } from '../ui-utils.js';
 import { speakFrenchText, ttsAvailable } from '../audio.js';
+import { renderStudyPlan } from './plan-tab.js';
+import { renderReadingDocsSelector } from './reading-tab.js';
 
 let searchDebounceTimer = null;
 let vocabScrollObserver = null;
@@ -14,7 +16,7 @@ const PHASE_NAMES = {
       6: "6. التسيير والسلامة والأدوات · Transversal & Gestion"
     };
 
-    const SHORT_PHASE_NAMES = {
+    export const SHORT_PHASE_NAMES = {
       1: "1. الأساسات والحفر",
       2: "2. الهيكل والخرسانة",
       3: "3. النجارة والكتامة",
@@ -85,7 +87,9 @@ const PHASE_NAMES = {
         btnEl.classList.add('active-cat');
         try {
           requestAnimationFrame(() => btnEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }));
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Category chip scroll failed:', e);
+        }
       }
       state.activeCategory = catName;
       renderVocabList(true);

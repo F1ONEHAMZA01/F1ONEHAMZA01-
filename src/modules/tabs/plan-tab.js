@@ -1,6 +1,6 @@
 import { state, saveStateToLocalStorage, initStats } from '../state.js';
 import { PLAN_TASKS } from '../../data/plan-tasks.js';
-import { switchTab, showToast } from '../ui-utils.js';
+import { switchTab, showToast, playHaptic } from '../ui-utils.js';
 
 export const PLAN_MONTH_TITLES = {
   1: "الأساسيات واللغة والأرقام",
@@ -218,7 +218,7 @@ export function togglePlanDay(dayNum) {
     state.checkedDays.add(dayNum);
     if (row) row.classList.add('checked-task');
     showToast(`أحسنت! أكملت نشاط اليوم ${dayNum} 👏`);
-    if (typeof playHaptic !== 'undefined') playHaptic([15, 30, 15]);
+    playHaptic([15, 30, 15]);
   }
   
   saveStateToLocalStorage();

@@ -10400,7 +10400,6 @@ function migrateStoredWordKeys(values) {
 
 let searchIndexCache = null;
 let saveStateDebounceTimer = null;
-
 function getVocabSearchIndex() {
   if (searchIndexCache) return searchIndexCache;
   const dataset = getVocabDataset();
@@ -10414,7 +10413,6 @@ function getVocabSearchIndex() {
   }));
   return searchIndexCache;
 }
-
 function saveStateToLocalStorage(immediate = false) {
   const performSave = () => {
     try {
@@ -10423,7 +10421,9 @@ function saveStateToLocalStorage(immediate = false) {
       localStorage.setItem('btp_quiz_best', String(state.quizBestScore));
       localStorage.setItem('btp_quiz_wrong_bank', JSON.stringify(state.wrongBank || {}));
       localStorage.setItem('btp_reading_progress', JSON.stringify(state.readingProgress || {}));
-    } catch(e) {}
+    } catch(e) {
+      console.warn('Failed to persist app state to localStorage:', e);
+    }
   };
 
   if (immediate) {
@@ -10455,13 +10455,17 @@ if (typeof window !== 'undefined') {
         try {
           const list = JSON.parse(localStorage.getItem('btp_learned'));
           state.learned = migrateStoredWordKeys(list);
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Failed to restore learned words, resetting set:', e);
+        }
       }
       if (localStorage.getItem('btp_checked_days')) {
         try {
           const list = JSON.parse(localStorage.getItem('btp_checked_days'));
           state.checkedDays = new Set(list);
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Failed to restore checked days, resetting set:', e);
+        }
       }
       if (localStorage.getItem('btp_quiz_best')) {
         state.quizBestScore = parseInt(localStorage.getItem('btp_quiz_best')) || 0;
@@ -10478,7 +10482,9 @@ if (typeof window !== 'undefined') {
               state.wrongBank[migratedKey] = Math.max(1, Number(count) || 1);
             }
           });
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Failed to restore wrong-answer bank, resetting map:', e);
+        }
       }
       if (localStorage.getItem('btp_reading_progress')) {
         try {
@@ -10486,7 +10492,9 @@ if (typeof window !== 'undefined') {
           if (storedReading && typeof storedReading === 'object' && !Array.isArray(storedReading)) {
             state.readingProgress = storedReading;
           }
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Failed to restore reading progress, resetting object:', e);
+        }
       }
       saveStateToLocalStorage();
     }
@@ -10606,7 +10614,9 @@ function playHaptic(pattern) {
   if (typeof navigator !== 'undefined' && navigator.vibrate) {
     try {
       navigator.vibrate(pattern);
-    } catch(e) {}
+    } catch(e) {
+      console.warn('Haptic vibration failed:', e);
+    }
   }
 }
 
@@ -10727,10 +10737,12 @@ function prewarmTtsVoices() {
     window.speechSynthesis.getVoices();
     if ('onvoiceschanged' in window.speechSynthesis) {
       window.speechSynthesis.onvoiceschanged = () => {
-        try { window.speechSynthesis.getVoices(); } catch(e) {}
+        try { window.speechSynthesis.getVoices(); } catch(e) { console.warn('TTS voices refresh failed:', e); }
       };
     }
-  } catch(e) {}
+  } catch(e) {
+    console.warn('TTS prewarm failed:', e);
+  }
 }
 
 if (typeof window !== 'undefined') {
@@ -10751,7 +10763,9 @@ function speakFrenchText(text, btnEl) {
 
   try {
     window.speechSynthesis.cancel();
-  } catch(e) {}
+  } catch(e) {
+    console.warn('TTS cancel failed:', e);
+  }
 
   if (btnEl) {
     btnEl.classList.add('btn-speaking');
@@ -10836,8 +10850,7 @@ const PHASE_NAMES = {
       5: "5. التشطيبات والديكور · Finitions & Aménagement",
       6: "6. التسيير والسلامة والأدوات · Transversal & Gestion"
     };
-
-    const SHORT_PHASE_NAMES = {
+const SHORT_PHASE_NAMES = {
       1: "1. الأساسات والحفر",
       2: "2. الهيكل والخرسانة",
       3: "3. النجارة والكتامة",
@@ -10908,7 +10921,9 @@ const PHASE_NAMES = {
         btnEl.classList.add('active-cat');
         try {
           requestAnimationFrame(() => btnEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }));
-        } catch(e) {}
+        } catch(e) {
+          console.warn('Category chip scroll failed:', e);
+        }
       }
       state.activeCategory = catName;
       renderVocabList(true);
@@ -11222,7 +11237,6 @@ function switchQuizSubTab(viewId, btnEl) {
     renderQuizStatsView();
   }
 }
-
 function renderQuizStatsView() {
   const container = document.getElementById('quiz-stats-content-box');
   if (!container) return;
@@ -11273,17 +11287,14 @@ function renderQuizStatsView() {
 // State flags initialized if missing
 if (typeof state.quizAutoAdvance === 'undefined') state.quizAutoAdvance = true;
 if (typeof state.quizAutoPronounce === 'undefined') state.quizAutoPronounce = false;
-
 function toggleQuizAutoAdvance(checked) {
   state.quizAutoAdvance = checked;
   saveStateToLocalStorage();
 }
-
 function toggleQuizAutoPronounce(checked) {
   state.quizAutoPronounce = checked;
   saveStateToLocalStorage();
 }
-
 function shuffleArray(values) {
   const shuffled = values.slice();
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -11292,7 +11303,6 @@ function shuffleArray(values) {
   }
   return shuffled;
 }
-
 function getQuizConfigFromControls() {
   return {
     category: document.getElementById('quiz-category-select')?.value || 'all',
@@ -11302,7 +11312,6 @@ function getQuizConfigFromControls() {
     order: document.getElementById('quiz-order-select')?.value || 'adaptive'
   };
 }
-
 function getQuizPool(config = getQuizConfigFromControls()) {
   return getVocabDataset().filter(word => {
     if (config.category !== 'all' && word.category !== config.category) return false;
@@ -11317,7 +11326,6 @@ function getQuizPool(config = getQuizConfigFromControls()) {
     return true;
   });
 }
-
 function updateQuizAvailability() {
   const panel = document.getElementById('quiz-availability');
   const textEl = document.getElementById('quiz-availability-text');
@@ -11339,7 +11347,6 @@ function updateQuizAvailability() {
     ? `${available.toLocaleString('fr-FR')} كلمة متاحة · ستتضمن الجلسة ${actual} سؤالاً`
     : 'لا توجد كلمتان على الأقل بهذه الإعدادات.';
 }
-
 function initQuizConfigSelects() {
   const catSelect = document.getElementById('quiz-category-select');
   if (!catSelect) return;
@@ -11381,7 +11388,6 @@ function initQuizConfigSelects() {
   const autoPron = document.getElementById('quiz-auto-pronounce-chk');
   if (autoPron) autoPron.checked = Boolean(state.quizAutoPronounce);
 }
-
 function updateQuizScopeCounts() {
   const scopeSel = document.getElementById('quiz-scope-select');
   if (!scopeSel) return;
@@ -11399,7 +11405,6 @@ function updateQuizScopeCounts() {
   scopeSel.options[3].text = `🧠 أخطائي السابقة (${mistakes})`;
   updateQuizAvailability();
 }
-
 function orderQuizPool(pool, order) {
   const shuffled = shuffleArray(pool);
   if (order !== 'adaptive') return shuffled;
@@ -11411,7 +11416,6 @@ function orderQuizPool(pool, order) {
     return bPriority - aPriority;
   });
 }
-
 function buildQuizModeQueue(words, requestedMode) {
   if (requestedMode !== 'mixed') return words.map(() => requestedMode);
   const cycle = shuffleArray(['fr_to_ar', 'ar_to_fr', 'pron_fr', 'cloze']);
@@ -11427,7 +11431,6 @@ function buildQuizModeQueue(words, requestedMode) {
     return 'fr_to_ar';
   });
 }
-
 function startQuizPreset(presetType) {
   if (speedRunInterval) clearInterval(speedRunInterval);
   if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
@@ -11507,7 +11510,6 @@ function startSpeedRunTimer() {
     }
   }, 1000);
 }
-
 function beginQuizRun(words, modeQueue = null, runKind = 'standard') {
   if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
   state.quizWords = words.slice();
@@ -11533,7 +11535,6 @@ function beginQuizRun(words, modeQueue = null, runKind = 'standard') {
   document.getElementById('quiz-feedback').classList.add('hidden');
   renderQuizQuestion();
 }
-
 function startQuizSession() {
   const countVal = document.getElementById('quiz-count-select')?.value || '10';
   state.quizConfig = getQuizConfigFromControls();
@@ -11548,7 +11549,6 @@ function startQuizSession() {
   const targetCount = countVal === 'all' ? pool.length : Math.min(pool.length, parseInt(countVal, 10));
   beginQuizRun(pool.slice(0, targetCount));
 }
-
 function buildClozePrompt(word) {
   if (!word || !word.example_fr || !word.fr) return null;
   const candidates = [word.fr, word.fr.replace(/^(?:le|la|les|un|une|des|du|de la|de l'|de l’|l'|l’|d'|d’)\s*/i, '')]
@@ -11563,11 +11563,9 @@ function buildClozePrompt(word) {
   }
   return null;
 }
-
 function getQuizAnswer(word, mode) {
   return QUIZ_MODE_META[mode]?.answerField === 'ar' ? word.ar : word.fr;
 }
-
 function buildQuizOptions(word, mode) {
   const correctAnswer = getQuizAnswer(word, mode);
   const answerKey = normalizeSearchText(correctAnswer);
@@ -11592,7 +11590,6 @@ function buildQuizOptions(word, mode) {
   }
   return shuffleArray([correctAnswer, ...distractors]);
 }
-
 function showQuizHint() {
   if (!state.currentQuestion || state.currentQuestion.answered) return;
   const word = state.currentQuestion.word;
@@ -11613,7 +11610,6 @@ function showQuizHint() {
   hintBanner.innerText = hintText;
   hintBanner.classList.remove('hidden');
 }
-
 function renderQuizQuestion() {
   if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
   const word = state.quizWords[state.quizCurrentIndex];
@@ -11716,7 +11712,6 @@ function renderQuizQuestion() {
     requestAnimationFrame(() => qBox.focus({ preventScroll: true }));
   }
 }
-
 function handleQuizAnswer(selectedOpt, btnEl) {
   if (!state.currentQuestion || state.currentQuestion.answered) return;
   state.currentQuestion.answered = true;
@@ -11786,7 +11781,6 @@ function handleQuizAnswer(selectedOpt, btnEl) {
     }, 850);
   }
 }
-
 function handleQuizKeyboard(event) {
   if (!state.quizActive || event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
   const target = event.target;
@@ -11812,7 +11806,6 @@ function handleQuizKeyboard(event) {
     showQuizHint();
   }
 }
-
 function nextQuizQuestion() {
   if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
   state.quizCurrentIndex++;
@@ -11822,7 +11815,6 @@ function nextQuizQuestion() {
     finishQuizSession();
   }
 }
-
 function finishQuizSession() {
   if (speedRunInterval) clearInterval(speedRunInterval);
   if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
@@ -11888,7 +11880,6 @@ function finishQuizSession() {
   updateQuizScopeCounts();
   requestAnimationFrame(() => document.getElementById('quiz-result-title')?.focus?.());
 }
-
 function restartQuizConfig() {
   if (speedRunInterval) clearInterval(speedRunInterval);
   if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
@@ -11899,7 +11890,6 @@ function restartQuizConfig() {
   document.getElementById('quiz-config-panel').classList.remove('hidden');
   updateQuizScopeCounts();
 }
-
 function quitQuizSession() {
   if (speedRunInterval) clearInterval(speedRunInterval);
   if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
@@ -11911,12 +11901,10 @@ function quitQuizSession() {
   document.getElementById('quiz-config-panel').classList.remove('hidden');
   updateQuizScopeCounts();
 }
-
 function retrySameQuiz() {
   const words = shuffleArray(state.quizWords);
   beginQuizRun(words, buildQuizModeQueue(words, state.quizConfig.mode), state.quizRunKind || 'standard');
 }
-
 function retryWrongOnly() {
   const wrongAnswers = state.quizAnswers.filter(answer => !answer.isCorrect);
   const wrongWords = wrongAnswers.map(answer => answer.word);
@@ -12037,7 +12025,6 @@ function numberToFrench(n) {
   
   return result.trim().replace(/\s+/g, " ");
 }
-
 function numberToArabic(n) {
   n = Math.floor(n);
   if (n === 0) return "صفر";
@@ -12078,9 +12065,7 @@ function numberToArabic(n) {
   if (rest) parts.push(group(rest));
   return parts.join(" و");
 }
-
 const CHEQUE_MAX_AMOUNT = 10000000;
-
 function toLatinDigits(value) {
   const arabicDigits = '٠١٢٣٤٥٦٧٨٩';
   const persianDigits = '۰۱۲۳۴۵۶۷۸۹';
@@ -12088,7 +12073,6 @@ function toLatinDigits(value) {
     .replace(/[٠-٩]/g, digit => String(arabicDigits.indexOf(digit)))
     .replace(/[۰-۹]/g, digit => String(persianDigits.indexOf(digit)));
 }
-
 function parseLocalizedChequeAmount(rawValue) {
   let value = toLatinDigits(rawValue).trim();
   if (!value) return { kind: 'empty', amount: null };
@@ -12145,7 +12129,6 @@ function parseLocalizedChequeAmount(rawValue) {
     amount: Number.isFinite(amount) ? amount : null
   };
 }
-
 function formatArabicCurrencyUnit(count, singular, dual, plural, accusative) {
   if (count === 0) return `صفر ${singular}`;
   if (count === 1) return singular;
@@ -12156,7 +12139,6 @@ function formatArabicCurrencyUnit(count, singular, dual, plural, accusative) {
   }
   return `${numberToArabic(count)} ${accusative}`;
 }
-
 function buildChequeAmountWords(totalCentimes) {
   const integerPart = Math.floor(totalCentimes / 100);
   const decimalPart = totalCentimes % 100;
@@ -12171,7 +12153,6 @@ function buildChequeAmountWords(totalCentimes) {
   }
   return { fr, ar, integerPart, decimalPart };
 }
-
 function updateChequeConverter() {
   const input = document.getElementById('cheque-amount-input');
   if (!input) return;
@@ -12237,7 +12218,6 @@ const FR_PRON_TOKENS = {
   "dirham": "ديرهام", "dirhams": "ديرهام", "centime": "سونتيم", "centimes": "سونتيم",
   "dix-sept": "ديس-سيت", "dix-huit": "ديز-ويت", "dix-neuf": "ديز-نوف"
 };
-
 function setChequeAmount(v) {
   const input = document.getElementById('cheque-amount-input');
   if (input) {
@@ -12245,7 +12225,6 @@ function setChequeAmount(v) {
     updateChequeConverter();
   }
 }
-
 function setChequeAmountAndSpeak(amount, label) {
   setChequeAmount(amount);
   const wordsEl = document.getElementById('cheque-value-words');
@@ -12254,7 +12233,6 @@ function setChequeAmountAndSpeak(amount, label) {
   }
   showToast(`تم إدخال: ${label || amount} 🔊`);
 }
-
 function normalizeChequeAmountField() {
   const input = document.getElementById('cheque-amount-input');
   if (!input) return;
@@ -12264,7 +12242,6 @@ function normalizeChequeAmountField() {
     updateChequeConverter();
   }
 }
-
 function randomChequeAmount() {
   const magnitudes = [
     () => Math.floor(Math.random() * 99) + 1,
@@ -12277,7 +12254,6 @@ function randomChequeAmount() {
   const centimes = Math.random() > 0.5 ? Math.floor(Math.random() * 100) : 0;
   setChequeAmount((integerPart * 100 + centimes) / 100);
 }
-
 function randomChequeAmountAndSpeak() {
   randomChequeAmount();
   const wordsEl = document.getElementById('cheque-value-words');
@@ -12286,7 +12262,6 @@ function randomChequeAmountAndSpeak() {
   }
   showToast('مبلغ عشوائي جديد مع نطق فرنسي فوري 🎲🔊');
 }
-
 const BANK_NAMES_MAP = {
   attijari: '🇲🇦 ATTIJARIWAFA BANK · CHÈQUE EN DIRHAMS',
   bp: '🇲🇦 BANQUE POPULAIRE · CHÈQUE EN DIRHAMS',
@@ -12295,7 +12270,6 @@ const BANK_NAMES_MAP = {
   cam: '🇲🇦 CRÉDIT AGRICOLE DU MAROC · CHÈQUE EN DIRHAMS',
   sg: '🇲🇦 SOCIÉTÉ GÉNÉRALE MAROC · CHÈQUE EN DIRHAMS'
 };
-
 function updateChequeBank() {
   const sel = document.getElementById('cheque-bank-select');
   const title = document.getElementById('cheque-bank-name');
@@ -12304,7 +12278,6 @@ function updateChequeBank() {
     showToast(`تم تغيير البنك إلى: ${sel.options[sel.selectedIndex].text}`);
   }
 }
-
 function toggleChequeBarre(checked) {
   const lines = document.getElementById('cheque-barre-lines');
   if (lines) {
@@ -12312,7 +12285,6 @@ function toggleChequeBarre(checked) {
     showToast(checked ? 'تم تفعيل التسطير // (شيك غير قابل للصرف نقداً)' : 'تم إلغاء التسطير');
   }
 }
-
 function toggleChequeCertifie(checked) {
   const stamp = document.getElementById('cheque-certifie-stamp');
   if (stamp) {
@@ -12327,7 +12299,6 @@ function toggleChequeCertifie(checked) {
     showToast(checked ? 'تم إضافة خاتم التصديق البنكي (Chèque Certifié) 🏛️' : 'تم إلغاء التصديق');
   }
 }
-
 function runNumberDecomposer() {
   const inp = document.getElementById('num-decomposer-input');
   const frEl = document.getElementById('decomp-fr');
@@ -12381,7 +12352,6 @@ function runNumberDecomposer() {
     resContainer.style.animation = 'unfoldDecompBox 0.3s var(--ease-out-expo) both';
   }
 }
-
 function speakDecomposedNumber() {
   const fr = document.getElementById('decomp-fr')?.innerText;
   if (fr && fr !== '—') {
@@ -12390,7 +12360,6 @@ function speakDecomposedNumber() {
     showToast('أدخل عدداً أولاً للاستماع إليه');
   }
 }
-
 function updateChequeDetails() {
   const payeeInput = document.getElementById('cheque-payee-input');
   const placeInput = document.getElementById('cheque-place-input');
@@ -12409,7 +12378,6 @@ function updateChequeDetails() {
   if (plEl) plEl.innerText = place;
   if (dEl) dEl.innerText = formattedDate;
 }
-
 async function writeChequeClipboard(text) {
   if (navigator.clipboard?.writeText && window.isSecureContext) {
     await navigator.clipboard.writeText(text);
@@ -12426,7 +12394,6 @@ async function writeChequeClipboard(text) {
   textarea.remove();
   if (!copied) throw new Error('copy failed');
 }
-
 function copyChequeText(mode = 'fr') {
   const fr = document.getElementById('cheque-value-words')?.innerText;
   const ar = document.getElementById('cheque-value-words-ar')?.innerText;
@@ -12439,7 +12406,6 @@ function copyChequeText(mode = 'fr') {
     .then(() => showToast(mode === 'all' ? 'تم نسخ بيانات النموذج! 🧾' : 'تم نسخ المبلغ بالفرنسية! 📋'))
     .catch(() => showToast('تعذّر النسخ'));
 }
-
 function resetChequeEditor() {
   const amt = document.getElementById('cheque-amount-input');
   if (amt) amt.value = '';
@@ -12454,7 +12420,6 @@ function resetChequeEditor() {
   updateChequeConverter();
   if (amt) amt.focus();
 }
-
 function speakChequeText(btnEl) {
   const txt = document.getElementById('cheque-value-words')?.innerText;
   if (txt && txt !== '—') {
@@ -12463,7 +12428,6 @@ function speakChequeText(btnEl) {
     showToast('أدخل مبلغاً أولاً للاستماع إليه');
   }
 }
-
 function speakNumberCard(n, fr, cardEl) {
   if (cardEl && cardEl.classList) {
     document.querySelectorAll('.num-card.is-speaking').forEach(c => c.classList.remove('is-speaking'));
@@ -12475,7 +12439,6 @@ function speakNumberCard(n, fr, cardEl) {
   speakFrenchText(fr, cardEl);
   showToast(`${n} = ${fr} 🔊`);
 }
-
 function switchChequesSubTab(viewId, btnEl) {
   const allBtns = document.querySelectorAll('.cheques-subtab-btn');
   const allViews = document.querySelectorAll('.cheques-subview');
@@ -12501,7 +12464,6 @@ function switchChequesSubTab(viewId, btnEl) {
     targetView.classList.add('active');
   }
 }
-
 function testNumberInCheque(n) {
   switchChequesSubTab('editor');
   const cleanN = String(n).replace(/[\s\u00A0DH]/g, '').replace(/,/g, '.');
@@ -12523,13 +12485,11 @@ function readNumberGameBest() {
   try { return parseInt(localStorage.getItem('btp_numgame_best') || '0', 10) || 0; }
   catch (error) { return 0; }
 }
-
 const numGame = {
   mode: 'read', level: 'medium', count: 10, target: 0, lastTarget: null,
   right: 0, total: 0, streak: 0, best: readNumberGameBest(), answered: false,
   isSpeedRun: false, timer: 60, interval: null, autoAdvanceTimer: null
 };
-
 function numGameRandom(level) {
   if (level === 'complex') {
     // 70s, 80s, 90s complex numbers
@@ -12545,7 +12505,6 @@ function numGameRandom(level) {
   if (pick < 0.85) return Math.floor(Math.random() * 900000) + 100000;
   return Math.floor(Math.random() * 1000000) + 1000000;
 }
-
 function numGameHud() {
   const scoreEl = document.getElementById('num-game-score');
   const streakEl = document.getElementById('num-game-streak');
@@ -12567,7 +12526,6 @@ function numGameHud() {
   }
   if (progressFill) progressFill.style.width = `${Math.min(100, (numGame.total / numGame.count) * 100)}%`;
 }
-
 function startNumGamePreset(presetType) {
   if (numGame.interval) clearInterval(numGame.interval);
   if (numGame.autoAdvanceTimer) clearTimeout(numGame.autoAdvanceTimer);
@@ -12620,7 +12578,6 @@ function startNumGamePreset(presetType) {
   numGameHud();
   newNumQuestion();
 }
-
 function startNumGame() {
   if (numGame.interval) clearInterval(numGame.interval);
   if (numGame.autoAdvanceTimer) clearTimeout(numGame.autoAdvanceTimer);
@@ -12639,7 +12596,6 @@ function startNumGame() {
   numGameHud();
   newNumQuestion();
 }
-
 function stopNumGame() {
   if (numGame.interval) clearInterval(numGame.interval);
   if (numGame.autoAdvanceTimer) clearTimeout(numGame.autoAdvanceTimer);
@@ -12647,7 +12603,6 @@ function stopNumGame() {
   document.getElementById('num-game-config')?.classList.remove('hidden');
   document.getElementById('num-game-result')?.classList.add('hidden');
 }
-
 function newNumQuestion() {
   if (numGame.autoAdvanceTimer) clearTimeout(numGame.autoAdvanceTimer);
   if (numGame.total >= numGame.count) { finishNumGame(); return; }
@@ -12736,7 +12691,6 @@ function newNumQuestion() {
     if (checkBtn) checkBtn.classList.remove('hidden');
   }
 }
-
 function numGameResolve(isCorrect, correctFr) {
   if (numGame.answered) return;
   numGame.answered = true;
@@ -12775,7 +12729,6 @@ function numGameResolve(isCorrect, correctFr) {
     }, 850);
   }
 }
-
 function checkNumInput() {
   if (numGame.answered) return;
   const inputEl = document.getElementById('num-game-input');
@@ -12785,14 +12738,12 @@ function checkNumInput() {
   const isCorrect = val === correctFr || val === String(numGame.target) || val === `${numGame.target} dh`;
   numGameResolve(isCorrect, correctFr);
 }
-
 function handleNumGameInputKey(event) {
   if (event.key !== 'Enter') return;
   event.preventDefault();
   if (numGame.answered) newNumQuestion();
   else checkNumInput();
 }
-
 function pickNumOption(chosen, btnEl, correctFr) {
   if (numGame.answered) return;
   const isCorrect = chosen === correctFr;
@@ -12804,7 +12755,6 @@ function pickNumOption(chosen, btnEl, correctFr) {
   if (!isCorrect && btnEl) btnEl.classList.add('wrong');
   numGameResolve(isCorrect, correctFr);
 }
-
 function finishNumGame() {
   if (numGame.interval) clearInterval(numGame.interval);
   if (numGame.autoAdvanceTimer) clearTimeout(numGame.autoAdvanceTimer);
@@ -12830,7 +12780,6 @@ function finishNumGame() {
     result.focus();
   }
 }
-
 const REFERENCE_AMOUNTS_DATA = [
   // أجور ويوميات (wages)
   { amt: 150, cat: 'wages', catLabel: 'أجور ويوميات 👷', desc: 'أجرة يومية لمساعد بناء (Manoeuvre)' },
@@ -12871,7 +12820,6 @@ let activeNumbersFilter = 'all';
 let activeNumbersSearch = '';
 let activeRefCategory = 'all';
 let activeRefSearch = '';
-
 function renderReferenceNumbersTable(category, search) {
   category = category !== undefined ? category : activeRefCategory;
   search = search !== undefined ? search : activeRefSearch;
@@ -12958,25 +12906,21 @@ function renderReferenceNumbersTable(category, search) {
     </tr>`;
   }).join('');
 }
-
 function setRefTableCategory(cat, btnEl) {
   document.querySelectorAll('#cheques-ref-filter-bar .lvl-btn').forEach(b => b.classList.remove('active'));
   if (btnEl) btnEl.classList.add('active');
   renderReferenceNumbersTable(cat, activeRefSearch);
 }
-
 function filterReferenceTableLive() {
   const inp = document.getElementById('cheques-ref-search');
   const q = inp ? inp.value : '';
   renderReferenceNumbersTable(activeRefCategory, q);
 }
-
 function copyChequeTextDirect(text) {
   writeChequeClipboard(text)
     .then(() => showToast('تم نسخ المبلغ بالفرنسية! 📋'))
     .catch(() => showToast('تعذّر النسخ'));
 }
-
 const NUMBER_GROUP_LABELS = {
   units: 'وحدات',
   tens: 'عشرات',
@@ -12985,7 +12929,6 @@ const NUMBER_GROUP_LABELS = {
   ordinals: 'طوابق 🏢',
   btp_math: 'نسب BTP 📐'
 };
-
 function renderNumbersChart(filter, search) {
   filter = filter !== undefined ? filter : activeNumbersFilter;
   search = search !== undefined ? search : activeNumbersSearch;
@@ -13040,13 +12983,11 @@ function renderNumbersChart(filter, search) {
     </div>`;
   }).join('');
 }
-
 function setNumbersFilter(f, btnEl) {
   document.querySelectorAll('#num-filter-bar .lvl-btn').forEach(b => b.classList.remove('active'));
   if (btnEl) btnEl.classList.add('active');
   renderNumbersChart(f, activeNumbersSearch);
 }
-
 function filterNumbersChartLive() {
   const inp = document.getElementById('num-library-search');
   const q = inp ? inp.value : '';
@@ -13172,7 +13113,6 @@ function calculateBtpBeton() {
   void resEl.offsetWidth;
   resEl.style.animation = 'calcResultEntrance 0.28s var(--ease-out-expo) both';
 }
-
 function setBetonPreset(type) {
   if (type === 'dalle') {
     document.getElementById('calc-beton-l').value = '10.0';
@@ -13192,7 +13132,6 @@ function setBetonPreset(type) {
   }
   calculateBtpBeton();
 }
-
 function calculateBtpAcier() {
   const d = parseFloat(document.getElementById('calc-acier-d')?.value) || 12;
   const len = parseFloat(document.getElementById('calc-acier-len')?.value) || 0;
@@ -13253,7 +13192,6 @@ function calculateBtpBriques() {
   void resEl.offsetWidth;
   resEl.style.animation = 'calcResultEntrance 0.28s var(--ease-out-expo) both';
 }
-
 function calculateBtpCarrelage() {
   const area = parseFloat(document.getElementById('calc-carrelage-area')?.value) || 0;
   const waste = parseFloat(document.getElementById('calc-carrelage-waste')?.value) || 10;
@@ -13332,7 +13270,6 @@ function calculateBtpToupie() {
   const toupies = Math.ceil(vol / cap);
   res.innerHTML = `🚚 تحتاج حوالي <strong>${toupies} شاحنة خلط (Toupie ${cap}m³)</strong> لتوصيل ${vol} m³ من الخرسانة.`;
 }
-
 function calculateBtpPlatre() {
   const area = parseFloat(document.getElementById('conv-platre-area')?.value) || 0;
   const res = document.getElementById('conv-platre-res');
@@ -13499,7 +13436,6 @@ function filterReadingDocsByCategory(cat, btnEl) {
   if (btnEl) btnEl.classList.add('active');
   renderReadingDocsSelector();
 }
-
 function renderReadingDocsSelector() {
   const container = document.getElementById('reading-docs-selector-list');
   if (!container) return;
@@ -13832,7 +13768,6 @@ function buildReadingQuestion(doc, question, index) {
   item.appendChild(answerBox);
   return item;
 }
-
 function toggleAnswerReveal(docId, idx, btnEl) {
   const ansBox = document.getElementById(`qa-ans-${docId}-${idx}`);
   const assessBox = document.getElementById(`qa-assess-${docId}-${idx}`);
@@ -13844,7 +13779,6 @@ function toggleAnswerReveal(docId, idx, btnEl) {
   btnEl.innerText = willReveal ? 'أخفِ الجواب / Cacher' : 'أظهر الجواب النموذجي / Voir la réponse';
   assessBox?.classList.toggle('hidden', !willReveal);
 }
-
 function assessReadingAnswer(docId, index, assessment) {
   const doc = READING_DOCS.find(item => item.id === docId);
   if (!doc || !['good', 'review'].includes(assessment)) return;
@@ -13859,7 +13793,6 @@ function assessReadingAnswer(docId, index, assessment) {
   updateReadingDocumentProgress(docId);
   renderReadingDocsSelector();
 }
-
 function updateReadingDocumentProgress(docId) {
   const doc = READING_DOCS.find(item => item.id === docId);
   if (!doc) return;
@@ -13886,19 +13819,16 @@ function updateReadingDocumentProgress(docId) {
   });
   updateReadingOverallProgress();
 }
-
 function adjustReadingFont(delta) {
   state.readingFontScale = Math.min(1.4, Math.max(0.8, (state.readingFontScale || 1) + delta));
   const viewer = document.getElementById('reading-doc-text');
   if (viewer) viewer.style.fontSize = `${13 * state.readingFontScale}px`;
 }
-
 function copyReadingDocument(doc) {
   navigator.clipboard.writeText(doc.doc_content)
     .then(() => showToast('تم نسخ نص المستند.'))
     .catch(() => showToast('تعذر نسخ المستند في هذا المتصفح.'));
 }
-
 function resetReadingDocumentProgress(docId) {
   if (!confirm('هل تريد مسح تقييمات أسئلة هذا المستند؟')) return;
   delete state.readingProgress[docId];
@@ -13973,7 +13903,6 @@ let readingQuizIndex = 0;
 let readingQuizScore = 0;
 let readingQuizStreak = 0;
 let readingQuizAnswered = false;
-
 function initReadingQuiz() {
   readingQuizIndex = 0;
   readingQuizScore = 0;
@@ -14025,7 +13954,6 @@ function renderReadingQuizCard() {
     </div>
   `;
 }
-
 function checkReadingQuizOption(index, btnEl) {
   if (readingQuizAnswered) return;
   readingQuizAnswered = true;
@@ -14058,7 +13986,6 @@ function checkReadingQuizOption(index, btnEl) {
   feedback.classList.remove('hidden');
   if (nextBtn) nextBtn.classList.remove('hidden');
 }
-
 function nextReadingQuizQuestion() {
   readingQuizIndex++;
   renderReadingQuizCard();
@@ -14218,7 +14145,6 @@ function filterWritingTemplates(cat, btnEl) {
   if (btnEl) btnEl.classList.add('active');
   renderWritingTemplatesSelector();
 }
-
 function renderWritingTemplatesSelector() {
   const container = document.getElementById('writing-templates-selector-list');
   if (!container) return;
@@ -14273,7 +14199,6 @@ function renderWritingTemplatesSelector() {
     loadWritingTemplate(filtered[0].id);
   }
 }
-
 function loadWritingTemplate(tmplId) {
   state.activeTemplateId = tmplId;
 
@@ -14320,7 +14245,6 @@ function loadWritingTemplate(tmplId) {
 
   renderTemplateOutput();
 }
-
 function updateTemplateOutput(inputEl) {
   const fieldId = inputEl.getAttribute('data-field-id');
   const val = inputEl.value.trim();
@@ -14330,7 +14254,6 @@ function updateTemplateOutput(inputEl) {
   state.templateFieldValues[fieldId] = val || tmpl.fields.find(f => f.id === fieldId)?.placeholder || '';
   renderTemplateOutput();
 }
-
 function renderTemplateOutput() {
   const tmpl = WRITING_TEMPLATES.find(t => t.id === state.activeTemplateId);
   if (!tmpl) return;
@@ -14386,7 +14309,6 @@ function renderTemplateOutput() {
   void outBox.offsetWidth;
   outBox.classList.add('output-updated');
 }
-
 function copyTemplateToClipboard() {
   const tmpl = WRITING_TEMPLATES.find(t => t.id === state.activeTemplateId);
   if (!tmpl) return;
@@ -14501,7 +14423,6 @@ const BTP_SITE_PHRASES = [
     context: "تأمين مناطق الخطر"
   }
 ];
-
 function filterPhrasesByCategory(cat, btnEl) {
   activePhrasesCategory = cat;
   const buttons = document.querySelectorAll('#phrases-cat-filter-bar .lvl-btn');
@@ -14509,7 +14430,6 @@ function filterPhrasesByCategory(cat, btnEl) {
   if (btnEl) btnEl.classList.add('active');
   renderWritingPhrases(cat);
 }
-
 function renderWritingPhrases(cat = 'all') {
   const container = document.getElementById('writing-phrases-grid');
   if (!container) return;
@@ -14654,7 +14574,6 @@ M. ALAMI Mohamed — Conducteur de Travaux`
 };
 
 let currentEmailScenario = 'relance';
-
 function renderEmailAssistant() {
   const container = document.getElementById('writing-email-builder-box');
   if (!container) return;
@@ -14698,12 +14617,10 @@ function renderEmailAssistant() {
 
   updateEmailAssistantPreview();
 }
-
 function selectEmailScenario(key) {
   currentEmailScenario = key;
   renderEmailAssistant();
 }
-
 function updateEmailAssistantPreview() {
   const scenario = EMAIL_SCENARIOS[currentEmailScenario];
   if (!scenario) return;
@@ -14842,7 +14759,6 @@ function renderGrammarAccordions() {
   });
   container.innerHTML = html;
 }
-
 function toggleAccordion(idx) {
   const item = document.getElementById(`accordion-idx-${idx}`);
   const content = document.getElementById(`accordion-content-${idx}`);
@@ -14863,10 +14779,9 @@ function toggleAccordion(idx) {
     if (btn) btn.setAttribute('aria-expanded', 'true');
     // Using scrollHeight instead of 5000px ensures a perfectly paced CSS transition
     content.style.maxHeight = content.scrollHeight + 'px';
-    if (typeof playHaptic !== 'undefined') playHaptic(10);
+    playHaptic(10);
   }
 }
-
 function filterGrammarByCategory(category, btnEl) {
   currentGrammarCategory = category;
   if (btnEl) {
@@ -14878,7 +14793,6 @@ function filterGrammarByCategory(category, btnEl) {
   }
   renderGrammarAccordions();
 }
-
 function handleGrammarSearch() {
   const input = document.getElementById('grammar-search-input');
   if (!input) return;
@@ -14986,7 +14900,6 @@ const GRAMMAR_QUIZ_QUESTIONS = [
 let grammarQuizIndex = 0;
 let grammarQuizScore = 0;
 let grammarQuizAnswered = false;
-
 function initGrammarQuiz() {
   grammarQuizIndex = 0;
   grammarQuizScore = 0;
@@ -15037,7 +14950,6 @@ function renderGrammarQuizCard() {
     </div>
   `;
 }
-
 function checkGrammarQuizOption(index, btnEl) {
   if (grammarQuizAnswered) return;
   grammarQuizAnswered = true;
@@ -15068,7 +14980,6 @@ function checkGrammarQuizOption(index, btnEl) {
   feedback.classList.remove('hidden');
   if (nextBtn) nextBtn.classList.remove('hidden');
 }
-
 function nextGrammarQuizQuestion() {
   grammarQuizIndex++;
   renderGrammarQuizCard();
@@ -15163,12 +15074,10 @@ const BTP_VERBS = [
     example_ar: "قمنا بطلب شراء 600 كلغ من حديد التسليح عيار 12 ليوم الخميس."
   }
 ];
-
 function selectVerbConjugation(index) {
   selectedVerbIndex = index;
   renderGrammarVerbsTable();
 }
-
 function renderGrammarVerbsTable() {
   const container = document.getElementById('grammar-verbs-table-box');
   if (!container) return;
@@ -15259,7 +15168,6 @@ const PLAN_MONTH_TITLES = {
   5: "الإدارة والسلامة والطرق · Gestion",
   6: "الإتقان والمراجعة الشاملة · Maîtrise"
 };
-
 const TAB_LABELS = {
   vocab: { text: 'مفردات', icon: '🏗️', color: 'var(--blue)' },
   quiz: { text: 'اختبار', icon: '🎯', color: '#a855f7' },
@@ -15274,20 +15182,17 @@ const TAB_LABELS = {
 let planMonthFilter = 'all';
 let planSearchQuery = '';
 let planUncompletedOnly = false;
-
 function handlePlanSearch() {
   const input = document.getElementById('plan-search-input');
   planSearchQuery = (input?.value || '').trim().toLowerCase();
   renderStudyPlan();
 }
-
 function setPlanMonthFilter(month, btnEl) {
   planMonthFilter = month;
   document.querySelectorAll('#plan-month-filters-bar .lvl-btn').forEach(b => b.classList.remove('active'));
   if (btnEl) btnEl.classList.add('active');
   renderStudyPlan();
 }
-
 function togglePlanUncompletedOnly() {
   planUncompletedOnly = !planUncompletedOnly;
   const btn = document.getElementById('plan-uncompleted-toggle-btn');
@@ -15297,7 +15202,6 @@ function togglePlanUncompletedOnly() {
   }
   renderStudyPlan();
 }
-
 function toggleAllPlanMonths(open) {
   const months = [...new Set(PLAN_TASKS.map(t => t.month))];
   months.forEach(m => {
@@ -15308,7 +15212,6 @@ function toggleAllPlanMonths(open) {
     el.open = open;
   });
 }
-
 function resetPlanProgress() {
   if (confirm('هل أنت متأكد من رغبتك في تصفير جميع الأيام المنجزة في الخطة الدراسية؟')) {
     state.checkedDays.clear();
@@ -15318,7 +15221,6 @@ function resetPlanProgress() {
     showToast('تم تصفير تقدم الخطة الدراسية بنجاح 🔄');
   }
 }
-
 function renderStudyPlan() {
   const container = document.getElementById('plan-weeks-container');
   if (!container) return;
@@ -15457,7 +15359,6 @@ function renderStudyPlan() {
     });
   });
 }
-
 function togglePlanDay(dayNum) {
   const row = document.getElementById(`plan-task-row-${dayNum}`);
   if (state.checkedDays.has(dayNum)) {
@@ -15467,7 +15368,7 @@ function togglePlanDay(dayNum) {
     state.checkedDays.add(dayNum);
     if (row) row.classList.add('checked-task');
     showToast(`أحسنت! أكملت نشاط اليوم ${dayNum} 👏`);
-    if (typeof playHaptic !== 'undefined') playHaptic([15, 30, 15]);
+    playHaptic([15, 30, 15]);
   }
   
   saveStateToLocalStorage();
@@ -15478,7 +15379,6 @@ function togglePlanDay(dayNum) {
     renderStudyPlan();
   }, 350);
 }
-
 function goToPlanTab(tabId) {
   let tabBtn = null;
   document.querySelectorAll('.tab-btn').forEach(btn => {

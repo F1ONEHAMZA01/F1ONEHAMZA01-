@@ -1,6 +1,7 @@
 import { state, getVocabDataset, getWordId, saveStateToLocalStorage, initStats, normalizeSearchText } from '../state.js';
 import { appendTextElement, showToast, escapeHtml, playHaptic } from '../ui-utils.js';
 import { speakFrenchText, speakCurrentWord, markCurrentLearned, ttsAvailable } from '../audio.js';
+import { SHORT_PHASE_NAMES } from './vocab-tab.js';
 
 export const QUIZ_MODE_META = {
   fr_to_ar: { label: '🇫🇷 → 🇲🇦 اختر المعنى', answerField: 'ar' },
