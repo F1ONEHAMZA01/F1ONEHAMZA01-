@@ -1,5 +1,5 @@
 import { normalizeSearchText } from '../state.js';
-import { playHaptic } from '../ui-utils.js';
+import { playHaptic, escapeHtml } from '../ui-utils.js';
 
 let currentGrammarCategory = 'all';
 let currentGrammarSearch = '';
@@ -74,7 +74,7 @@ export function renderGrammarAccordions() {
     const realIdx = GRAMMAR_LESSONS.indexOf(lesson);
     html += `
       <div class="accordion-item" id="accordion-idx-${realIdx}">
-        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="accordion-content-${realIdx}" onclick="toggleAccordion(${realIdx})">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="accordion-content-${realIdx}" data-call="toggleAccordion" data-args='[${realIdx}]'>
           <div class="accordion-header-title">
             <span class="grammar-badge-pill">${lesson.badge || 'درس مهني 📚'}</span>
             <span class="grammar-title-text">${lesson.title}</span>
@@ -252,7 +252,7 @@ function renderGrammarQuizCard() {
         <h4>🏆 أحسنت! أكملت تمرين القواعد الميدانية</h4>
         <p>النتيجة: <strong>${grammarQuizScore} / ${GRAMMAR_QUIZ_QUESTIONS.length}</strong> إجابة صحيحة</p>
         <div class="num-game-footer" style="margin-top:16px;">
-          <button type="button" class="btn-primary" onclick="initGrammarQuiz()">🔄 إعادة التمرين</button>
+          <button type="button" class="btn-primary" data-call="initGrammarQuiz">🔄 إعادة التمرين</button>
         </div>
       </div>
     `;
@@ -271,7 +271,7 @@ function renderGrammarQuizCard() {
       <div class="quiz-q-text" style="font-size:16px; margin-bottom:16px; text-align:right;">${q.q}</div>
       <div class="quiz-options" id="grammar-quiz-options">
         ${q.options.map((opt, i) => `
-          <button type="button" class="quiz-option-btn" onclick="checkGrammarQuizOption(${i}, this)">
+          <button type="button" class="quiz-option-btn" data-call="checkGrammarQuizOption" data-args='[${i},"__el__"]'>
             <span class="opt-letter">${['A', 'B', 'C', 'D'][i]}</span>
             <span class="opt-text" lang="fr" dir="ltr">${opt}</span>
           </button>
@@ -279,8 +279,8 @@ function renderGrammarQuizCard() {
       </div>
       <div id="grammar-quiz-feedback" class="quiz-feedback hidden" style="margin-top:14px;"></div>
       <div class="num-game-footer" style="margin-top:16px;">
-        <button type="button" class="btn-secondary" onclick="initGrammarQuiz()">⏹ إنهاء</button>
-        <button type="button" class="btn-primary hidden" id="grammar-quiz-next" onclick="nextGrammarQuizQuestion()">التالي / Suivant</button>
+        <button type="button" class="btn-secondary" data-call="initGrammarQuiz">⏹ إنهاء</button>
+        <button type="button" class="btn-primary hidden" id="grammar-quiz-next" data-call="nextGrammarQuizQuestion">التالي / Suivant</button>
       </div>
     </div>
   `;
@@ -426,7 +426,7 @@ export function renderGrammarVerbsTable() {
   container.innerHTML = `
     <div class="verb-selector-bar">
       ${BTP_VERBS.map((verbItem, idx) => `
-        <button type="button" class="verb-pill-btn ${idx === selectedVerbIndex ? 'active' : ''}" onclick="selectVerbConjugation(${idx})">
+        <button type="button" class="verb-pill-btn ${idx === selectedVerbIndex ? 'active' : ''}" data-call="selectVerbConjugation" data-args='[${idx}]'>
           <strong>${verbItem.verb}</strong>
           <small>${verbItem.ar}</small>
         </button>
@@ -439,7 +439,7 @@ export function renderGrammarVerbsTable() {
           <h3 style="margin:0; font-size:20px; color:var(--gold-light); font-family:var(--font-fr);">${v.verb} <span style="font-size:14px; font-weight:normal; color:#cbd5e1;">(${v.ar})</span></h3>
           <span style="font-size:12px; color:#94a3b8;">المجموعة: ${v.group}</span>
         </div>
-        <button type="button" class="btn-primary" onclick="speakFrenchText('${v.verb}', this)">
+        <button type="button" class="btn-primary" data-call="speakFromDataset" data-speak="${escapeHtml(v.verb)}">
           🔊 <span>نطق الفعل</span>
         </button>
       </div>
@@ -474,8 +474,8 @@ export function renderGrammarVerbsTable() {
           <div class="ex-ar">${v.example_ar}</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="gt-audio-btn" onclick="speakFrenchText('${v.example_fr.replace(/'/g, "\\'")}', this)" aria-label="استمع للجملة">🔊</button>
-          <button type="button" class="gt-audio-btn" onclick="navigator.clipboard.writeText('${v.example_fr.replace(/'/g, "\\'")}').then(() => showToast('تم نسخ المثال!'))" aria-label="نسخ الجملة">📋</button>
+          <button type="button" class="gt-audio-btn" data-call="speakFromDataset" data-speak="${escapeHtml(v.example_fr)}"" aria-label="استمع للجملة">🔊</button>
+          <button type="button" class="gt-audio-btn" data-call="copyFromDataset" data-copy="${escapeHtml(v.example_fr)}" aria-label="نسخ الجملة">📋</button>
         </div>
       </div>
     </div>

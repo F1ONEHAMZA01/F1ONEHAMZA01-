@@ -92,7 +92,7 @@ MAIN APP CONTAINER
 <span aria-hidden="true">📥</span>
 <span class="reset-label-sm">استيراد</span>
 </button>
-<input type="file" id="import-progress-input" accept=".json,application/json" class="hidden" onchange="importProgressFile(this)" aria-hidden="true" tabindex="-1">
+<input type="file" id="import-progress-input" accept=".json,application/json" class="hidden" data-change="importProgressFile" data-args='["__el__"]' aria-hidden="true" tabindex="-1">
 <button class="vocab-reset-btn-sm" type="button" id="hold-reset-btn" data-hold-reset title="اضغط مطولاً 900ms لمسح كل التقدم (بديل آمن عن نافذة التأكيد)" aria-label="اضغط مطولاً لمسح جميع بيانات التقدم">
 <span class="hold-progress-fill" aria-hidden="true"></span>
 <span aria-hidden="true">🔄</span>
@@ -112,7 +112,7 @@ MAIN APP CONTAINER
 🎛️ <span>الفلاتر</span> <span id="open-filters-active-cat"></span>
 </button>
 <div class="vocab-search-wrap">
-<input type="search" class="input-field" id="search-input" aria-label="البحث في المصطلحات" placeholder="🔍 ابحث بالفرنسية، العربية، النطق أو الكلمات الدلالية..." oninput="handleSearchInput()">
+<input type="search" class="input-field" id="search-input" aria-label="البحث في المصطلحات" placeholder="🔍 ابحث بالفرنسية، العربية، النطق أو الكلمات الدلالية..." data-input="handleSearchInput">
 <button type="button" id="clear-search-btn" class="search-clear-btn" aria-label="مسح نص البحث / Effacer la recherche" data-call="clearSearchInput">✖</button>
 </div>
 <div class="lvl-filters" id="level-filter-bar">
@@ -314,11 +314,11 @@ MAIN APP CONTAINER
 <span class="quiz-stat-chip quiz-timer-chip hidden" id="quiz-speed-timer">⏱️ 60s</span>
 <div class="quiz-quick-toggles">
 <label class="quiz-toggle-label" title="الانتقال التلقائي السريع للسؤال التالي بعد الإجابة الصحيحة">
-<input type="checkbox" id="quiz-auto-advance-chk" onchange="toggleQuizAutoAdvance(this.checked)" checked>
+<input type="checkbox" id="quiz-auto-advance-chk" data-change="toggleQuizAutoAdvance" data-args='["__checked__"]' checked>
 <span>⚡ تقدم تلقائي</span>
 </label>
 <label class="quiz-toggle-label" title="تشغيل نطق الكلمة الفرنسية تلقائياً">
-<input type="checkbox" id="quiz-auto-pronounce-chk" onchange="toggleQuizAutoPronounce(this.checked)">
+<input type="checkbox" id="quiz-auto-pronounce-chk" data-change="toggleQuizAutoPronounce" data-args='["__checked__"]'>
 <span>🔊 نطق تلقائي</span>
 </label>
 </div>
@@ -422,7 +422,7 @@ MAIN APP CONTAINER
 <!-- Amount Input -->
 <label class="amount-field-label" for="cheque-amount-input">المبلغ بالأرقام / Montant en chiffres</label>
 <div class="cheque-input-shell">
-<input type="text" inputmode="decimal" autocomplete="off" maxlength="18" class="input-field" id="cheque-amount-input" placeholder="مثال: 14 850,50" aria-describedby="cheque-amount-help cheque-amount-status" oninput="updateChequeConverter()" onblur="normalizeChequeAmountField()">
+<input type="text" inputmode="decimal" autocomplete="off" maxlength="18" class="input-field" id="cheque-amount-input" placeholder="مثال: 14 850,50" aria-describedby="cheque-amount-help cheque-amount-status" data-input="updateChequeConverter" onblur="normalizeChequeAmountField()">
 <span class="cheque-input-suffix" aria-hidden="true">MAD</span>
 </div>
 <div id="cheque-amount-help" class="sr-only">يمكن استعمال النقطة أو الفاصلة للسنتيمات، مع أو بدون مسافات الآلاف. الحد الأقصى عشرة ملايين درهم.</div>
@@ -444,7 +444,7 @@ MAIN APP CONTAINER
 <div class="cheque-options-bar">
 <div class="cheque-config-group">
 <label for="cheque-bank-select">البنك / Banque</label>
-<select class="select-dropdown" id="cheque-bank-select" onchange="updateChequeBank()">
+<select class="select-dropdown" id="cheque-bank-select" data-change="updateChequeBank">
 <option value="attijari" selected>Attijariwafa bank · التجاري وفا بنك</option>
 <option value="bp">Banque Populaire · البنك الشعبي</option>
 <option value="boa">Bank of Africa (BMCE) · بنك إفريقيا</option>
@@ -455,11 +455,11 @@ MAIN APP CONTAINER
 </div>
 <div class="cheque-toggles-group">
 <label class="quiz-toggle-label" title="تسطير الشيك بخطين متوازيين يجعله غير قابل للصرف نقداً بالنافذة">
-<input type="checkbox" id="cheque-barre-chk" onchange="toggleChequeBarre(this.checked)" checked>
+<input type="checkbox" id="cheque-barre-chk" data-change="toggleChequeBarre" data-args='["__checked__"]' checked>
 <span>// شيك مسطر (Chèque barré)</span>
 </label>
 <label class="quiz-toggle-label" title="خاتم الشيك المصدق مع حجز المؤونة لمدة 20 يوماً">
-<input type="checkbox" id="cheque-certifie-chk" onchange="toggleChequeCertifie(this.checked)">
+<input type="checkbox" id="cheque-certifie-chk" data-change="toggleChequeCertifie" data-args='["__checked__"]'>
 <span>🔒 شيك مصدق (Chèque certifié)</span>
 </label>
 </div>
@@ -468,15 +468,15 @@ MAIN APP CONTAINER
 <div class="cheque-details-grid">
 <div class="cheque-detail-field">
 <label for="cheque-payee-input">المستفيد / Bénéficiaire</label>
-<input type="text" class="input-field" id="cheque-payee-input" value="STE TRAVAUX MAROC SARL" oninput="updateChequeDetails()">
+<input type="text" class="input-field" id="cheque-payee-input" value="STE TRAVAUX MAROC SARL" data-input="updateChequeDetails">
 </div>
 <div class="cheque-detail-field">
 <label for="cheque-place-input">مكان التحرير / Lieu</label>
-<input type="text" class="input-field" id="cheque-place-input" value="Casablanca" oninput="updateChequeDetails()">
+<input type="text" class="input-field" id="cheque-place-input" value="Casablanca" data-input="updateChequeDetails">
 </div>
 <div class="cheque-detail-field">
 <label for="cheque-date-input">تاريخ التحرير / Date</label>
-<input type="date" class="input-field" id="cheque-date-input" onchange="updateChequeDetails()">
+<input type="date" class="input-field" id="cheque-date-input" data-change="updateChequeDetails">
 </div>
 </div>
 <div class="cheque-actions">
@@ -545,7 +545,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 </div>
 <div class="decomposer-input-row">
-<input type="number" class="input-field" id="num-decomposer-input" placeholder="مثال: 80 أو 91 أو 200..." min="0" max="1000000" oninput="runNumberDecomposer()">
+<input type="number" class="input-field" id="num-decomposer-input" placeholder="مثال: 80 أو 91 أو 200..." min="0" max="1000000" data-input="runNumberDecomposer">
 <button class="btn-secondary" data-call="speakDecomposedNumber">🔊 استمع</button>
 </div>
 <div class="decomposer-result-box" id="decomp-result">
@@ -717,7 +717,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <div class="quiz-q-sub num-game-prompt-pill" id="num-game-prompt"></div>
 </div>
 <div id="num-game-input-zone" class="hidden num-game-input-wrapper">
-<input type="text" inputmode="numeric" autocomplete="off" class="input-field" id="num-game-input" aria-label="اكتب الرقم المطابق" placeholder="اكتب الرقم هنا..." style="flex:1; min-width:150px; font-family:monospace; direction:ltr; text-align:right; font-size:16px;" onkeydown="handleNumGameInputKey(event)">
+<input type="text" inputmode="numeric" autocomplete="off" class="input-field" id="num-game-input" aria-label="اكتب الرقم المطابق" placeholder="اكتب الرقم هنا..." style="flex:1; min-width:150px; font-family:monospace; direction:ltr; text-align:right; font-size:16px;" data-keydown="handleNumGameInputKey" data-args='["__event__"]'>
 <button class="btn-primary" id="num-game-check" data-call="checkNumInput">تحقّق ✓</button>
 </div>
 <div id="num-game-options" class="quiz-options" style="margin-bottom:0;"></div>
@@ -751,7 +751,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">مكتبة نطق الأرقام الشاملة: انقر على أي بطاقة لسماع النطق الصوتي الفوري، أو اضغط ✏️ لتجربتها مباشرة في الشيك البنكي.</p>
 </div>
 <div class="num-search-wrapper" style="display:flex; gap:8px; align-items:center;">
-<input type="text" class="input-field" id="num-library-search" placeholder="🔍 بحث في الأرقام (مثال: 75، dix، tva)..." oninput="filterNumbersChartLive()" style="max-width:280px; font-size:13.5px; padding:8px 14px;">
+<input type="text" class="input-field" id="num-library-search" placeholder="🔍 بحث في الأرقام (مثال: 75، dix، tva)..." data-input="filterNumbersChartLive" style="max-width:280px; font-size:13.5px; padding:8px 14px;">
 <span class="vocab-count-badge" id="num-library-count">64 رقماً</span>
 </div>
 </div>
@@ -776,7 +776,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">نماذج واقعية من معاملات الأوراش والمقاولات بالمغرب: استمع للنطق الصوتي الفوري، انسخ المبلغ بالحروف، أو جربه بنقرة واحدة في محاكي الشيك.</p>
 </div>
 <div style="display:flex; gap:8px; align-items:center;">
-<input type="text" class="input-field" id="cheques-ref-search" placeholder="🔍 تصفية المبالغ والفواتير..." oninput="filterReferenceTableLive()" style="max-width:280px; font-size:13.5px; padding:8px 14px;">
+<input type="text" class="input-field" id="cheques-ref-search" placeholder="🔍 تصفية المبالغ والفواتير..." data-input="filterReferenceTableLive" style="max-width:280px; font-size:13.5px; padding:8px 14px;">
 <span class="vocab-count-badge" id="cheques-ref-count">24 مبلغاً</span>
 </div>
 </div>
@@ -845,9 +845,9 @@ c 0023456 c 011 780 0001234567890123 45 b
 <h4 class="card-title">📂 قائمة المستندات / Documents</h4>
 <div class="reading-filter-stack">
 <label class="sr-only" for="reading-doc-search">البحث في المستندات</label>
-<input class="input-field" type="search" id="reading-doc-search" placeholder="🔍 ابحث في الوثائق (مثال: فاتورة، محضر، خرسانة)..." oninput="renderReadingDocsSelector()">
+<input class="input-field" type="search" id="reading-doc-search" placeholder="🔍 ابحث في الوثائق (مثال: فاتورة، محضر، خرسانة)..." data-input="renderReadingDocsSelector">
 <label class="sr-only" for="reading-level-filter">تصفية حسب المستوى</label>
-<select class="select-dropdown" id="reading-level-filter" onchange="renderReadingDocsSelector()">
+<select class="select-dropdown" id="reading-level-filter" data-change="renderReadingDocsSelector">
 <option value="all">كل المستويات (A1 - B2)</option>
 <option value="A1">مستوى A1 (مبتدئ)</option>
 <option value="A2">مستوى A2 (متوسط أولي)</option>
@@ -932,7 +932,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <h4 class="card-title">📂 قائمة النماذج / Modèles</h4>
 <div class="reading-filter-stack">
 <label class="sr-only" for="writing-tmpl-search">البحث في النماذج</label>
-<input class="input-field" type="search" id="writing-tmpl-search" placeholder="🔍 ابحث في النماذج (مثال: طلب شراء، فاتورة)..." oninput="renderWritingTemplatesSelector()">
+<input class="input-field" type="search" id="writing-tmpl-search" placeholder="🔍 ابحث في النماذج (مثال: طلب شراء، فاتورة)..." data-input="renderWritingTemplatesSelector">
 </div>
 <div class="lvl-filters" id="writing-cat-filter-bar" style="margin: 8px 0 12px; gap: 4px;">
 <button type="button" class="lvl-btn active" data-call="filterWritingTemplates" data-args='["all","__el__"]'>الكل (11)</button>
@@ -966,7 +966,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <div class="grammar-toolbar" style="margin:14px 0;">
 <div class="grammar-search-box">
-<input type="search" class="input-field" id="writing-phrase-search" placeholder="🔍 ابحث في العبارات (مثال: ciment, retard, intempéries, casque)..." oninput="renderWritingPhrases()">
+<input type="search" class="input-field" id="writing-phrase-search" placeholder="🔍 ابحث في العبارات (مثال: ciment, retard, intempéries, casque)..." data-input="renderWritingPhrases">
 </div>
 <div class="lvl-filters" id="phrases-cat-filter-bar" style="gap:4px;">
 <button type="button" class="lvl-btn active" data-call="filterPhrasesByCategory" data-args='["all","__el__"]'>جميع العبارات</button>
@@ -1030,7 +1030,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <div id="grammar-view-lessons" class="grammar-subview active">
 <div class="grammar-toolbar">
 <div class="grammar-search-box">
-<input type="search" class="input-field" id="grammar-search-input" placeholder="🔍 ابحث في قواعد الورش (مثال: impératif, passé composé, sécurité, retards)..." oninput="handleGrammarSearch()" aria-label="البحث في دروس القواعد">
+<input type="search" class="input-field" id="grammar-search-input" placeholder="🔍 ابحث في قواعد الورش (مثال: impératif, passé composé, sécurité, retards)..." data-input="handleGrammarSearch" aria-label="البحث في دروس القواعد">
 </div>
 <div class="lvl-filters" id="grammar-cat-filters">
 <button type="button" class="lvl-btn active" data-call="filterGrammarByCategory" data-args='["all","__el__"]'>جميع الدروس (10)</button>
@@ -1106,7 +1106,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <!-- Plan Filter & Search Toolbar -->
 <div class="plan-filter-toolbar">
 <div class="plan-search-box">
-<input type="search" class="input-field" id="plan-search-input" placeholder="🔍 ابحث في مهام الخطة، الأيام أو الكلمات..." oninput="handlePlanSearch()" aria-label="البحث في الخطة الدراسية">
+<input type="search" class="input-field" id="plan-search-input" placeholder="🔍 ابحث في مهام الخطة، الأيام أو الكلمات..." data-input="handlePlanSearch" aria-label="البحث في الخطة الدراسية">
 </div>
 <div class="plan-month-filters" id="plan-month-filters-bar">
 <button class="lvl-btn active" data-call="setPlanMonthFilter" data-args='["all","__el__"]' type="button">جميع الأشهر</button>
@@ -1184,7 +1184,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <div class="quiz-config-row" style="margin-bottom:8px;">
 <label for="calc-beton-dosage">معايرة الإسمنت / Dosage Ciment</label>
-<select class="select-dropdown" id="calc-beton-dosage" onchange="calculateBtpBeton()">
+<select class="select-dropdown" id="calc-beton-dosage" data-change="calculateBtpBeton">
 <option value="350" selected>350 kg/m³ (خرسانة مسلحة قياسية CPJ 45)</option>
 <option value="300">300 kg/m³ (خرسانة النظافة Béton de propreté)</option>
 <option value="400">400 kg/m³ (خرسانة عالية المقاومة Voiles)</option>
@@ -1192,15 +1192,15 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <div class="quiz-config-row" style="margin-bottom:8px;">
 <label for="calc-beton-l">الطول (m) / Longueur</label>
-<input type="number" min="0" step="0.1" class="input-field" id="calc-beton-l" placeholder="مثال: 12.5" oninput="calculateBtpBeton()">
+<input type="number" min="0" step="0.1" class="input-field" id="calc-beton-l" placeholder="مثال: 12.5" data-input="calculateBtpBeton">
 </div>
 <div class="quiz-config-row" style="margin-bottom:8px;">
 <label for="calc-beton-w">العرض (m) / Largeur</label>
-<input type="number" min="0" step="0.1" class="input-field" id="calc-beton-w" placeholder="مثال: 8.0" oninput="calculateBtpBeton()">
+<input type="number" min="0" step="0.1" class="input-field" id="calc-beton-w" placeholder="مثال: 8.0" data-input="calculateBtpBeton">
 </div>
 <div class="quiz-config-row" style="margin-bottom:12px;">
 <label for="calc-beton-h">السمك (m) / Épaisseur</label>
-<input type="number" min="0" step="0.01" class="input-field" id="calc-beton-h" placeholder="مثال: 0.20" oninput="calculateBtpBeton()">
+<input type="number" min="0" step="0.01" class="input-field" id="calc-beton-h" placeholder="مثال: 0.20" data-input="calculateBtpBeton">
 </div>
 <div class="calc-result-box" role="status" aria-live="polite" id="calc-beton-result">
 أدخل الأبعاد أعلاه لحساب التكعيب وعدد أكياس الإسمنت والرمل والحصى...
@@ -1212,7 +1212,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <h4 class="card-title">🔩 حديد التسليح والقضبان / Acier HA (12m)</h4>
 <div class="quiz-config-row" style="margin-bottom:10px;">
 <label for="calc-acier-d">قطر القضيب / Diamètre HA</label>
-<select class="select-dropdown" id="calc-acier-d" onchange="calculateBtpAcier()">
+<select class="select-dropdown" id="calc-acier-d" data-change="calculateBtpAcier">
 <option value="6">HA 6 (0.222 kg/m)</option>
 <option value="8">HA 8 (0.395 kg/m)</option>
 <option value="10">HA 10 (0.617 kg/m)</option>
@@ -1225,7 +1225,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <div class="quiz-config-row" style="margin-bottom:14px;">
 <label for="calc-acier-len">الطول الإجمالي (m) / Longueur totale</label>
-<input type="number" min="0" step="1" class="input-field" id="calc-acier-len" placeholder="مثال: 120" oninput="calculateBtpAcier()">
+<input type="number" min="0" step="1" class="input-field" id="calc-acier-len" placeholder="مثال: 120" data-input="calculateBtpAcier">
 </div>
 <div class="calc-result-box" role="status" aria-live="polite" id="calc-acier-result">
 أدخل الطول بالمتر لحساب الوزن الإجمالي وعدد القضبان (Barres 12m)...
@@ -1242,11 +1242,11 @@ c 0023456 c 011 780 0001234567890123 45 b
 <h4 class="card-title">🧱 الآجور والطوب والملاط / Briques & Agglos</h4>
 <div class="quiz-config-row" style="margin-bottom:10px;">
 <label for="calc-brique-area">مساحة الجدار (m²) / Surface mur</label>
-<input type="number" min="0" step="1" class="input-field" id="calc-brique-area" placeholder="مثال: 45" oninput="calculateBtpBriques()">
+<input type="number" min="0" step="1" class="input-field" id="calc-brique-area" placeholder="مثال: 45" data-input="calculateBtpBriques">
 </div>
 <div class="quiz-config-row" style="margin-bottom:14px;">
 <label for="calc-brique-type">نوع الطوب / Type de brique</label>
-<select class="select-dropdown" id="calc-brique-type" onchange="calculateBtpBriques()">
+<select class="select-dropdown" id="calc-brique-type" data-change="calculateBtpBriques">
 <option value="12.5">آجور 6 ثقوب (12.5 وحدة/m²)</option>
 <option value="12.5">آجور 8 ثقوب (12.5 وحدة/m²)</option>
 <option value="12.5" selected>آجور 12 ثقب (12.5 وحدة/m²)</option>
@@ -1264,11 +1264,11 @@ c 0023456 c 011 780 0001234567890123 45 b
 <h4 class="card-title">🪟 السيراميك والغراء / Carrelage & Colle</h4>
 <div class="quiz-config-row" style="margin-bottom:10px;">
 <label for="calc-carrelage-area">مساحة الأرضية (m²) / Surface sol</label>
-<input type="number" min="0" step="1" class="input-field" id="calc-carrelage-area" placeholder="مثال: 60" oninput="calculateBtpCarrelage()">
+<input type="number" min="0" step="1" class="input-field" id="calc-carrelage-area" placeholder="مثال: 60" data-input="calculateBtpCarrelage">
 </div>
 <div class="quiz-config-row" style="margin-bottom:14px;">
 <label for="calc-carrelage-waste">نسبة الضياع والتضييع / Chute (%)</label>
-<select class="select-dropdown" id="calc-carrelage-waste" onchange="calculateBtpCarrelage()">
+<select class="select-dropdown" id="calc-carrelage-waste" data-change="calculateBtpCarrelage">
 <option value="5">5% (تغطية مستقيمة قياسية)</option>
 <option value="10" selected>10% (تغطية قياسية مائلة)</option>
 <option value="15">15% (زوايا وحواف معقدة)</option>
@@ -1289,11 +1289,11 @@ c 0023456 c 011 780 0001234567890123 45 b
 <h4 class="card-title">💵 ميزانية الورشة والضريبة / Budget & TVA</h4>
 <div class="quiz-config-row" style="margin-bottom:14px;">
 <label for="calc-finance-ht">المبلغ دون ضريبة (DH HT) / Montant HT</label>
-<input type="number" min="0" step="100" class="input-field" id="calc-finance-ht" placeholder="مثال: 50000" oninput="calculateBtpFinances()">
+<input type="number" min="0" step="100" class="input-field" id="calc-finance-ht" placeholder="مثال: 50000" data-input="calculateBtpFinances">
 </div>
 <div class="quiz-config-row" style="margin-bottom:8px;">
 <label for="calc-finance-tva">نسبة TVA التقديرية</label>
-<select class="select-dropdown" id="calc-finance-tva" onchange="calculateBtpFinances()">
+<select class="select-dropdown" id="calc-finance-tva" data-change="calculateBtpFinances">
 <option value="20" selected>20%</option>
 <option value="10">10%</option>
 <option value="0">0%</option>
@@ -1301,11 +1301,11 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <div class="quiz-config-row" style="margin-bottom:8px;">
 <label for="calc-finance-retention">اقتطاع الضمان التعاقدي (%)</label>
-<input type="number" min="0" max="100" step="0.5" class="input-field" id="calc-finance-retention" value="10" oninput="calculateBtpFinances()">
+<input type="number" min="0" max="100" step="0.5" class="input-field" id="calc-finance-retention" value="10" data-input="calculateBtpFinances">
 </div>
 <div class="quiz-config-row" style="margin-bottom:14px;">
 <label for="calc-finance-basis">أساس احتساب الضمان</label>
-<select class="select-dropdown" id="calc-finance-basis" onchange="calculateBtpFinances()">
+<select class="select-dropdown" id="calc-finance-basis" data-change="calculateBtpFinances">
 <option value="ht" selected>المبلغ HT</option>
 <option value="ttc">المبلغ TTC</option>
 </select>
@@ -1343,11 +1343,11 @@ c 0023456 c 011 780 0001234567890123 45 b
 <h4 class="card-title">🚚 شاحنات خلط الخرسانة / Camions Toupies</h4>
 <div class="quiz-config-row" style="margin-bottom:10px;">
 <label for="conv-toupie-vol">حجم الخرسانة المطلوب (m³)</label>
-<input type="number" min="0" step="1" class="input-field" id="conv-toupie-vol" placeholder="مثال: 45" oninput="calculateBtpToupie()">
+<input type="number" min="0" step="1" class="input-field" id="conv-toupie-vol" placeholder="مثال: 45" data-input="calculateBtpToupie">
 </div>
 <div class="quiz-config-row" style="margin-bottom:14px;">
 <label for="conv-toupie-cap">سعة الشاحنة الواحدة (m³)</label>
-<select class="select-dropdown" id="conv-toupie-cap" onchange="calculateBtpToupie()">
+<select class="select-dropdown" id="conv-toupie-cap" data-change="calculateBtpToupie">
 <option value="8" selected>شاحنة قياسية 8 m³</option>
 <option value="9">شاحنة كبيرة 9 m³</option>
 <option value="6">شاحنة صغيرة 6 m³ (أزقة ضيقة)</option>
@@ -1362,7 +1362,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <h4 class="card-title">🧱 الجبس والملاط / Plâtre & Enduit</h4>
 <div class="quiz-config-row" style="margin-bottom:14px;">
 <label for="conv-platre-area">مساحة التغطية (m²) / Surface</label>
-<input type="number" min="0" step="1" class="input-field" id="conv-platre-area" placeholder="مثال: 150" oninput="calculateBtpPlatre()">
+<input type="number" min="0" step="1" class="input-field" id="conv-platre-area" placeholder="مثال: 150" data-input="calculateBtpPlatre">
 </div>
 <div class="calc-result-box" id="conv-platre-res">
 أدخل المساحة لحساب أكياس الجبس المطلوبة (Plâtre 40kg)...
@@ -1854,7 +1854,7 @@ function getVocabDataset() {
       }
     }
 
-    function importProgressFile(fileInput) {
+function importProgressFile(fileInput) {
       const file = fileInput && fileInput.files && fileInput.files[0];
       if (!file) return;
 
@@ -3241,7 +3241,7 @@ function renderQuizStatsView() {
 
       <div class="quiz-stats-actions" style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
         ${wrongCount > 0 ? `
-          <button type="button" class="btn-primary" onclick="startQuizPreset('mistakes')">
+          <button type="button" class="btn-primary" data-call="startQuizPreset" data-args='["mistakes"]'>
             🧠 <span>ابدأ تدريب معالجة الأخطاء (${wrongCount} مصطلحاً)</span>
           </button>
         ` : `
@@ -3249,7 +3249,7 @@ function renderQuizStatsView() {
             🎉 رائع جداً! لا توجد أخطاء عالقة في سجلّك حالياً.
           </div>
         `}
-        <button type="button" class="btn-secondary" onclick="startQuizPreset('quick10')">
+        <button type="button" class="btn-secondary" data-call="startQuizPreset" data-args='["quick10"]'>
           ⚡ <span>جلسة 10 أسئلة جديدة</span>
         </button>
       </div>
@@ -3732,8 +3732,8 @@ function handleQuizAnswer(selectedOpt, btnEl) {
     (!isCorrect ? `<div class="review-answer-line">اختيارك: <span class="review-chosen">${escapeHtml(selectedOpt)}</span></div>` : '') +
     (w.example_fr ? `<div class="fb-ex"><span class="fb-ex-fr">${escapeHtml(w.example_fr)}</span>${w.example_ar ? `<span class="fb-ex-ar">${escapeHtml(w.example_ar)}</span>` : ''}</div>` : '') +
     `<div class="fb-actions">` +
-      (ttsAvailable() ? `<button class="fb-action-btn" type="button" onclick="speakCurrentWord()">🔊 استمع</button>` : '') +
-      (!isLearned ? `<button class="fb-action-btn gold" type="button" onclick="markCurrentLearned(this)">✓ حفظ كمتقنة</button>` : `<span class="fb-action-btn" style="background:rgba(34,197,94,0.15); color:#86efac; border:none;">✓ متقنة مسبقاً</span>`) +
+      (ttsAvailable() ? `<button class="fb-action-btn" type="button" data-call="speakCurrentWord">🔊 استمع</button>` : '') +
+      (!isLearned ? `<button class="fb-action-btn gold" type="button" data-call="markCurrentLearned" data-args='["__el__"]'>✓ حفظ كمتقنة</button>` : `<span class="fb-action-btn" style="background:rgba(34,197,94,0.15); color:#86efac; border:none;">✓ متقنة مسبقاً</span>`) +
     `</div>`;
   fb.classList.remove('hidden');
 
@@ -4015,7 +4015,7 @@ function renderSrsView() {
         🧠 بطاقات التكرار المتباعد (SM-2): قيّم مدى تذكّرك للمصطلح بعد كشف الإجابة، وسيحدد النظام تلقائياً موعد المراجعة القادم — من يوم واحد إلى أسابيع حسب إتقانك.
       </p>
       <div style="display:flex; justify-content:center; margin-top:14px;">
-        <button type="button" class="btn-primary" id="srs-start-btn" onclick="startSrsSession()" ${dueCount === 0 && scheduledCount === 0 ? '' : ''}>
+        <button type="button" class="btn-primary" id="srs-start-btn" data-call="startSrsSession" ${dueCount === 0 && scheduledCount === 0 ? '' : ''}>
           🃏 ابدأ جلسة مراجعة (${Math.min(dueCount, SRS_SESSION_SIZE)} بطاقة)
         </button>
       </div>
@@ -4064,8 +4064,8 @@ function nextSrsCard() {
         </div>
       </div>
       <div class="fb-actions" id="srs-actions">
-        <button type="button" class="btn-secondary" onclick="speakFrenchText(window.__srsCurrentFr)">🔊 استمع</button>
-        <button type="button" class="btn-primary gold" onclick="revealSrsAnswer()">👁️ اكشف الإجابة</button>
+        <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="${escapeHtmlSafe(word.fr)}">🔊 استمع</button>
+        <button type="button" class="btn-primary gold" data-call="revealSrsAnswer">👁️ اكشف الإجابة</button>
       </div>
       <div class="quiz-shortcuts">التقييم: 1 عاودت أنسى · 2 صعب · 3 جيد · 4 سهل</div>
     </div>
@@ -4088,10 +4088,10 @@ function revealSrsAnswer() {
   const actions = document.getElementById('srs-actions');
   if (actions) {
     actions.innerHTML = `
-      <button type="button" class="quiz-option-btn wrong" style="min-width:110px;" onclick="gradeSrsCard(0)">😵 عاودت أنسى</button>
-      <button type="button" class="quiz-option-btn" style="min-width:90px;" onclick="gradeSrsCard(3)">😅 صعب</button>
-      <button type="button" class="quiz-option-btn correct" style="min-width:90px;" onclick="gradeSrsCard(4)">👍 جيد</button>
-      <button type="button" class="quiz-option-btn" style="min-width:90px; border-color:#22c55e;" onclick="gradeSrsCard(5)">⚡ سهل</button>
+      <button type="button" class="quiz-option-btn wrong" style="min-width:110px;" data-call="gradeSrsCard" data-args='[0]'>😵 عاودت أنسى</button>
+      <button type="button" class="quiz-option-btn" style="min-width:90px;" data-call="gradeSrsCard" data-args='[3]'>😅 صعب</button>
+      <button type="button" class="quiz-option-btn correct" style="min-width:90px;" data-call="gradeSrsCard" data-args='[4]'>👍 جيد</button>
+      <button type="button" class="quiz-option-btn" style="min-width:90px; border-color:#22c55e;" data-call="gradeSrsCard" data-args='[5]'>⚡ سهل</button>
     `;
   }
 }
@@ -4122,7 +4122,7 @@ function finishSrsSession(box) {
         <div class="quiz-result-metric"><strong>${mastered}</strong>تقدمت للغد</div>
         <div class="quiz-result-metric"><strong>${srsSessionGrades.again}</strong>تحتاج إعادة</div>
       </div>
-      <button type="button" class="btn-primary" onclick="switchQuizSubTab('stats')">📊 عرض الإحصائيات ↗</button>
+      <button type="button" class="btn-primary" data-call="switchQuizSubTab" data-args='["stats"]'>📊 عرض الإحصائيات ↗</button>
     </div>
   `;
   // Note: intentionally NOT calling renderSrsView() here — it would wipe this summary.
@@ -4918,7 +4918,7 @@ function numGameResolve(isCorrect, correctFr) {
       `<div class="fb-pron">[ ${frWordsToPron(correctFr)} ]</div>` +
       `<div class="fb-ar">${numberToArabic(numGame.target)} درهم</div>` +
       `<div class="fb-actions" style="margin-top:8px;">` +
-        `<button class="fb-action-btn" type="button" onclick="speakFrenchText('${correctFr.replace(/'/g, "\\'")}')">🔊 استمع</button>` +
+        `<button class="fb-action-btn" type="button" data-call="speakFromDataset" data-speak="${escapeHtml(correctFr)}">🔊 استمع</button>` +
       `</div>`;
     fb.classList.remove('hidden');
   }
@@ -5797,16 +5797,16 @@ function renderReadingDoc(docId) {
   const innerNav = document.createElement('div');
   innerNav.className = 'doc-inner-nav';
   innerNav.innerHTML = `
-    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'content' ? 'active' : ''}" id="doc-tab-btn-content" onclick="switchDocInnerTab('content', this)">
+    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'content' ? 'active' : ''}" id="doc-tab-btn-content" data-call="switchDocInnerTab" data-args='["content","__el__"]'>
       <span>📄 نص الوثيقة</span>
     </button>
-    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'vocab' ? 'active' : ''}" id="doc-tab-btn-vocab" onclick="switchDocInnerTab('vocab', this)">
+    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'vocab' ? 'active' : ''}" id="doc-tab-btn-vocab" data-call="switchDocInnerTab" data-args='["vocab","__el__"]'>
       <span>💡 المفردات (${doc.vocab_hints.length})</span>
     </button>
-    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'questions' ? 'active' : ''}" id="doc-tab-btn-questions" onclick="switchDocInnerTab('questions', this)">
+    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'questions' ? 'active' : ''}" id="doc-tab-btn-questions" data-call="switchDocInnerTab" data-args='["questions","__el__"]'>
       <span>❓ أسئلة الفهم (${doc.questions.length})</span>
     </button>
-    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'guide' ? 'active' : ''}" id="doc-tab-btn-guide" onclick="switchDocInnerTab('guide', this)">
+    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'guide' ? 'active' : ''}" id="doc-tab-btn-guide" data-call="switchDocInnerTab" data-args='["guide","__el__"]'>
       <span>📐 دليل التحليل</span>
     </button>
   `;
@@ -6154,7 +6154,7 @@ function renderReadingQuizCard() {
         <h4>🏆 أحسنت! أكملت تحدي استخراج بيانات الوثائق</h4>
         <p>النتيجة النهائية: <strong>${readingQuizScore} / ${READING_QUIZ_QUESTIONS.length}</strong> إجابة صحيحة</p>
         <div class="num-game-footer" style="margin-top:16px;">
-          <button type="button" class="btn-primary" onclick="initReadingQuiz()">🔄 إعادة التحدي من جديد</button>
+          <button type="button" class="btn-primary" data-call="initReadingQuiz">🔄 إعادة التحدي من جديد</button>
         </div>
       </div>
     `;
@@ -6173,7 +6173,7 @@ function renderReadingQuizCard() {
       <div class="quiz-q-text" style="font-size:16px; margin-bottom:16px; text-align:right;">${q.q}</div>
       <div class="quiz-options" id="reading-quiz-options">
         ${q.options.map((opt, i) => `
-          <button type="button" class="quiz-option-btn" onclick="checkReadingQuizOption(${i}, this)">
+          <button type="button" class="quiz-option-btn" data-call="checkReadingQuizOption" data-args='[${i},"__el__"]'>
             <span class="opt-letter">${['A', 'B', 'C', 'D'][i]}</span>
             <span class="opt-text">${opt}</span>
           </button>
@@ -6181,8 +6181,8 @@ function renderReadingQuizCard() {
       </div>
       <div id="reading-quiz-feedback" class="quiz-feedback hidden" style="margin-top:14px;"></div>
       <div class="num-game-footer" style="margin-top:16px;">
-        <button type="button" class="btn-secondary" onclick="initReadingQuiz()">⏹ إنهاء</button>
-        <button type="button" class="btn-primary hidden" id="reading-quiz-next" onclick="nextReadingQuizQuestion()">التالي / Suivant</button>
+        <button type="button" class="btn-secondary" data-call="initReadingQuiz">⏹ إنهاء</button>
+        <button type="button" class="btn-primary hidden" id="reading-quiz-next" data-call="nextReadingQuizQuestion">التالي / Suivant</button>
       </div>
     </div>
   `;
@@ -6682,8 +6682,8 @@ function renderWritingPhrases(cat = 'all') {
       <div class="phrase-head">
         <span class="phrase-context">📌 ${p.context}</span>
         <div class="phrase-actions">
-          <button type="button" class="gt-audio-btn" onclick="speakFrenchText('${p.fr.replace(/'/g, "\\'")}', this)" aria-label="استمع لنطق العبارة">🔊</button>
-          <button type="button" class="gt-audio-btn" onclick="navigator.clipboard.writeText('${p.fr.replace(/'/g, "\\'")}').then(() => showToast('تم نسخ العبارة!'))" aria-label="نسخ العبارة">📋</button>
+          <button type="button" class="gt-audio-btn" data-call="speakFromDataset" data-speak="${escapeHtml(p.fr)}"" aria-label="استمع لنطق العبارة">🔊</button>
+          <button type="button" class="gt-audio-btn" data-call="copyFromDataset" data-copy="${escapeHtml(p.fr)}" aria-label="نسخ العبارة">📋</button>
         </div>
       </div>
       <div class="phrase-fr" lang="fr" dir="ltr">${p.fr}</div>
@@ -6814,7 +6814,7 @@ function renderEmailAssistant() {
     <div class="email-assistant-wrap">
       <div class="email-scenario-selector">
         ${Object.entries(EMAIL_SCENARIOS).map(([key, s]) => `
-          <button type="button" class="email-scenario-btn ${key === currentEmailScenario ? 'active' : ''}" onclick="selectEmailScenario('${key}')">
+          <button type="button" class="email-scenario-btn ${key === currentEmailScenario ? 'active' : ''}" data-call="selectEmailScenario" data-args='["${key}"]'">
             <span>${s.icon}</span>
             <div>
               <strong>${s.title.split('/')[0].trim()}</strong>
@@ -6831,7 +6831,7 @@ function renderEmailAssistant() {
             ${scenario.fields.map(f => `
               <div class="form-group-bilingual">
                 <label for="email-field-${f.id}">${f.label}</label>
-                <input type="text" id="email-field-${f.id}" class="input-field" value="${f.default}" oninput="updateEmailAssistantPreview()">
+                <input type="text" id="email-field-${f.id}" class="input-field" value="${f.default}" data-input="updateEmailAssistantPreview">
               </div>
             `).join('')}
           </div>
@@ -6867,10 +6867,10 @@ function updateEmailAssistantPreview() {
 
   outBox.innerHTML = `
     <div class="template-output-toolbar">
-      <button type="button" class="btn-primary copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('email-text-view').innerText).then(() => showToast('تم نسخ الإيميل!'))">
+      <button type="button" class="btn-primary copy-btn" data-call="copyEmailPreview">
         📋 <span>نسخ الإيميل</span>
       </button>
-      <button type="button" class="btn-secondary" onclick="speakFrenchText(document.getElementById('email-text-view').innerText, this)">
+      <button type="button" class="btn-secondary" data-call="speakEmailPreview">
         🔊 <span>استماع</span>
       </button>
     </div>
@@ -6972,7 +6972,7 @@ function renderGrammarAccordions() {
     const realIdx = GRAMMAR_LESSONS.indexOf(lesson);
     html += `
       <div class="accordion-item" id="accordion-idx-${realIdx}">
-        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="accordion-content-${realIdx}" onclick="toggleAccordion(${realIdx})">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="accordion-content-${realIdx}" data-call="toggleAccordion" data-args='[${realIdx}]'>
           <div class="accordion-header-title">
             <span class="grammar-badge-pill">${lesson.badge || 'درس مهني 📚'}</span>
             <span class="grammar-title-text">${lesson.title}</span>
@@ -7146,7 +7146,7 @@ function renderGrammarQuizCard() {
         <h4>🏆 أحسنت! أكملت تمرين القواعد الميدانية</h4>
         <p>النتيجة: <strong>${grammarQuizScore} / ${GRAMMAR_QUIZ_QUESTIONS.length}</strong> إجابة صحيحة</p>
         <div class="num-game-footer" style="margin-top:16px;">
-          <button type="button" class="btn-primary" onclick="initGrammarQuiz()">🔄 إعادة التمرين</button>
+          <button type="button" class="btn-primary" data-call="initGrammarQuiz">🔄 إعادة التمرين</button>
         </div>
       </div>
     `;
@@ -7165,7 +7165,7 @@ function renderGrammarQuizCard() {
       <div class="quiz-q-text" style="font-size:16px; margin-bottom:16px; text-align:right;">${q.q}</div>
       <div class="quiz-options" id="grammar-quiz-options">
         ${q.options.map((opt, i) => `
-          <button type="button" class="quiz-option-btn" onclick="checkGrammarQuizOption(${i}, this)">
+          <button type="button" class="quiz-option-btn" data-call="checkGrammarQuizOption" data-args='[${i},"__el__"]'>
             <span class="opt-letter">${['A', 'B', 'C', 'D'][i]}</span>
             <span class="opt-text" lang="fr" dir="ltr">${opt}</span>
           </button>
@@ -7173,8 +7173,8 @@ function renderGrammarQuizCard() {
       </div>
       <div id="grammar-quiz-feedback" class="quiz-feedback hidden" style="margin-top:14px;"></div>
       <div class="num-game-footer" style="margin-top:16px;">
-        <button type="button" class="btn-secondary" onclick="initGrammarQuiz()">⏹ إنهاء</button>
-        <button type="button" class="btn-primary hidden" id="grammar-quiz-next" onclick="nextGrammarQuizQuestion()">التالي / Suivant</button>
+        <button type="button" class="btn-secondary" data-call="initGrammarQuiz">⏹ إنهاء</button>
+        <button type="button" class="btn-primary hidden" id="grammar-quiz-next" data-call="nextGrammarQuizQuestion">التالي / Suivant</button>
       </div>
     </div>
   `;
@@ -7316,7 +7316,7 @@ function renderGrammarVerbsTable() {
   container.innerHTML = `
     <div class="verb-selector-bar">
       ${BTP_VERBS.map((verbItem, idx) => `
-        <button type="button" class="verb-pill-btn ${idx === selectedVerbIndex ? 'active' : ''}" onclick="selectVerbConjugation(${idx})">
+        <button type="button" class="verb-pill-btn ${idx === selectedVerbIndex ? 'active' : ''}" data-call="selectVerbConjugation" data-args='[${idx}]'>
           <strong>${verbItem.verb}</strong>
           <small>${verbItem.ar}</small>
         </button>
@@ -7329,7 +7329,7 @@ function renderGrammarVerbsTable() {
           <h3 style="margin:0; font-size:20px; color:var(--gold-light); font-family:var(--font-fr);">${v.verb} <span style="font-size:14px; font-weight:normal; color:#cbd5e1;">(${v.ar})</span></h3>
           <span style="font-size:12px; color:#94a3b8;">المجموعة: ${v.group}</span>
         </div>
-        <button type="button" class="btn-primary" onclick="speakFrenchText('${v.verb}', this)">
+        <button type="button" class="btn-primary" data-call="speakFromDataset" data-speak="${escapeHtml(v.verb)}">
           🔊 <span>نطق الفعل</span>
         </button>
       </div>
@@ -7364,8 +7364,8 @@ function renderGrammarVerbsTable() {
           <div class="ex-ar">${v.example_ar}</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="gt-audio-btn" onclick="speakFrenchText('${v.example_fr.replace(/'/g, "\\'")}', this)" aria-label="استمع للجملة">🔊</button>
-          <button type="button" class="gt-audio-btn" onclick="navigator.clipboard.writeText('${v.example_fr.replace(/'/g, "\\'")}').then(() => showToast('تم نسخ المثال!'))" aria-label="نسخ الجملة">📋</button>
+          <button type="button" class="gt-audio-btn" data-call="speakFromDataset" data-speak="${escapeHtml(v.example_fr)}"" aria-label="استمع للجملة">🔊</button>
+          <button type="button" class="gt-audio-btn" data-call="copyFromDataset" data-copy="${escapeHtml(v.example_fr)}" aria-label="نسخ الجملة">📋</button>
         </div>
       </div>
     </div>
@@ -7554,12 +7554,12 @@ function renderStudyPlan() {
           <div class="day-task-item ${isChecked ? 'checked-task' : ''}" id="plan-task-row-${task.day}">
             <div class="day-task-top">
               <div class="day-task-left">
-                <input type="checkbox" class="day-checkbox" id="day-chk-${task.day}" ${isChecked ? 'checked' : ''} onclick="togglePlanDay(${task.day})" aria-label="إكمال نشاط اليوم ${task.day}">
+                <input type="checkbox" class="day-checkbox" id="day-chk-${task.day}" ${isChecked ? 'checked' : ''} data-call="togglePlanDay" data-args='[${task.day}]' aria-label="إكمال نشاط اليوم ${task.day}">
                 <label for="day-chk-${task.day}" class="day-badge ${isChecked ? 'badge-done' : ''}">اليوم ${task.day}</label>
                 <span class="day-time-badge">⏱️ ${task.time}</span>
                 <span class="day-tab-tag" style="border-color:${meta.color}40; color:${meta.color}; background:${meta.color}15;">${meta.icon} ${meta.text}</span>
               </div>
-              <button type="button" class="day-goto-btn" onclick="goToPlanTab('${task.tab}')" aria-label="ابدأ نشاط اليوم ${task.day}">
+              <button type="button" class="day-goto-btn" data-call="goToPlanTab" data-args='["${task.tab}"]' aria-label="ابدأ نشاط اليوم ${task.day}">
                 <span>ابدأ النشاط</span>
                 <span aria-hidden="true">↗</span>
               </button>
@@ -7715,6 +7715,23 @@ if (typeof window !== 'undefined') {
   window.installPWAApp = installPWAApp;
 };
 
+function speakFromDataset(el) {
+  const text = el.dataset.speak;
+  if (text) speakFrenchText(text, el);
+}
+
+function copyFromDataset(el) {
+  const text = el.dataset.copy || '';
+  if (!text) return;
+  navigator.clipboard.writeText(text)
+    .then(() => showToast('تم النسخ إلى الحافظة 📋', 'success'))
+    .catch(() => showToast('تعذر النسخ', 'error'));
+}
+
+function speakEmailPreview(el) {
+  const view = document.getElementById('email-text-view');
+  if (view) speakFrenchText(view.innerText, el);
+}
 const ACTIONS = {
   switchTab,
   scrollToTopSmooth,
@@ -7757,6 +7774,47 @@ const ACTIONS = {
   switchCalcSubTab,
   setBetonPreset,
   copyCalcResult,
+  markCurrentLearned,
+  startSrsSession,
+  revealSrsAnswer,
+  gradeSrsCard,
+  selectEmailScenario,
+  speakFromDataset,
+  copyFromDataset,
+  speakEmailPreview,
+  switchDocInnerTab,
+  initReadingQuiz,
+  checkReadingQuizOption,
+  nextReadingQuizQuestion,
+  initGrammarQuiz,
+  checkGrammarQuizOption,
+  nextGrammarQuizQuestion,
+  selectVerbConjugation,
+  togglePlanDay,
+  goToPlanTab,
+  handleSearchInput,
+  importProgressFile,
+  updateChequeConverter,
+  updateChequeBank,
+  toggleChequeBarre,
+  toggleChequeCertifie,
+  updateChequeDetails,
+  runNumberDecomposer,
+  handleNumGameInputKey,
+  filterNumbersChartLive,
+  filterReferenceTableLive,
+  renderReadingDocsSelector,
+  renderWritingTemplatesSelector,
+  renderWritingPhrases,
+  handleGrammarSearch,
+  handlePlanSearch,
+  calculateBtpBeton,
+  calculateBtpAcier,
+  calculateBtpBriques,
+  calculateBtpCarrelage,
+  calculateBtpFinances,
+  calculateBtpToupie,
+  calculateBtpPlatre,
   setPlanMonthFilter,
   toggleAllPlanMonths,
   togglePlanUncompletedOnly,
@@ -7764,25 +7822,48 @@ const ACTIONS = {
   triggerImportPicker
 };
 
+function resolveSentinels(a, el, event) {
+  if (a === '__el__') return el;
+  if (a === '__checked__') return el.checked;
+  if (a === '__value__') return el.value;
+  if (a === '__event__') return event;
+  return a;
+}
+
+function parseArgs(el, raw, event) {
+  if (!raw) return [];
+  try {
+    return JSON.parse(raw).map(a => resolveSentinels(a, el, event));
+  } catch (err) {
+    console.warn('Bad data-args JSON for', el.dataset.call || el.dataset.input, err);
+    return null;
+  }
+}
+
+function runAction(el, event, nameAttr = 'call') {
+  const fn = ACTIONS[el.dataset[nameAttr]];
+  if (typeof fn !== 'function') {
+    console.warn(`Unknown delegated action: ${el.dataset[nameAttr]}`);
+    return;
+  }
+  const args = parseArgs(el, el.dataset.args, event);
+  if (args) fn(...args);
+}
+
 function dispatchDelegatedAction(event) {
   const el = event.target.closest?.('[data-call]');
   if (!el || el.disabled) return;
-  const fn = ACTIONS[el.dataset.call];
-  if (typeof fn !== 'function') {
-    console.warn(`Unknown delegated action: ${el.dataset.call}`);
-    return;
-  }
-  let args = [];
-  const raw = el.dataset.args;
-  if (raw) {
-    try {
-      args = JSON.parse(raw).map(a => (a === '__el__' ? el : a));
-    } catch (err) {
-      console.warn('Bad data-args JSON for', el.dataset.call, err);
-      return;
-    }
-  }
-  fn(...args);
+  runAction(el, event);
+}
+
+function dispatchDelegatedInput(event) {
+  const attr = event.type === 'input' ? 'input'
+    : event.type === 'change' ? 'change'
+    : event.type === 'keydown' ? 'keydown' : null;
+  if (!attr || !event.target) return;
+  const el = event.target.closest?.(`[data-${attr}]`);
+  if (!el) return;
+  runAction(el, event, attr);
 }
 
 function triggerImportPicker() {
@@ -7790,6 +7871,9 @@ function triggerImportPicker() {
 }
 function initDelegatedActions() {
   document.addEventListener('click', dispatchDelegatedAction);
+  document.addEventListener('input', dispatchDelegatedInput, { passive: true });
+  document.addEventListener('change', dispatchDelegatedInput, { passive: true });
+  document.addEventListener('keydown', dispatchDelegatedInput);
 };
 
 window.addEventListener('DOMContentLoaded', () => {

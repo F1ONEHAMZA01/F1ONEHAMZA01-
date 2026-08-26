@@ -174,12 +174,12 @@ export function renderStudyPlan() {
           <div class="day-task-item ${isChecked ? 'checked-task' : ''}" id="plan-task-row-${task.day}">
             <div class="day-task-top">
               <div class="day-task-left">
-                <input type="checkbox" class="day-checkbox" id="day-chk-${task.day}" ${isChecked ? 'checked' : ''} onclick="togglePlanDay(${task.day})" aria-label="إكمال نشاط اليوم ${task.day}">
+                <input type="checkbox" class="day-checkbox" id="day-chk-${task.day}" ${isChecked ? 'checked' : ''} data-call="togglePlanDay" data-args='[${task.day}]' aria-label="إكمال نشاط اليوم ${task.day}">
                 <label for="day-chk-${task.day}" class="day-badge ${isChecked ? 'badge-done' : ''}">اليوم ${task.day}</label>
                 <span class="day-time-badge">⏱️ ${task.time}</span>
                 <span class="day-tab-tag" style="border-color:${meta.color}40; color:${meta.color}; background:${meta.color}15;">${meta.icon} ${meta.text}</span>
               </div>
-              <button type="button" class="day-goto-btn" onclick="goToPlanTab('${task.tab}')" aria-label="ابدأ نشاط اليوم ${task.day}">
+              <button type="button" class="day-goto-btn" data-call="goToPlanTab" data-args='["${task.tab}"]' aria-label="ابدأ نشاط اليوم ${task.day}">
                 <span>ابدأ النشاط</span>
                 <span aria-hidden="true">↗</span>
               </button>

@@ -102,7 +102,7 @@
             <span aria-hidden="true">📥</span>
             <span class="reset-label-sm">استيراد</span>
           </button>
-          <input type="file" id="import-progress-input" accept=".json,application/json" class="hidden" onchange="importProgressFile(this)" aria-hidden="true" tabindex="-1">
+          <input type="file" id="import-progress-input" accept=".json,application/json" class="hidden" data-change="importProgressFile" data-args='["__el__"]' aria-hidden="true" tabindex="-1">
           <button class="vocab-reset-btn-sm" type="button" id="hold-reset-btn" data-hold-reset title="اضغط مطولاً 900ms لمسح كل التقدم (بديل آمن عن نافذة التأكيد)" aria-label="اضغط مطولاً لمسح جميع بيانات التقدم">
             <span class="hold-progress-fill" aria-hidden="true"></span>
             <span aria-hidden="true">🔄</span>
@@ -124,7 +124,7 @@
               🎛️ <span>الفلاتر</span> <span id="open-filters-active-cat"></span>
             </button>
             <div class="vocab-search-wrap">
-              <input type="search" class="input-field" id="search-input" aria-label="البحث في المصطلحات" placeholder="🔍 ابحث بالفرنسية، العربية، النطق أو الكلمات الدلالية..." oninput="handleSearchInput()">
+              <input type="search" class="input-field" id="search-input" aria-label="البحث في المصطلحات" placeholder="🔍 ابحث بالفرنسية، العربية، النطق أو الكلمات الدلالية..." data-input="handleSearchInput">
               <button type="button" id="clear-search-btn" class="search-clear-btn" aria-label="مسح نص البحث / Effacer la recherche" data-call="clearSearchInput">✖</button>
             </div>
             <div class="lvl-filters" id="level-filter-bar">
@@ -338,11 +338,11 @@
             <span class="quiz-stat-chip quiz-timer-chip hidden" id="quiz-speed-timer">⏱️ 60s</span>
             <div class="quiz-quick-toggles">
               <label class="quiz-toggle-label" title="الانتقال التلقائي السريع للسؤال التالي بعد الإجابة الصحيحة">
-                <input type="checkbox" id="quiz-auto-advance-chk" onchange="toggleQuizAutoAdvance(this.checked)" checked>
+                <input type="checkbox" id="quiz-auto-advance-chk" data-change="toggleQuizAutoAdvance" data-args='["__checked__"]' checked>
                 <span>⚡ تقدم تلقائي</span>
               </label>
               <label class="quiz-toggle-label" title="تشغيل نطق الكلمة الفرنسية تلقائياً">
-                <input type="checkbox" id="quiz-auto-pronounce-chk" onchange="toggleQuizAutoPronounce(this.checked)">
+                <input type="checkbox" id="quiz-auto-pronounce-chk" data-change="toggleQuizAutoPronounce" data-args='["__checked__"]'>
                 <span>🔊 نطق تلقائي</span>
               </label>
             </div>
@@ -453,7 +453,7 @@
               <!-- Amount Input -->
               <label class="amount-field-label" for="cheque-amount-input">المبلغ بالأرقام / Montant en chiffres</label>
               <div class="cheque-input-shell">
-                <input type="text" inputmode="decimal" autocomplete="off" maxlength="18" class="input-field" id="cheque-amount-input" placeholder="مثال: 14 850,50" aria-describedby="cheque-amount-help cheque-amount-status" oninput="updateChequeConverter()" onblur="normalizeChequeAmountField()">
+                <input type="text" inputmode="decimal" autocomplete="off" maxlength="18" class="input-field" id="cheque-amount-input" placeholder="مثال: 14 850,50" aria-describedby="cheque-amount-help cheque-amount-status" data-input="updateChequeConverter" onblur="normalizeChequeAmountField()">
                 <span class="cheque-input-suffix" aria-hidden="true">MAD</span>
               </div>
               <div id="cheque-amount-help" class="sr-only">يمكن استعمال النقطة أو الفاصلة للسنتيمات، مع أو بدون مسافات الآلاف. الحد الأقصى عشرة ملايين درهم.</div>
@@ -477,7 +477,7 @@
               <div class="cheque-options-bar">
                 <div class="cheque-config-group">
                   <label for="cheque-bank-select">البنك / Banque</label>
-                  <select class="select-dropdown" id="cheque-bank-select" onchange="updateChequeBank()">
+                  <select class="select-dropdown" id="cheque-bank-select" data-change="updateChequeBank">
                     <option value="attijari" selected>Attijariwafa bank · التجاري وفا بنك</option>
                     <option value="bp">Banque Populaire · البنك الشعبي</option>
                     <option value="boa">Bank of Africa (BMCE) · بنك إفريقيا</option>
@@ -488,11 +488,11 @@
                 </div>
                 <div class="cheque-toggles-group">
                   <label class="quiz-toggle-label" title="تسطير الشيك بخطين متوازيين يجعله غير قابل للصرف نقداً بالنافذة">
-                    <input type="checkbox" id="cheque-barre-chk" onchange="toggleChequeBarre(this.checked)" checked>
+                    <input type="checkbox" id="cheque-barre-chk" data-change="toggleChequeBarre" data-args='["__checked__"]' checked>
                     <span>// شيك مسطر (Chèque barré)</span>
                   </label>
                   <label class="quiz-toggle-label" title="خاتم الشيك المصدق مع حجز المؤونة لمدة 20 يوماً">
-                    <input type="checkbox" id="cheque-certifie-chk" onchange="toggleChequeCertifie(this.checked)">
+                    <input type="checkbox" id="cheque-certifie-chk" data-change="toggleChequeCertifie" data-args='["__checked__"]'>
                     <span>🔒 شيك مصدق (Chèque certifié)</span>
                   </label>
                 </div>
@@ -502,15 +502,15 @@
               <div class="cheque-details-grid">
                 <div class="cheque-detail-field">
                   <label for="cheque-payee-input">المستفيد / Bénéficiaire</label>
-                  <input type="text" class="input-field" id="cheque-payee-input" value="STE TRAVAUX MAROC SARL" oninput="updateChequeDetails()">
+                  <input type="text" class="input-field" id="cheque-payee-input" value="STE TRAVAUX MAROC SARL" data-input="updateChequeDetails">
                 </div>
                 <div class="cheque-detail-field">
                   <label for="cheque-place-input">مكان التحرير / Lieu</label>
-                  <input type="text" class="input-field" id="cheque-place-input" value="Casablanca" oninput="updateChequeDetails()">
+                  <input type="text" class="input-field" id="cheque-place-input" value="Casablanca" data-input="updateChequeDetails">
                 </div>
                 <div class="cheque-detail-field">
                   <label for="cheque-date-input">تاريخ التحرير / Date</label>
-                  <input type="date" class="input-field" id="cheque-date-input" onchange="updateChequeDetails()">
+                  <input type="date" class="input-field" id="cheque-date-input" data-change="updateChequeDetails">
                 </div>
               </div>
 
@@ -583,7 +583,7 @@
                 </div>
               </div>
               <div class="decomposer-input-row">
-                <input type="number" class="input-field" id="num-decomposer-input" placeholder="مثال: 80 أو 91 أو 200..." min="0" max="1000000" oninput="runNumberDecomposer()">
+                <input type="number" class="input-field" id="num-decomposer-input" placeholder="مثال: 80 أو 91 أو 200..." min="0" max="1000000" data-input="runNumberDecomposer">
                 <button class="btn-secondary" data-call="speakDecomposedNumber">🔊 استمع</button>
               </div>
               <div class="decomposer-result-box" id="decomp-result">
@@ -762,7 +762,7 @@
             </div>
 
             <div id="num-game-input-zone" class="hidden num-game-input-wrapper">
-              <input type="text" inputmode="numeric" autocomplete="off" class="input-field" id="num-game-input" aria-label="اكتب الرقم المطابق" placeholder="اكتب الرقم هنا..." style="flex:1; min-width:150px; font-family:monospace; direction:ltr; text-align:right; font-size:16px;" onkeydown="handleNumGameInputKey(event)">
+              <input type="text" inputmode="numeric" autocomplete="off" class="input-field" id="num-game-input" aria-label="اكتب الرقم المطابق" placeholder="اكتب الرقم هنا..." style="flex:1; min-width:150px; font-family:monospace; direction:ltr; text-align:right; font-size:16px;" data-keydown="handleNumGameInputKey" data-args='["__event__"]'>
               <button class="btn-primary" id="num-game-check" data-call="checkNumInput">تحقّق ✓</button>
             </div>
 
@@ -799,7 +799,7 @@
               <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">مكتبة نطق الأرقام الشاملة: انقر على أي بطاقة لسماع النطق الصوتي الفوري، أو اضغط ✏️ لتجربتها مباشرة في الشيك البنكي.</p>
             </div>
             <div class="num-search-wrapper" style="display:flex; gap:8px; align-items:center;">
-              <input type="text" class="input-field" id="num-library-search" placeholder="🔍 بحث في الأرقام (مثال: 75، dix، tva)..." oninput="filterNumbersChartLive()" style="max-width:280px; font-size:13.5px; padding:8px 14px;">
+              <input type="text" class="input-field" id="num-library-search" placeholder="🔍 بحث في الأرقام (مثال: 75، dix، tva)..." data-input="filterNumbersChartLive" style="max-width:280px; font-size:13.5px; padding:8px 14px;">
               <span class="vocab-count-badge" id="num-library-count">64 رقماً</span>
             </div>
           </div>
@@ -825,7 +825,7 @@
               <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">نماذج واقعية من معاملات الأوراش والمقاولات بالمغرب: استمع للنطق الصوتي الفوري، انسخ المبلغ بالحروف، أو جربه بنقرة واحدة في محاكي الشيك.</p>
             </div>
             <div style="display:flex; gap:8px; align-items:center;">
-              <input type="text" class="input-field" id="cheques-ref-search" placeholder="🔍 تصفية المبالغ والفواتير..." oninput="filterReferenceTableLive()" style="max-width:280px; font-size:13.5px; padding:8px 14px;">
+              <input type="text" class="input-field" id="cheques-ref-search" placeholder="🔍 تصفية المبالغ والفواتير..." data-input="filterReferenceTableLive" style="max-width:280px; font-size:13.5px; padding:8px 14px;">
               <span class="vocab-count-badge" id="cheques-ref-count">24 مبلغاً</span>
             </div>
           </div>
@@ -897,9 +897,9 @@
             <h4 class="card-title">📂 قائمة المستندات / Documents</h4>
             <div class="reading-filter-stack">
               <label class="sr-only" for="reading-doc-search">البحث في المستندات</label>
-              <input class="input-field" type="search" id="reading-doc-search" placeholder="🔍 ابحث في الوثائق (مثال: فاتورة، محضر، خرسانة)..." oninput="renderReadingDocsSelector()">
+              <input class="input-field" type="search" id="reading-doc-search" placeholder="🔍 ابحث في الوثائق (مثال: فاتورة، محضر، خرسانة)..." data-input="renderReadingDocsSelector">
               <label class="sr-only" for="reading-level-filter">تصفية حسب المستوى</label>
-              <select class="select-dropdown" id="reading-level-filter" onchange="renderReadingDocsSelector()">
+              <select class="select-dropdown" id="reading-level-filter" data-change="renderReadingDocsSelector">
                 <option value="all">كل المستويات (A1 - B2)</option>
                 <option value="A1">مستوى A1 (مبتدئ)</option>
                 <option value="A2">مستوى A2 (متوسط أولي)</option>
@@ -990,7 +990,7 @@
             <h4 class="card-title">📂 قائمة النماذج / Modèles</h4>
             <div class="reading-filter-stack">
               <label class="sr-only" for="writing-tmpl-search">البحث في النماذج</label>
-              <input class="input-field" type="search" id="writing-tmpl-search" placeholder="🔍 ابحث في النماذج (مثال: طلب شراء، فاتورة)..." oninput="renderWritingTemplatesSelector()">
+              <input class="input-field" type="search" id="writing-tmpl-search" placeholder="🔍 ابحث في النماذج (مثال: طلب شراء، فاتورة)..." data-input="renderWritingTemplatesSelector">
             </div>
             <div class="lvl-filters" id="writing-cat-filter-bar" style="margin: 8px 0 12px; gap: 4px;">
               <button type="button" class="lvl-btn active" data-call="filterWritingTemplates" data-args='["all","__el__"]'>الكل (11)</button>
@@ -1027,7 +1027,7 @@
           </div>
           <div class="grammar-toolbar" style="margin:14px 0;">
             <div class="grammar-search-box">
-              <input type="search" class="input-field" id="writing-phrase-search" placeholder="🔍 ابحث في العبارات (مثال: ciment, retard, intempéries, casque)..." oninput="renderWritingPhrases()">
+              <input type="search" class="input-field" id="writing-phrase-search" placeholder="🔍 ابحث في العبارات (مثال: ciment, retard, intempéries, casque)..." data-input="renderWritingPhrases">
             </div>
             <div class="lvl-filters" id="phrases-cat-filter-bar" style="gap:4px;">
               <button type="button" class="lvl-btn active" data-call="filterPhrasesByCategory" data-args='["all","__el__"]'>جميع العبارات</button>
@@ -1095,7 +1095,7 @@
       <div id="grammar-view-lessons" class="grammar-subview active">
         <div class="grammar-toolbar">
           <div class="grammar-search-box">
-            <input type="search" class="input-field" id="grammar-search-input" placeholder="🔍 ابحث في قواعد الورش (مثال: impératif, passé composé, sécurité, retards)..." oninput="handleGrammarSearch()" aria-label="البحث في دروس القواعد">
+            <input type="search" class="input-field" id="grammar-search-input" placeholder="🔍 ابحث في قواعد الورش (مثال: impératif, passé composé, sécurité, retards)..." data-input="handleGrammarSearch" aria-label="البحث في دروس القواعد">
           </div>
           <div class="lvl-filters" id="grammar-cat-filters">
             <button type="button" class="lvl-btn active" data-call="filterGrammarByCategory" data-args='["all","__el__"]'>جميع الدروس (10)</button>
@@ -1178,7 +1178,7 @@
       <!-- Plan Filter & Search Toolbar -->
       <div class="plan-filter-toolbar">
         <div class="plan-search-box">
-          <input type="search" class="input-field" id="plan-search-input" placeholder="🔍 ابحث في مهام الخطة، الأيام أو الكلمات..." oninput="handlePlanSearch()" aria-label="البحث في الخطة الدراسية">
+          <input type="search" class="input-field" id="plan-search-input" placeholder="🔍 ابحث في مهام الخطة، الأيام أو الكلمات..." data-input="handlePlanSearch" aria-label="البحث في الخطة الدراسية">
         </div>
         <div class="plan-month-filters" id="plan-month-filters-bar">
           <button class="lvl-btn active" data-call="setPlanMonthFilter" data-args='["all","__el__"]' type="button">جميع الأشهر</button>
@@ -1261,7 +1261,7 @@
             </div>
             <div class="quiz-config-row" style="margin-bottom:8px;">
               <label for="calc-beton-dosage">معايرة الإسمنت / Dosage Ciment</label>
-              <select class="select-dropdown" id="calc-beton-dosage" onchange="calculateBtpBeton()">
+              <select class="select-dropdown" id="calc-beton-dosage" data-change="calculateBtpBeton">
                 <option value="350" selected>350 kg/m³ (خرسانة مسلحة قياسية CPJ 45)</option>
                 <option value="300">300 kg/m³ (خرسانة النظافة Béton de propreté)</option>
                 <option value="400">400 kg/m³ (خرسانة عالية المقاومة Voiles)</option>
@@ -1269,15 +1269,15 @@
             </div>
             <div class="quiz-config-row" style="margin-bottom:8px;">
               <label for="calc-beton-l">الطول (m) / Longueur</label>
-              <input type="number" min="0" step="0.1" class="input-field" id="calc-beton-l" placeholder="مثال: 12.5" oninput="calculateBtpBeton()">
+              <input type="number" min="0" step="0.1" class="input-field" id="calc-beton-l" placeholder="مثال: 12.5" data-input="calculateBtpBeton">
             </div>
             <div class="quiz-config-row" style="margin-bottom:8px;">
               <label for="calc-beton-w">العرض (m) / Largeur</label>
-              <input type="number" min="0" step="0.1" class="input-field" id="calc-beton-w" placeholder="مثال: 8.0" oninput="calculateBtpBeton()">
+              <input type="number" min="0" step="0.1" class="input-field" id="calc-beton-w" placeholder="مثال: 8.0" data-input="calculateBtpBeton">
             </div>
             <div class="quiz-config-row" style="margin-bottom:12px;">
               <label for="calc-beton-h">السمك (m) / Épaisseur</label>
-              <input type="number" min="0" step="0.01" class="input-field" id="calc-beton-h" placeholder="مثال: 0.20" oninput="calculateBtpBeton()">
+              <input type="number" min="0" step="0.01" class="input-field" id="calc-beton-h" placeholder="مثال: 0.20" data-input="calculateBtpBeton">
             </div>
             
             <div class="calc-result-box" role="status" aria-live="polite" id="calc-beton-result">
@@ -1291,7 +1291,7 @@
             <h4 class="card-title">🔩 حديد التسليح والقضبان / Acier HA (12m)</h4>
             <div class="quiz-config-row" style="margin-bottom:10px;">
               <label for="calc-acier-d">قطر القضيب / Diamètre HA</label>
-              <select class="select-dropdown" id="calc-acier-d" onchange="calculateBtpAcier()">
+              <select class="select-dropdown" id="calc-acier-d" data-change="calculateBtpAcier">
                 <option value="6">HA 6 (0.222 kg/m)</option>
                 <option value="8">HA 8 (0.395 kg/m)</option>
                 <option value="10">HA 10 (0.617 kg/m)</option>
@@ -1304,7 +1304,7 @@
             </div>
             <div class="quiz-config-row" style="margin-bottom:14px;">
               <label for="calc-acier-len">الطول الإجمالي (m) / Longueur totale</label>
-              <input type="number" min="0" step="1" class="input-field" id="calc-acier-len" placeholder="مثال: 120" oninput="calculateBtpAcier()">
+              <input type="number" min="0" step="1" class="input-field" id="calc-acier-len" placeholder="مثال: 120" data-input="calculateBtpAcier">
             </div>
 
             <div class="calc-result-box" role="status" aria-live="polite" id="calc-acier-result">
@@ -1323,11 +1323,11 @@
             <h4 class="card-title">🧱 الآجور والطوب والملاط / Briques & Agglos</h4>
             <div class="quiz-config-row" style="margin-bottom:10px;">
               <label for="calc-brique-area">مساحة الجدار (m²) / Surface mur</label>
-              <input type="number" min="0" step="1" class="input-field" id="calc-brique-area" placeholder="مثال: 45" oninput="calculateBtpBriques()">
+              <input type="number" min="0" step="1" class="input-field" id="calc-brique-area" placeholder="مثال: 45" data-input="calculateBtpBriques">
             </div>
             <div class="quiz-config-row" style="margin-bottom:14px;">
               <label for="calc-brique-type">نوع الطوب / Type de brique</label>
-              <select class="select-dropdown" id="calc-brique-type" onchange="calculateBtpBriques()">
+              <select class="select-dropdown" id="calc-brique-type" data-change="calculateBtpBriques">
                 <option value="12.5">آجور 6 ثقوب (12.5 وحدة/m²)</option>
                 <option value="12.5">آجور 8 ثقوب (12.5 وحدة/m²)</option>
                 <option value="12.5" selected>آجور 12 ثقب (12.5 وحدة/m²)</option>
@@ -1347,11 +1347,11 @@
             <h4 class="card-title">🪟 السيراميك والغراء / Carrelage & Colle</h4>
             <div class="quiz-config-row" style="margin-bottom:10px;">
               <label for="calc-carrelage-area">مساحة الأرضية (m²) / Surface sol</label>
-              <input type="number" min="0" step="1" class="input-field" id="calc-carrelage-area" placeholder="مثال: 60" oninput="calculateBtpCarrelage()">
+              <input type="number" min="0" step="1" class="input-field" id="calc-carrelage-area" placeholder="مثال: 60" data-input="calculateBtpCarrelage">
             </div>
             <div class="quiz-config-row" style="margin-bottom:14px;">
               <label for="calc-carrelage-waste">نسبة الضياع والتضييع / Chute (%)</label>
-              <select class="select-dropdown" id="calc-carrelage-waste" onchange="calculateBtpCarrelage()">
+              <select class="select-dropdown" id="calc-carrelage-waste" data-change="calculateBtpCarrelage">
                 <option value="5">5% (تغطية مستقيمة قياسية)</option>
                 <option value="10" selected>10% (تغطية قياسية مائلة)</option>
                 <option value="15">15% (زوايا وحواف معقدة)</option>
@@ -1374,11 +1374,11 @@
             <h4 class="card-title">💵 ميزانية الورشة والضريبة / Budget & TVA</h4>
             <div class="quiz-config-row" style="margin-bottom:14px;">
               <label for="calc-finance-ht">المبلغ دون ضريبة (DH HT) / Montant HT</label>
-              <input type="number" min="0" step="100" class="input-field" id="calc-finance-ht" placeholder="مثال: 50000" oninput="calculateBtpFinances()">
+              <input type="number" min="0" step="100" class="input-field" id="calc-finance-ht" placeholder="مثال: 50000" data-input="calculateBtpFinances">
             </div>
             <div class="quiz-config-row" style="margin-bottom:8px;">
               <label for="calc-finance-tva">نسبة TVA التقديرية</label>
-              <select class="select-dropdown" id="calc-finance-tva" onchange="calculateBtpFinances()">
+              <select class="select-dropdown" id="calc-finance-tva" data-change="calculateBtpFinances">
                 <option value="20" selected>20%</option>
                 <option value="10">10%</option>
                 <option value="0">0%</option>
@@ -1386,11 +1386,11 @@
             </div>
             <div class="quiz-config-row" style="margin-bottom:8px;">
               <label for="calc-finance-retention">اقتطاع الضمان التعاقدي (%)</label>
-              <input type="number" min="0" max="100" step="0.5" class="input-field" id="calc-finance-retention" value="10" oninput="calculateBtpFinances()">
+              <input type="number" min="0" max="100" step="0.5" class="input-field" id="calc-finance-retention" value="10" data-input="calculateBtpFinances">
             </div>
             <div class="quiz-config-row" style="margin-bottom:14px;">
               <label for="calc-finance-basis">أساس احتساب الضمان</label>
-              <select class="select-dropdown" id="calc-finance-basis" onchange="calculateBtpFinances()">
+              <select class="select-dropdown" id="calc-finance-basis" data-change="calculateBtpFinances">
                 <option value="ht" selected>المبلغ HT</option>
                 <option value="ttc">المبلغ TTC</option>
               </select>
@@ -1431,11 +1431,11 @@
             <h4 class="card-title">🚚 شاحنات خلط الخرسانة / Camions Toupies</h4>
             <div class="quiz-config-row" style="margin-bottom:10px;">
               <label for="conv-toupie-vol">حجم الخرسانة المطلوب (m³)</label>
-              <input type="number" min="0" step="1" class="input-field" id="conv-toupie-vol" placeholder="مثال: 45" oninput="calculateBtpToupie()">
+              <input type="number" min="0" step="1" class="input-field" id="conv-toupie-vol" placeholder="مثال: 45" data-input="calculateBtpToupie">
             </div>
             <div class="quiz-config-row" style="margin-bottom:14px;">
               <label for="conv-toupie-cap">سعة الشاحنة الواحدة (m³)</label>
-              <select class="select-dropdown" id="conv-toupie-cap" onchange="calculateBtpToupie()">
+              <select class="select-dropdown" id="conv-toupie-cap" data-change="calculateBtpToupie">
                 <option value="8" selected>شاحنة قياسية 8 m³</option>
                 <option value="9">شاحنة كبيرة 9 m³</option>
                 <option value="6">شاحنة صغيرة 6 m³ (أزقة ضيقة)</option>
@@ -1451,7 +1451,7 @@
             <h4 class="card-title">🧱 الجبس والملاط / Plâtre & Enduit</h4>
             <div class="quiz-config-row" style="margin-bottom:14px;">
               <label for="conv-platre-area">مساحة التغطية (m²) / Surface</label>
-              <input type="number" min="0" step="1" class="input-field" id="conv-platre-area" placeholder="مثال: 150" oninput="calculateBtpPlatre()">
+              <input type="number" min="0" step="1" class="input-field" id="conv-platre-area" placeholder="مثال: 150" data-input="calculateBtpPlatre">
             </div>
             <div class="calc-result-box" id="conv-platre-res">
               أدخل المساحة لحساب أكياس الجبس المطلوبة (Plâtre 40kg)...

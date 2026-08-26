@@ -114,7 +114,7 @@ export function renderSrsView() {
         🧠 بطاقات التكرار المتباعد (SM-2): قيّم مدى تذكّرك للمصطلح بعد كشف الإجابة، وسيحدد النظام تلقائياً موعد المراجعة القادم — من يوم واحد إلى أسابيع حسب إتقانك.
       </p>
       <div style="display:flex; justify-content:center; margin-top:14px;">
-        <button type="button" class="btn-primary" id="srs-start-btn" onclick="startSrsSession()" ${dueCount === 0 && scheduledCount === 0 ? '' : ''}>
+        <button type="button" class="btn-primary" id="srs-start-btn" data-call="startSrsSession" ${dueCount === 0 && scheduledCount === 0 ? '' : ''}>
           🃏 ابدأ جلسة مراجعة (${Math.min(dueCount, SRS_SESSION_SIZE)} بطاقة)
         </button>
       </div>
@@ -164,8 +164,8 @@ function nextSrsCard() {
         </div>
       </div>
       <div class="fb-actions" id="srs-actions">
-        <button type="button" class="btn-secondary" onclick="speakFrenchText(window.__srsCurrentFr)">🔊 استمع</button>
-        <button type="button" class="btn-primary gold" onclick="revealSrsAnswer()">👁️ اكشف الإجابة</button>
+        <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="${escapeHtmlSafe(word.fr)}">🔊 استمع</button>
+        <button type="button" class="btn-primary gold" data-call="revealSrsAnswer">👁️ اكشف الإجابة</button>
       </div>
       <div class="quiz-shortcuts">التقييم: 1 عاودت أنسى · 2 صعب · 3 جيد · 4 سهل</div>
     </div>
@@ -189,10 +189,10 @@ export function revealSrsAnswer() {
   const actions = document.getElementById('srs-actions');
   if (actions) {
     actions.innerHTML = `
-      <button type="button" class="quiz-option-btn wrong" style="min-width:110px;" onclick="gradeSrsCard(0)">😵 عاودت أنسى</button>
-      <button type="button" class="quiz-option-btn" style="min-width:90px;" onclick="gradeSrsCard(3)">😅 صعب</button>
-      <button type="button" class="quiz-option-btn correct" style="min-width:90px;" onclick="gradeSrsCard(4)">👍 جيد</button>
-      <button type="button" class="quiz-option-btn" style="min-width:90px; border-color:#22c55e;" onclick="gradeSrsCard(5)">⚡ سهل</button>
+      <button type="button" class="quiz-option-btn wrong" style="min-width:110px;" data-call="gradeSrsCard" data-args='[0]'>😵 عاودت أنسى</button>
+      <button type="button" class="quiz-option-btn" style="min-width:90px;" data-call="gradeSrsCard" data-args='[3]'>😅 صعب</button>
+      <button type="button" class="quiz-option-btn correct" style="min-width:90px;" data-call="gradeSrsCard" data-args='[4]'>👍 جيد</button>
+      <button type="button" class="quiz-option-btn" style="min-width:90px; border-color:#22c55e;" data-call="gradeSrsCard" data-args='[5]'>⚡ سهل</button>
     `;
   }
 }
@@ -224,7 +224,7 @@ function finishSrsSession(box) {
         <div class="quiz-result-metric"><strong>${mastered}</strong>تقدمت للغد</div>
         <div class="quiz-result-metric"><strong>${srsSessionGrades.again}</strong>تحتاج إعادة</div>
       </div>
-      <button type="button" class="btn-primary" onclick="switchQuizSubTab('stats')">📊 عرض الإحصائيات ↗</button>
+      <button type="button" class="btn-primary" data-call="switchQuizSubTab" data-args='["stats"]'>📊 عرض الإحصائيات ↗</button>
     </div>
   `;
   // Note: intentionally NOT calling renderSrsView() here — it would wipe this summary.

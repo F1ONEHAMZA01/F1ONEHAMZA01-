@@ -801,7 +801,7 @@ export function numGameResolve(isCorrect, correctFr) {
       `<div class="fb-pron">[ ${frWordsToPron(correctFr)} ]</div>` +
       `<div class="fb-ar">${numberToArabic(numGame.target)} درهم</div>` +
       `<div class="fb-actions" style="margin-top:8px;">` +
-        `<button class="fb-action-btn" type="button" onclick="speakFrenchText('${correctFr.replace(/'/g, "\\'")}')">🔊 استمع</button>` +
+        `<button class="fb-action-btn" type="button" data-call="speakFromDataset" data-speak="${escapeHtml(correctFr)}">🔊 استمع</button>` +
       `</div>`;
     fb.classList.remove('hidden');
   }

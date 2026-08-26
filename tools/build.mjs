@@ -1,5 +1,6 @@
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { createHash } from 'node:crypto';
 
 const root = resolve(import.meta.dirname, '..');
 
@@ -190,4 +191,19 @@ if (MINIFY) {
   write('index.html', out);
   const kb = (Math.round((out.length / 1024) * 10) / 10).toFixed(1);
   console.log(`✓ Minified production bundle: ${kb} KB`);
+
+  // Regenerate _headers with sha256 hashes of the inline scripts so the
+  // production CSP can drop script-src 'unsafe-inline' entirely.
+  const hashes = [...out.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+    .map(m => `'sha256-${createHash('sha256').update(m[1], 'utf8').digest('base64')}'`);
+  const headersPath = resolve(root, '_headers');
+  if (existsSync(headersPath)) {
+    const headers = read('_headers');
+    const cspLine = headers.split('\n').find(l => l.trim().startsWith('Content-Security-Policy:'));
+    if (cspLine) {
+      const newCsp = cspLine.replace(/script-src [^;]+;/, `script-src 'self' ${hashes.join(' ')};`);
+      write('_headers', headers.replace(cspLine, newCsp));
+      console.log(`✓ _headers CSP regenerated with ${hashes.length} inline script hash(es)`);
+    }
+  }
 }

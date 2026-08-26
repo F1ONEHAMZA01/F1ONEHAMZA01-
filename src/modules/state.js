@@ -346,7 +346,7 @@ if (typeof window !== 'undefined') {
     }
 
     /** Restores progress from an exported JSON backup file */
-    function importProgressFile(fileInput) {
+    export function importProgressFile(fileInput) {
       const file = fileInput && fileInput.files && fileInput.files[0];
       if (!file) return;
 

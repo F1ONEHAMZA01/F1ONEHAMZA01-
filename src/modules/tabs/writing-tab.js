@@ -364,8 +364,8 @@ export function renderWritingPhrases(cat = 'all') {
       <div class="phrase-head">
         <span class="phrase-context">📌 ${p.context}</span>
         <div class="phrase-actions">
-          <button type="button" class="gt-audio-btn" onclick="speakFrenchText('${p.fr.replace(/'/g, "\\'")}', this)" aria-label="استمع لنطق العبارة">🔊</button>
-          <button type="button" class="gt-audio-btn" onclick="navigator.clipboard.writeText('${p.fr.replace(/'/g, "\\'")}').then(() => showToast('تم نسخ العبارة!'))" aria-label="نسخ العبارة">📋</button>
+          <button type="button" class="gt-audio-btn" data-call="speakFromDataset" data-speak="${escapeHtml(p.fr)}"" aria-label="استمع لنطق العبارة">🔊</button>
+          <button type="button" class="gt-audio-btn" data-call="copyFromDataset" data-copy="${escapeHtml(p.fr)}" aria-label="نسخ العبارة">📋</button>
         </div>
       </div>
       <div class="phrase-fr" lang="fr" dir="ltr">${p.fr}</div>
@@ -497,7 +497,7 @@ export function renderEmailAssistant() {
     <div class="email-assistant-wrap">
       <div class="email-scenario-selector">
         ${Object.entries(EMAIL_SCENARIOS).map(([key, s]) => `
-          <button type="button" class="email-scenario-btn ${key === currentEmailScenario ? 'active' : ''}" onclick="selectEmailScenario('${key}')">
+          <button type="button" class="email-scenario-btn ${key === currentEmailScenario ? 'active' : ''}" data-call="selectEmailScenario" data-args='["${key}"]'">
             <span>${s.icon}</span>
             <div>
               <strong>${s.title.split('/')[0].trim()}</strong>
@@ -514,7 +514,7 @@ export function renderEmailAssistant() {
             ${scenario.fields.map(f => `
               <div class="form-group-bilingual">
                 <label for="email-field-${f.id}">${f.label}</label>
-                <input type="text" id="email-field-${f.id}" class="input-field" value="${f.default}" oninput="updateEmailAssistantPreview()">
+                <input type="text" id="email-field-${f.id}" class="input-field" value="${f.default}" data-input="updateEmailAssistantPreview">
               </div>
             `).join('')}
           </div>
@@ -552,10 +552,10 @@ export function updateEmailAssistantPreview() {
 
   outBox.innerHTML = `
     <div class="template-output-toolbar">
-      <button type="button" class="btn-primary copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('email-text-view').innerText).then(() => showToast('تم نسخ الإيميل!'))">
+      <button type="button" class="btn-primary copy-btn" data-call="copyEmailPreview">
         📋 <span>نسخ الإيميل</span>
       </button>
-      <button type="button" class="btn-secondary" onclick="speakFrenchText(document.getElementById('email-text-view').innerText, this)">
+      <button type="button" class="btn-secondary" data-call="speakEmailPreview">
         🔊 <span>استماع</span>
       </button>
     </div>

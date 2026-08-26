@@ -82,7 +82,7 @@ export function renderQuizStatsView() {
 
       <div class="quiz-stats-actions" style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
         ${wrongCount > 0 ? `
-          <button type="button" class="btn-primary" onclick="startQuizPreset('mistakes')">
+          <button type="button" class="btn-primary" data-call="startQuizPreset" data-args='["mistakes"]'>
             🧠 <span>ابدأ تدريب معالجة الأخطاء (${wrongCount} مصطلحاً)</span>
           </button>
         ` : `
@@ -90,7 +90,7 @@ export function renderQuizStatsView() {
             🎉 رائع جداً! لا توجد أخطاء عالقة في سجلّك حالياً.
           </div>
         `}
-        <button type="button" class="btn-secondary" onclick="startQuizPreset('quick10')">
+        <button type="button" class="btn-secondary" data-call="startQuizPreset" data-args='["quick10"]'>
           ⚡ <span>جلسة 10 أسئلة جديدة</span>
         </button>
       </div>
@@ -592,8 +592,8 @@ export function handleQuizAnswer(selectedOpt, btnEl) {
     (!isCorrect ? `<div class="review-answer-line">اختيارك: <span class="review-chosen">${escapeHtml(selectedOpt)}</span></div>` : '') +
     (w.example_fr ? `<div class="fb-ex"><span class="fb-ex-fr">${escapeHtml(w.example_fr)}</span>${w.example_ar ? `<span class="fb-ex-ar">${escapeHtml(w.example_ar)}</span>` : ''}</div>` : '') +
     `<div class="fb-actions">` +
-      (ttsAvailable() ? `<button class="fb-action-btn" type="button" onclick="speakCurrentWord()">🔊 استمع</button>` : '') +
-      (!isLearned ? `<button class="fb-action-btn gold" type="button" onclick="markCurrentLearned(this)">✓ حفظ كمتقنة</button>` : `<span class="fb-action-btn" style="background:rgba(34,197,94,0.15); color:#86efac; border:none;">✓ متقنة مسبقاً</span>`) +
+      (ttsAvailable() ? `<button class="fb-action-btn" type="button" data-call="speakCurrentWord">🔊 استمع</button>` : '') +
+      (!isLearned ? `<button class="fb-action-btn gold" type="button" data-call="markCurrentLearned" data-args='["__el__"]'>✓ حفظ كمتقنة</button>` : `<span class="fb-action-btn" style="background:rgba(34,197,94,0.15); color:#86efac; border:none;">✓ متقنة مسبقاً</span>`) +
     `</div>`;
   fb.classList.remove('hidden');
 

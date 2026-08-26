@@ -241,16 +241,16 @@ export function renderReadingDoc(docId) {
   const innerNav = document.createElement('div');
   innerNav.className = 'doc-inner-nav';
   innerNav.innerHTML = `
-    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'content' ? 'active' : ''}" id="doc-tab-btn-content" onclick="switchDocInnerTab('content', this)">
+    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'content' ? 'active' : ''}" id="doc-tab-btn-content" data-call="switchDocInnerTab" data-args='["content","__el__"]'>
       <span>📄 نص الوثيقة</span>
     </button>
-    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'vocab' ? 'active' : ''}" id="doc-tab-btn-vocab" onclick="switchDocInnerTab('vocab', this)">
+    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'vocab' ? 'active' : ''}" id="doc-tab-btn-vocab" data-call="switchDocInnerTab" data-args='["vocab","__el__"]'>
       <span>💡 المفردات (${doc.vocab_hints.length})</span>
     </button>
-    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'questions' ? 'active' : ''}" id="doc-tab-btn-questions" onclick="switchDocInnerTab('questions', this)">
+    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'questions' ? 'active' : ''}" id="doc-tab-btn-questions" data-call="switchDocInnerTab" data-args='["questions","__el__"]'>
       <span>❓ أسئلة الفهم (${doc.questions.length})</span>
     </button>
-    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'guide' ? 'active' : ''}" id="doc-tab-btn-guide" onclick="switchDocInnerTab('guide', this)">
+    <button type="button" class="doc-inner-tab-btn ${activeDocInnerTab === 'guide' ? 'active' : ''}" id="doc-tab-btn-guide" data-call="switchDocInnerTab" data-args='["guide","__el__"]'>
       <span>📐 دليل التحليل</span>
     </button>
   `;
@@ -605,7 +605,7 @@ function renderReadingQuizCard() {
         <h4>🏆 أحسنت! أكملت تحدي استخراج بيانات الوثائق</h4>
         <p>النتيجة النهائية: <strong>${readingQuizScore} / ${READING_QUIZ_QUESTIONS.length}</strong> إجابة صحيحة</p>
         <div class="num-game-footer" style="margin-top:16px;">
-          <button type="button" class="btn-primary" onclick="initReadingQuiz()">🔄 إعادة التحدي من جديد</button>
+          <button type="button" class="btn-primary" data-call="initReadingQuiz">🔄 إعادة التحدي من جديد</button>
         </div>
       </div>
     `;
@@ -624,7 +624,7 @@ function renderReadingQuizCard() {
       <div class="quiz-q-text" style="font-size:16px; margin-bottom:16px; text-align:right;">${q.q}</div>
       <div class="quiz-options" id="reading-quiz-options">
         ${q.options.map((opt, i) => `
-          <button type="button" class="quiz-option-btn" onclick="checkReadingQuizOption(${i}, this)">
+          <button type="button" class="quiz-option-btn" data-call="checkReadingQuizOption" data-args='[${i},"__el__"]'>
             <span class="opt-letter">${['A', 'B', 'C', 'D'][i]}</span>
             <span class="opt-text">${opt}</span>
           </button>
@@ -632,8 +632,8 @@ function renderReadingQuizCard() {
       </div>
       <div id="reading-quiz-feedback" class="quiz-feedback hidden" style="margin-top:14px;"></div>
       <div class="num-game-footer" style="margin-top:16px;">
-        <button type="button" class="btn-secondary" onclick="initReadingQuiz()">⏹ إنهاء</button>
-        <button type="button" class="btn-primary hidden" id="reading-quiz-next" onclick="nextReadingQuizQuestion()">التالي / Suivant</button>
+        <button type="button" class="btn-secondary" data-call="initReadingQuiz">⏹ إنهاء</button>
+        <button type="button" class="btn-primary hidden" id="reading-quiz-next" data-call="nextReadingQuizQuestion">التالي / Suivant</button>
       </div>
     </div>
   `;
