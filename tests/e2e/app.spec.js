@@ -126,7 +126,7 @@ test.describe('Phase 5 features', () => {
   test('progress export/import buttons exist and import rejects bad files', async ({ page }) => {
     await page.goto('/');
     await page.evaluate(() => window.exportProgressData());
-    await expect(page.locator('button[onclick="exportProgressData()"]')).toBeVisible();
+    await expect(page.locator('button[data-call="exportProgressData"]')).toBeVisible();
 
     await page.setInputFiles('#import-progress-input', {
       name: 'bad.json',

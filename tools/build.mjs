@@ -73,7 +73,8 @@ const moduleFiles = [
   'src/modules/tabs/writing-tab.js',
   'src/modules/tabs/grammar-tab.js',
   'src/modules/tabs/plan-tab.js',
-  'src/modules/pwa.js'
+  'src/modules/pwa.js',
+  'src/modules/events.js'
 ];
 
 const combinedModules = moduleFiles
@@ -85,6 +86,7 @@ window.addEventListener('DOMContentLoaded', () => {
   loadStateFromLocalStorage();
   initializeTabs();
   initMotion();
+  initDelegatedActions();
   initStats();
   
   renderVocabCategoryFilter();

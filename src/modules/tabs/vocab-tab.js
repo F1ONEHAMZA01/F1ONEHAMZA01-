@@ -181,7 +181,7 @@ const PHASE_NAMES = {
       renderVocabList(true);
     }
 
-    function setLevelFilter(lvl, btnEl) {
+    export function setLevelFilter(lvl, btnEl) {
       document.querySelectorAll('#level-filter-bar .lvl-btn').forEach(btn => {
         btn.classList.remove('active');
       });
@@ -204,7 +204,7 @@ const PHASE_NAMES = {
       }, 90);
     }
 
-    function clearSearchInput() {
+    export function clearSearchInput() {
       const inputEl = document.getElementById('search-input');
       if (inputEl) {
         inputEl.value = '';
@@ -386,7 +386,7 @@ function getFilteredWords() {
       }
     }
 
-    function loadMoreWords() {
+    export function loadMoreWords() {
       renderVocabList(false);
     }
 

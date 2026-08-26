@@ -28,6 +28,9 @@ jobs:
       - name: Unit tests
         run: npm run test:unit
 
+      - name: Coverage gate (pure modules ≥95% lines)
+        run: npm run test:coverage
+
   e2e:
     runs-on: ubuntu-latest
     steps:

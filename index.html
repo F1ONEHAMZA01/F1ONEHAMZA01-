@@ -52,7 +52,7 @@ HEADER & LIVE STATS & TAB NAVIGATION BAR
 📅 <span>خطة 6 أشهر: 0/168</span>
 </div>
 </div>
-<button type="button" id="pwa-install-btn" onclick="installPWAApp()" class="pwa-install-pill" style="display:none;">
+<button type="button" id="pwa-install-btn" data-call="installPWAApp" class="pwa-install-pill" style="display:none;">
 📲 تثبيت التطبيق
 </button>
 </div>
@@ -60,14 +60,14 @@ HEADER & LIVE STATS & TAB NAVIGATION BAR
 <nav class="tab-bar" aria-label="أقسام التطبيق / Sections de l'application">
 <div class="tab-bar-container" role="tablist" aria-label="الوحدات التعليمية">
 <span id="tab-glide-pill" aria-hidden="true"></span>
-<button id="tab-btn-vocab" class="tab-btn active-tab" role="tab" aria-selected="true" aria-controls="tab-vocab" onclick="switchTab('vocab', this)"><span aria-hidden="true">🏗️</span> المفردات / Vocabulaire</button>
-<button id="tab-btn-quiz" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-quiz" onclick="switchTab('quiz', this)"><span aria-hidden="true">🎯</span> الاختبار / Quiz</button>
-<button id="tab-btn-cheques" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cheques" onclick="switchTab('cheques', this)"><span aria-hidden="true">💰</span> الشيكات والأرقام / Chèques & Nombres</button>
-<button id="tab-btn-reading" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-reading" onclick="switchTab('reading', this)"><span aria-hidden="true">📖</span> القراءة / Lecture</button>
-<button id="tab-btn-writing" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-writing" onclick="switchTab('writing', this)"><span aria-hidden="true">✍️</span> الكتابة / Rédaction</button>
-<button id="tab-btn-grammar" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-grammar" onclick="switchTab('grammar', this)"><span aria-hidden="true">📚</span> القواعد / Grammaire</button>
-<button id="tab-btn-plan" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-plan" onclick="switchTab('plan', this)"><span aria-hidden="true">📅</span> الخطة / Plan 6 mois</button>
-<button id="tab-btn-calc" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-calc" onclick="switchTab('calc', this)"><span aria-hidden="true">🧮</span> حاسبة الورش / Calculs BTP</button>
+<button id="tab-btn-vocab" class="tab-btn active-tab" role="tab" aria-selected="true" aria-controls="tab-vocab" data-call="switchTab" data-args='["vocab","__el__"]'><span aria-hidden="true">🏗️</span> المفردات / Vocabulaire</button>
+<button id="tab-btn-quiz" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-quiz" data-call="switchTab" data-args='["quiz","__el__"]'><span aria-hidden="true">🎯</span> الاختبار / Quiz</button>
+<button id="tab-btn-cheques" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cheques" data-call="switchTab" data-args='["cheques","__el__"]'><span aria-hidden="true">💰</span> الشيكات والأرقام / Chèques & Nombres</button>
+<button id="tab-btn-reading" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-reading" data-call="switchTab" data-args='["reading","__el__"]'><span aria-hidden="true">📖</span> القراءة / Lecture</button>
+<button id="tab-btn-writing" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-writing" data-call="switchTab" data-args='["writing","__el__"]'><span aria-hidden="true">✍️</span> الكتابة / Rédaction</button>
+<button id="tab-btn-grammar" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-grammar" data-call="switchTab" data-args='["grammar","__el__"]'><span aria-hidden="true">📚</span> القواعد / Grammaire</button>
+<button id="tab-btn-plan" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-plan" data-call="switchTab" data-args='["plan","__el__"]'><span aria-hidden="true">📅</span> الخطة / Plan 6 mois</button>
+<button id="tab-btn-calc" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-calc" data-call="switchTab" data-args='["calc","__el__"]'><span aria-hidden="true">🧮</span> حاسبة الورش / Calculs BTP</button>
 </div>
 </nav>
 </header>
@@ -84,11 +84,11 @@ MAIN APP CONTAINER
 <span class="vocab-hero-badge-sm" id="vocab-total-count-badge">1 961 مصطلح</span>
 </div>
 <div class="vocab-header-actions">
-<button class="vocab-reset-btn-sm" type="button" onclick="exportProgressData()" title="تصدير نسخة احتياطية من التقدم بصيغة JSON" aria-label="تصدير التقدم">
+<button class="vocab-reset-btn-sm" type="button" data-call="exportProgressData" title="تصدير نسخة احتياطية من التقدم بصيغة JSON" aria-label="تصدير التقدم">
 <span aria-hidden="true">📤</span>
 <span class="reset-label-sm">تصدير</span>
 </button>
-<button class="vocab-reset-btn-sm" type="button" onclick="document.getElementById('import-progress-input').click()" title="استيراد نسخة تقدم مصدرة سابقاً" aria-label="استيراد التقدم">
+<button class="vocab-reset-btn-sm" type="button" data-call="triggerImportPicker" title="استيراد نسخة تقدم مصدرة سابقاً" aria-label="استيراد التقدم">
 <span aria-hidden="true">📥</span>
 <span class="reset-label-sm">استيراد</span>
 </button>
@@ -113,19 +113,19 @@ MAIN APP CONTAINER
 </button>
 <div class="vocab-search-wrap">
 <input type="search" class="input-field" id="search-input" aria-label="البحث في المصطلحات" placeholder="🔍 ابحث بالفرنسية، العربية، النطق أو الكلمات الدلالية..." oninput="handleSearchInput()">
-<button type="button" id="clear-search-btn" class="search-clear-btn" aria-label="مسح نص البحث / Effacer la recherche" onclick="clearSearchInput()">✖</button>
+<button type="button" id="clear-search-btn" class="search-clear-btn" aria-label="مسح نص البحث / Effacer la recherche" data-call="clearSearchInput">✖</button>
 </div>
 <div class="lvl-filters" id="level-filter-bar">
-<button class="lvl-btn active" onclick="setLevelFilter('all', this)">الكل</button>
-<button class="lvl-btn" onclick="setLevelFilter('A1', this)">A1</button>
-<button class="lvl-btn" onclick="setLevelFilter('A2', this)">A2</button>
-<button class="lvl-btn" onclick="setLevelFilter('B1', this)">B1</button>
-<button class="lvl-btn" onclick="setLevelFilter('B2', this)">B2</button>
+<button class="lvl-btn active" data-call="setLevelFilter" data-args='["all","__el__"]'>الكل</button>
+<button class="lvl-btn" data-call="setLevelFilter" data-args='["A1","__el__"]'>A1</button>
+<button class="lvl-btn" data-call="setLevelFilter" data-args='["A2","__el__"]'>A2</button>
+<button class="lvl-btn" data-call="setLevelFilter" data-args='["B1","__el__"]'>B1</button>
+<button class="lvl-btn" data-call="setLevelFilter" data-args='["B2","__el__"]'>B2</button>
 </div>
 </div>
 <div class="words-grid" id="vocab-words-grid">
 </div>
-<button class="load-more-btn" id="load-more-btn" onclick="loadMoreWords()" style="display:none;">تحميل المزيد من المصطلحات</button>
+<button class="load-more-btn" id="load-more-btn" data-call="loadMoreWords" style="display:none;">تحميل المزيد من المصطلحات</button>
 </div>
 </div>
 </section>
@@ -142,28 +142,28 @@ MAIN APP CONTAINER
 <div id="quiz-config-panel" class="quiz-config">
 <!-- Segmented Sub-Tabs Switcher for Tab 2 -->
 <div class="quiz-subtabs-nav" aria-label="أقسام الاختبارات والتدريب">
-<button type="button" class="quiz-subtab-btn active" id="subtab-btn-quiz-quick" data-subview="quick" onclick="switchQuizSubTab('quick', this)">
+<button type="button" class="quiz-subtab-btn active" id="subtab-btn-quiz-quick" data-subview="quick" data-call="switchQuizSubTab" data-args='["quick","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">⚡</span>
 <div class="subtab-text">
 <strong>أوضاع التدريب الخاطف</strong>
 <small>10 أسئلة، سباق 60s، أخطائي، صوت</small>
 </div>
 </button>
-<button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-custom" data-subview="custom" onclick="switchQuizSubTab('custom', this)">
+<button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-custom" data-subview="custom" data-call="switchQuizSubTab" data-args='["custom","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">🎛️</span>
 <div class="subtab-text">
 <strong>اختبار مخصص متقدم</strong>
 <small>تحديد الفئة، المستوى، والعدد</small>
 </div>
 </button>
-<button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-stats" data-subview="stats" onclick="switchQuizSubTab('stats', this)">
+<button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-stats" data-subview="stats" data-call="switchQuizSubTab" data-args='["stats","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">📊</span>
 <div class="subtab-text">
 <strong>سجل الأداء والإحصائيات</strong>
 <small>نسبة الإتقان والمتتالية</small>
 </div>
 </button>
-<button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-srs" data-subview="srs" onclick="switchQuizSubTab('srs', this)">
+<button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-srs" data-subview="srs" data-call="switchQuizSubTab" data-args='["srs","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">🃏</span>
 <div class="subtab-text">
 <strong>بطاقات التكرار المتباعد</strong>
@@ -177,7 +177,7 @@ MAIN APP CONTAINER
 <div id="quiz-view-quick" class="quiz-subview active">
 <div class="quiz-presets-grid">
 <!-- Preset 1: 10 Rapid Questions -->
-<button type="button" class="quiz-preset-btn preset-gold" onclick="startQuizPreset('quick10')">
+<button type="button" class="quiz-preset-btn preset-gold" data-call="startQuizPreset" data-args='["quick10"]'>
 <div class="preset-top-row">
 <span class="preset-badge-tag">⚡ 10 أسئلة مكثفة</span>
 <div class="preset-avatar">⚡</div>
@@ -191,7 +191,7 @@ MAIN APP CONTAINER
 </div>
 </button>
 <!-- Preset 2: 60s Speed Drill -->
-<button type="button" class="quiz-preset-btn preset-cyan" onclick="startQuizPreset('speed60')">
+<button type="button" class="quiz-preset-btn preset-cyan" data-call="startQuizPreset" data-args='["speed60"]'>
 <div class="preset-top-row">
 <span class="preset-badge-tag">⏱️ سباق 60 ثانية</span>
 <div class="preset-avatar">⏱️</div>
@@ -205,7 +205,7 @@ MAIN APP CONTAINER
 </div>
 </button>
 <!-- Preset 3: Past Mistakes -->
-<button type="button" class="quiz-preset-btn preset-purple" onclick="startQuizPreset('mistakes')">
+<button type="button" class="quiz-preset-btn preset-purple" data-call="startQuizPreset" data-args='["mistakes"]'>
 <div class="preset-top-row">
 <span class="preset-badge-tag">🧠 ذكاء تكراري متباعد</span>
 <div class="preset-avatar">🧠</div>
@@ -219,7 +219,7 @@ MAIN APP CONTAINER
 </div>
 </button>
 <!-- Preset 4: Audio Drill -->
-<button type="button" class="quiz-preset-btn preset-emerald" onclick="startQuizPreset('audio')">
+<button type="button" class="quiz-preset-btn preset-emerald" data-call="startQuizPreset" data-args='["audio"]'>
 <div class="preset-top-row">
 <span class="preset-badge-tag">🔊 استماع ونطق 3x</span>
 <div class="preset-avatar">🔊</div>
@@ -294,7 +294,7 @@ MAIN APP CONTAINER
 <span id="quiz-availability-text">جارٍ حساب الكلمات المتاحة…</span>
 <span aria-hidden="true">🎯</span>
 </div>
-<button id="quiz-start-btn" class="btn-primary" style="width:100%; margin-top:4px; padding:12px;" onclick="startQuizSession()">ابدأ الاختبار المخصص / Démarrer</button>
+<button id="quiz-start-btn" class="btn-primary" style="width:100%; margin-top:4px; padding:12px;" data-call="startQuizSession">ابدأ الاختبار المخصص / Démarrer</button>
 </div>
 <!-- SUB-VIEW 3: Stats and Mastery Overview -->
 <div id="quiz-view-stats" class="quiz-subview hidden">
@@ -330,10 +330,10 @@ MAIN APP CONTAINER
 <div class="quiz-question-topbar">
 <div class="quiz-mode-badge" id="quiz-current-mode">اختيار المعنى</div>
 <div class="quiz-question-actions">
-<button type="button" class="quiz-action-mini-btn" id="quiz-hint-btn" onclick="showQuizHint()" title="تلميح سريع (اختصار: H)">
+<button type="button" class="quiz-action-mini-btn" id="quiz-hint-btn" data-call="showQuizHint" title="تلميح سريع (اختصار: H)">
 <span>💡 تلميح</span>
 </button>
-<button type="button" class="quiz-action-mini-btn" id="quiz-audio-btn" onclick="speakCurrentWord()" title="استمع للنطق (اختصار: A)">
+<button type="button" class="quiz-action-mini-btn" id="quiz-audio-btn" data-call="speakCurrentWord" title="استمع للنطق (اختصار: A)">
 <span>🔊 استمع</span>
 </button>
 </div>
@@ -347,9 +347,9 @@ MAIN APP CONTAINER
 </div>
 <div id="quiz-feedback" class="quiz-feedback hidden" aria-live="polite"></div>
 <div class="quiz-footer">
-<button class="btn-secondary" id="quiz-exit-btn" onclick="quitQuizSession()">إنهاء الجلسة</button>
+<button class="btn-secondary" id="quiz-exit-btn" data-call="quitQuizSession">إنهاء الجلسة</button>
 <span class="quiz-shortcuts">لوحة المفاتيح: 1–4 للإجابة · Enter للتالي · A للنطق · H للتلميح</span>
-<button class="btn-primary hidden" id="quiz-next-btn" onclick="nextQuizQuestion()">السؤال التالي / Suivant</button>
+<button class="btn-primary hidden" id="quiz-next-btn" data-call="nextQuizQuestion">السؤال التالي / Suivant</button>
 </div>
 </div>
 <!-- Results & Review Panel -->
@@ -360,9 +360,9 @@ MAIN APP CONTAINER
 <div class="quiz-result-metrics" id="quiz-result-metrics"></div>
 <div id="quiz-review" class="quiz-review"></div>
 <div class="quiz-results-buttons">
-<button class="btn-primary" onclick="restartQuizConfig()">إعداد اختبار جديد</button>
-<button class="btn-secondary hidden" id="quiz-retry-wrong-btn" onclick="retryWrongOnly()">🔁 راجع الأخطاء فقط</button>
-<button class="btn-secondary" onclick="retrySameQuiz()">أعد نفس الاختبار</button>
+<button class="btn-primary" data-call="restartQuizConfig">إعداد اختبار جديد</button>
+<button class="btn-secondary hidden" id="quiz-retry-wrong-btn" data-call="retryWrongOnly">🔁 راجع الأخطاء فقط</button>
+<button class="btn-secondary" data-call="retrySameQuiz">أعد نفس الاختبار</button>
 </div>
 </div>
 </div>
@@ -378,28 +378,28 @@ MAIN APP CONTAINER
 </div>
 <!-- Segmented Sub-Tabs Switcher for Tab 3 -->
 <div class="cheques-subtabs-nav" aria-label="أقسام الشيكات والأرقام">
-<button type="button" class="cheques-subtab-btn active" id="subtab-btn-cheque-editor" data-subview="editor" onclick="switchChequesSubTab('editor', this)">
+<button type="button" class="cheques-subtab-btn active" id="subtab-btn-cheque-editor" data-subview="editor" data-call="switchChequesSubTab" data-args='["editor","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">✍️</span>
 <div class="subtab-text">
 <strong>محرر الشيك البنكي</strong>
 <small>المحاكي وكتابة الحروف</small>
 </div>
 </button>
-<button type="button" class="cheques-subtab-btn" id="subtab-btn-cheque-game" data-subview="game" onclick="switchChequesSubTab('game', this)">
+<button type="button" class="cheques-subtab-btn" id="subtab-btn-cheque-game" data-subview="game" data-call="switchChequesSubTab" data-args='["game","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">🎮</span>
 <div class="subtab-text">
 <strong>تمرين الأرقام السريع</strong>
 <small>تحديات القراءة والإملاء</small>
 </div>
 </button>
-<button type="button" class="cheques-subtab-btn" id="subtab-btn-cheque-numbers" data-subview="numbers" onclick="switchChequesSubTab('numbers', this)">
+<button type="button" class="cheques-subtab-btn" id="subtab-btn-cheque-numbers" data-subview="numbers" data-call="switchChequesSubTab" data-args='["numbers","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">🔢</span>
 <div class="subtab-text">
 <strong>جدول ونطق الأرقام</strong>
 <small>64 بطاقة نطق وتصنيف</small>
 </div>
 </button>
-<button type="button" class="cheques-subtab-btn" id="subtab-btn-cheque-reference" data-subview="reference" onclick="switchChequesSubTab('reference', this)">
+<button type="button" class="cheques-subtab-btn" id="subtab-btn-cheque-reference" data-subview="reference" data-call="switchChequesSubTab" data-args='["reference","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">📖</span>
 <div class="subtab-text">
 <strong>مبالغ وفواتير الورش</strong>
@@ -415,7 +415,7 @@ MAIN APP CONTAINER
 <div class="card cheque-editor-panel">
 <div class="cheque-panel-top">
 <h3 class="card-title">💵 محرّر الشيك البنكي الميداني / Éditeur de chèque</h3>
-<button type="button" class="btn-secondary cheque-audio-quick-btn" onclick="speakChequeText(this)" title="استمع لنطق المبلغ بالفرنسية">
+<button type="button" class="btn-secondary cheque-audio-quick-btn" data-call="speakChequeText" data-args='["__el__"]' title="استمع لنطق المبلغ بالفرنسية">
 <span>🔊 نطق المبلغ</span>
 </button>
 </div>
@@ -431,13 +431,13 @@ MAIN APP CONTAINER
 <div class="cheque-presets-container">
 <div class="cheque-presets-label">⚡ مبالغ ميدانية شائعة (نقر وتعلّم فوري):</div>
 <div class="cheque-quick-row">
-<button type="button" class="quick-amt-btn" onclick="setChequeAmountAndSpeak(150, 'أجرة يومية / Journée')">150 DH <small>يومية</small></button>
-<button type="button" class="quick-amt-btn" onclick="setChequeAmountAndSpeak(3500, 'راتب شهري / Salaire')">3 500 DH <small>راتب</small></button>
-<button type="button" class="quick-amt-btn" onclick="setChequeAmountAndSpeak(14850.50, 'فاتورة حديد / Acier')">14 850,50 <small>حديد</small></button>
-<button type="button" class="quick-amt-btn" onclick="setChequeAmountAndSpeak(38000, 'خرسانة مسلحة / Béton')">38 000 DH <small>خرسانة</small></button>
-<button type="button" class="quick-amt-btn" onclick="setChequeAmountAndSpeak(95400, 'تشطيبات / Finitions')">95 400 DH <small>تشطيب</small></button>
-<button type="button" class="quick-amt-btn" onclick="setChequeAmountAndSpeak(350000, 'صفقة هيكل / Gros œuvre')">350 000 DH <small>صفقة</small></button>
-<button type="button" class="quick-amt-btn gold" onclick="randomChequeAmountAndSpeak()">🎲 مبلغ عشوائي ونطق</button>
+<button type="button" class="quick-amt-btn" data-call="setChequeAmountAndSpeak" data-args='[150,"أجرة يومية / Journée"]'>150 DH <small>يومية</small></button>
+<button type="button" class="quick-amt-btn" data-call="setChequeAmountAndSpeak" data-args='[3500,"راتب شهري / Salaire"]'>3 500 DH <small>راتب</small></button>
+<button type="button" class="quick-amt-btn" data-call="setChequeAmountAndSpeak" data-args='[14850.50,"فاتورة حديد / Acier"]'>14 850,50 <small>حديد</small></button>
+<button type="button" class="quick-amt-btn" data-call="setChequeAmountAndSpeak" data-args='[38000,"خرسانة مسلحة / Béton"]'>38 000 DH <small>خرسانة</small></button>
+<button type="button" class="quick-amt-btn" data-call="setChequeAmountAndSpeak" data-args='[95400,"تشطيبات / Finitions"]'>95 400 DH <small>تشطيب</small></button>
+<button type="button" class="quick-amt-btn" data-call="setChequeAmountAndSpeak" data-args='[350000,"صفقة هيكل / Gros œuvre"]'>350 000 DH <small>صفقة</small></button>
+<button type="button" class="quick-amt-btn gold" data-call="randomChequeAmountAndSpeak">🎲 مبلغ عشوائي ونطق</button>
 </div>
 </div>
 <!-- Cheque Bank & Options Controls -->
@@ -480,10 +480,10 @@ MAIN APP CONTAINER
 </div>
 </div>
 <div class="cheque-actions">
-<button type="button" class="btn-primary" onclick="copyChequeText('words')">📋 نسخ المبلغ فقط</button>
-<button type="button" class="btn-secondary" onclick="copyChequeText('all')">🧾 نسخ كامل البيانات</button>
-<button type="button" class="btn-secondary" onclick="speakChequeText(this)">🔊 نطق الحروف</button>
-<button type="button" class="btn-secondary" onclick="resetChequeEditor()">🔄 تفريغ</button>
+<button type="button" class="btn-primary" data-call="copyChequeText" data-args='["words"]'>📋 نسخ المبلغ فقط</button>
+<button type="button" class="btn-secondary" data-call="copyChequeText" data-args='["all"]'>🧾 نسخ كامل البيانات</button>
+<button type="button" class="btn-secondary" data-call="speakChequeText" data-args='["__el__"]'>🔊 نطق الحروف</button>
+<button type="button" class="btn-secondary" data-call="resetChequeEditor">🔄 تفريغ</button>
 </div>
 <!-- Realistic Interactive Moroccan Cheque Specimen -->
 <div class="cheque-mockup" id="cheque-mockup" aria-label="نموذج شيك بنكي مغربي تفاعلي">
@@ -546,7 +546,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <div class="decomposer-input-row">
 <input type="number" class="input-field" id="num-decomposer-input" placeholder="مثال: 80 أو 91 أو 200..." min="0" max="1000000" oninput="runNumberDecomposer()">
-<button class="btn-secondary" onclick="speakDecomposedNumber()">🔊 استمع</button>
+<button class="btn-secondary" data-call="speakDecomposedNumber">🔊 استمع</button>
 </div>
 <div class="decomposer-result-box" id="decomp-result">
 <div class="decomposer-result-line">
@@ -637,28 +637,28 @@ c 0023456 c 011 780 0001234567890123 45 b
 <span class="quiz-presets-title">⚡ تحديات الأرقام السريعة الجاهزة (Rapid Drills):</span>
 </div>
 <div class="quiz-presets-grid">
-<button type="button" class="quiz-preset-btn" onclick="startNumGamePreset('complex708090')">
+<button type="button" class="quiz-preset-btn" data-call="startNumGamePreset" data-args='["complex708090"]'>
 <span class="preset-icon">🧠</span>
 <div class="preset-content">
 <strong>تحدي الـ 70 والـ 80 والـ 90</strong>
 <small>أصعب تراكيب الأرقام الفرنسية</small>
 </div>
 </button>
-<button type="button" class="quiz-preset-btn" onclick="startNumGamePreset('speed60')">
+<button type="button" class="quiz-preset-btn" data-call="startNumGamePreset" data-args='["speed60"]'>
 <span class="preset-icon">⏱️</span>
 <div class="preset-content">
 <strong>سباق أرقام الشيكات 60s</strong>
 <small>كم مبلغاً تقرأه وتكتبه في دقيقة؟</small>
 </div>
 </button>
-<button type="button" class="quiz-preset-btn" onclick="startNumGamePreset('dictation')">
+<button type="button" class="quiz-preset-btn" data-call="startNumGamePreset" data-args='["dictation"]'>
 <span class="preset-icon">🎧</span>
 <div class="preset-content">
 <strong>الإملاء الصوتي للأرقام</strong>
 <small>استمع بالفرنسية واكتب الرقم</small>
 </div>
 </button>
-<button type="button" class="quiz-preset-btn" onclick="startNumGamePreset('invoices')">
+<button type="button" class="quiz-preset-btn" data-call="startNumGamePreset" data-args='["invoices"]'>
 <span class="preset-icon">🏗️</span>
 <div class="preset-content">
 <strong>مبالغ وفواتير الورش الكبرى</strong>
@@ -697,7 +697,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 </select>
 </div>
 </div>
-<button type="button" class="btn-primary num-game-start-btn" onclick="startNumGame()">🚀 ابدأ التمرين المخصص / Commencer</button>
+<button type="button" class="btn-primary num-game-start-btn" data-call="startNumGame">🚀 ابدأ التمرين المخصص / Commencer</button>
 </div>
 </div>
 <div id="num-game-play" class="hidden">
@@ -718,13 +718,13 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <div id="num-game-input-zone" class="hidden num-game-input-wrapper">
 <input type="text" inputmode="numeric" autocomplete="off" class="input-field" id="num-game-input" aria-label="اكتب الرقم المطابق" placeholder="اكتب الرقم هنا..." style="flex:1; min-width:150px; font-family:monospace; direction:ltr; text-align:right; font-size:16px;" onkeydown="handleNumGameInputKey(event)">
-<button class="btn-primary" id="num-game-check" onclick="checkNumInput()">تحقّق ✓</button>
+<button class="btn-primary" id="num-game-check" data-call="checkNumInput">تحقّق ✓</button>
 </div>
 <div id="num-game-options" class="quiz-options" style="margin-bottom:0;"></div>
 <div id="num-game-feedback" class="quiz-feedback hidden" style="margin-top:14px;" aria-live="polite"></div>
 <div class="num-game-footer">
-<button class="btn-secondary" onclick="stopNumGame()">⏹ إنهاء</button>
-<button class="btn-primary hidden" id="num-game-next" onclick="newNumQuestion()">التالي / Suivant</button>
+<button class="btn-secondary" data-call="stopNumGame">⏹ إنهاء</button>
+<button class="btn-primary hidden" id="num-game-next" data-call="newNumQuestion">التالي / Suivant</button>
 </div>
 </div>
 <div id="num-game-result" class="num-game-result hidden" tabindex="-1">
@@ -736,8 +736,8 @@ c 0023456 c 011 780 0001234567890123 45 b
 <div><strong id="num-game-result-best">0</strong>أفضل متتالية</div>
 </div>
 <div class="num-game-footer">
-<button type="button" class="btn-secondary" onclick="stopNumGame()">تغيير الإعدادات</button>
-<button type="button" class="btn-primary" onclick="startNumGame()">إعادة الجلسة</button>
+<button type="button" class="btn-secondary" data-call="stopNumGame">تغيير الإعدادات</button>
+<button type="button" class="btn-primary" data-call="startNumGame">إعادة الجلسة</button>
 </div>
 </div>
 </div>
@@ -756,13 +756,13 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 </div>
 <div class="lvl-filters" style="margin:10px 0 16px;" id="num-filter-bar">
-<button type="button" class="lvl-btn active" onclick="setNumbersFilter('all', this)">جميع الأرقام (64)</button>
-<button type="button" class="lvl-btn" onclick="setNumbersFilter('units', this)">0 – 20 الأساسية</button>
-<button type="button" class="lvl-btn" onclick="setNumbersFilter('tens', this)">العشرات (30-60)</button>
-<button type="button" class="lvl-btn" onclick="setNumbersFilter('complex', this)">70 و 80 و 90 🧠</button>
-<button type="button" class="lvl-btn" onclick="setNumbersFilter('big', this)">المئات والآلاف والملايين 💰</button>
-<button type="button" class="lvl-btn" onclick="setNumbersFilter('ordinals', this)">الأعداد الترتيبية (الطوابق) 🏢</button>
-<button type="button" class="lvl-btn" onclick="setNumbersFilter('btp_math', this)">الكسور والنسب BTP 📐</button>
+<button type="button" class="lvl-btn active" data-call="setNumbersFilter" data-args='["all","__el__"]'>جميع الأرقام (64)</button>
+<button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["units","__el__"]'>0 – 20 الأساسية</button>
+<button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["tens","__el__"]'>العشرات (30-60)</button>
+<button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["complex","__el__"]'>70 و 80 و 90 🧠</button>
+<button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["big","__el__"]'>المئات والآلاف والملايين 💰</button>
+<button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["ordinals","__el__"]'>الأعداد الترتيبية (الطوابق) 🏢</button>
+<button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["btp_math","__el__"]'>الكسور والنسب BTP 📐</button>
 </div>
 <div class="num-grid" id="numbers-chart-grid"></div>
 </div>
@@ -781,12 +781,12 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 </div>
 <div class="lvl-filters" style="margin:10px 0 16px;" id="cheques-ref-filter-bar">
-<button type="button" class="lvl-btn active" onclick="setRefTableCategory('all', this)">جميع المبالغ (24)</button>
-<button type="button" class="lvl-btn" onclick="setRefTableCategory('wages', this)">أجور ويوميات 👷</button>
-<button type="button" class="lvl-btn" onclick="setRefTableCategory('materials', this)">مواد وعتاد 🔩</button>
-<button type="button" class="lvl-btn" onclick="setRefTableCategory('studies', this)">دراسات وتجارب 🏛️</button>
-<button type="button" class="lvl-btn" onclick="setRefTableCategory('contracts', this)">صفقات وكشوفات 🏢</button>
-<button type="button" class="lvl-btn" onclick="setRefTableCategory('guarantees', this)">كفالات وضمانات 🛡️</button>
+<button type="button" class="lvl-btn active" data-call="setRefTableCategory" data-args='["all","__el__"]'>جميع المبالغ (24)</button>
+<button type="button" class="lvl-btn" data-call="setRefTableCategory" data-args='["wages","__el__"]'>أجور ويوميات 👷</button>
+<button type="button" class="lvl-btn" data-call="setRefTableCategory" data-args='["materials","__el__"]'>مواد وعتاد 🔩</button>
+<button type="button" class="lvl-btn" data-call="setRefTableCategory" data-args='["studies","__el__"]'>دراسات وتجارب 🏛️</button>
+<button type="button" class="lvl-btn" data-call="setRefTableCategory" data-args='["contracts","__el__"]'>صفقات وكشوفات 🏢</button>
+<button type="button" class="lvl-btn" data-call="setRefTableCategory" data-args='["guarantees","__el__"]'>كفالات وضمانات 🛡️</button>
 </div>
 <div class="ref-amounts-table-wrapper">
 <table class="ref-amounts-table" id="ref-amounts-table">
@@ -816,21 +816,21 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <!-- Segmented Sub-Tabs Switcher for Tab 4 -->
 <div class="reading-subtabs-nav" aria-label="أقسام قراءة الوثائق">
-<button type="button" class="reading-subtab-btn active" id="subtab-btn-reading-docs" data-subview="docs" onclick="switchReadingSubTab('docs', this)">
+<button type="button" class="reading-subtab-btn active" id="subtab-btn-reading-docs" data-subview="docs" data-call="switchReadingSubTab" data-args='["docs","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">📑</span>
 <div class="subtab-text">
 <strong>محلل وتصفح الوثائق (10)</strong>
 <small>نماذج تطبيقية ميدانية</small>
 </div>
 </button>
-<button type="button" class="reading-subtab-btn" id="subtab-btn-reading-quiz" data-subview="quiz" onclick="switchReadingSubTab('quiz', this)">
+<button type="button" class="reading-subtab-btn" id="subtab-btn-reading-quiz" data-subview="quiz" data-call="switchReadingSubTab" data-args='["quiz","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">⚡</span>
 <div class="subtab-text">
 <strong>تحدي استخراج البيانات</strong>
 <small>تدريب سريع على القراءة</small>
 </div>
 </button>
-<button type="button" class="reading-subtab-btn" id="subtab-btn-reading-guide" data-subview="guide" onclick="switchReadingSubTab('guide', this)">
+<button type="button" class="reading-subtab-btn" id="subtab-btn-reading-guide" data-subview="guide" data-call="switchReadingSubTab" data-args='["guide","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">📚</span>
 <div class="subtab-text">
 <strong>دليل وثائق الأوراش بالمغرب</strong>
@@ -856,10 +856,10 @@ c 0023456 c 011 780 0001234567890123 45 b
 </select>
 </div>
 <div class="lvl-filters" id="reading-cat-filter-bar" style="margin: 8px 0 12px; gap: 4px;">
-<button type="button" class="lvl-btn active" onclick="filterReadingDocsByCategory('all', this)">الكل (10)</button>
-<button type="button" class="lvl-btn" onclick="filterReadingDocsByCategory('site', this)">أوراش 🏗️</button>
-<button type="button" class="lvl-btn" onclick="filterReadingDocsByCategory('finance', this)">مالية 💰</button>
-<button type="button" class="lvl-btn" onclick="filterReadingDocsByCategory('technical', this)">سلامة 🛡️</button>
+<button type="button" class="lvl-btn active" data-call="filterReadingDocsByCategory" data-args='["all","__el__"]'>الكل (10)</button>
+<button type="button" class="lvl-btn" data-call="filterReadingDocsByCategory" data-args='["site","__el__"]'>أوراش 🏗️</button>
+<button type="button" class="lvl-btn" data-call="filterReadingDocsByCategory" data-args='["finance","__el__"]'>مالية 💰</button>
+<button type="button" class="lvl-btn" data-call="filterReadingDocsByCategory" data-args='["technical","__el__"]'>سلامة 🛡️</button>
 </div>
 <div class="reading-overall-progress" id="reading-overall-progress" role="status" aria-live="polite"></div>
 <div class="category-list" id="reading-docs-selector-list"></div>
@@ -903,21 +903,21 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <!-- Segmented Sub-Tabs Switcher for Tab 5 -->
 <div class="writing-subtabs-nav" aria-label="أقسام صياغة الوثائق والمراسلات">
-<button type="button" class="writing-subtab-btn active" id="subtab-btn-writing-builder" data-subview="builder" onclick="switchWritingSubTab('builder', this)">
+<button type="button" class="writing-subtab-btn active" id="subtab-btn-writing-builder" data-subview="builder" data-call="switchWritingSubTab" data-args='["builder","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">📝</span>
 <div class="subtab-text">
 <strong>مولد النماذج المهنية (11)</strong>
 <small>تعبئة مباشرة وتوليد فوري</small>
 </div>
 </button>
-<button type="button" class="writing-subtab-btn" id="subtab-btn-writing-phrases" data-subview="phrases" onclick="switchWritingSubTab('phrases', this)">
+<button type="button" class="writing-subtab-btn" id="subtab-btn-writing-phrases" data-subview="phrases" data-call="switchWritingSubTab" data-args='["phrases","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">💬</span>
 <div class="subtab-text">
 <strong>بنك العبارات والمراسلات</strong>
 <small>صيغ ميدانية جاهزة مع الصوت</small>
 </div>
 </button>
-<button type="button" class="writing-subtab-btn" id="subtab-btn-writing-emails" data-subview="emails" onclick="switchWritingSubTab('emails', this)">
+<button type="button" class="writing-subtab-btn" id="subtab-btn-writing-emails" data-subview="emails" data-call="switchWritingSubTab" data-args='["emails","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">✉️</span>
 <div class="subtab-text">
 <strong>مساعد صياغة الإيميلات</strong>
@@ -935,11 +935,11 @@ c 0023456 c 011 780 0001234567890123 45 b
 <input class="input-field" type="search" id="writing-tmpl-search" placeholder="🔍 ابحث في النماذج (مثال: طلب شراء، فاتورة)..." oninput="renderWritingTemplatesSelector()">
 </div>
 <div class="lvl-filters" id="writing-cat-filter-bar" style="margin: 8px 0 12px; gap: 4px;">
-<button type="button" class="lvl-btn active" onclick="filterWritingTemplates('all', this)">الكل (11)</button>
-<button type="button" class="lvl-btn" onclick="filterWritingTemplates('orders', this)">طلبيات 💳</button>
-<button type="button" class="lvl-btn" onclick="filterWritingTemplates('reports', this)">تقارير 📋</button>
-<button type="button" class="lvl-btn" onclick="filterWritingTemplates('quality', this)">جودة ⚠️</button>
-<button type="button" class="lvl-btn" onclick="filterWritingTemplates('admin', this)">إدارية 📄</button>
+<button type="button" class="lvl-btn active" data-call="filterWritingTemplates" data-args='["all","__el__"]'>الكل (11)</button>
+<button type="button" class="lvl-btn" data-call="filterWritingTemplates" data-args='["orders","__el__"]'>طلبيات 💳</button>
+<button type="button" class="lvl-btn" data-call="filterWritingTemplates" data-args='["reports","__el__"]'>تقارير 📋</button>
+<button type="button" class="lvl-btn" data-call="filterWritingTemplates" data-args='["quality","__el__"]'>جودة ⚠️</button>
+<button type="button" class="lvl-btn" data-call="filterWritingTemplates" data-args='["admin","__el__"]'>إدارية 📄</button>
 </div>
 <div class="category-list" id="writing-templates-selector-list"></div>
 </div>
@@ -969,12 +969,12 @@ c 0023456 c 011 780 0001234567890123 45 b
 <input type="search" class="input-field" id="writing-phrase-search" placeholder="🔍 ابحث في العبارات (مثال: ciment, retard, intempéries, casque)..." oninput="renderWritingPhrases()">
 </div>
 <div class="lvl-filters" id="phrases-cat-filter-bar" style="gap:4px;">
-<button type="button" class="lvl-btn active" onclick="filterPhrasesByCategory('all', this)">جميع العبارات</button>
-<button type="button" class="lvl-btn" onclick="filterPhrasesByCategory('orders', this)">طلبيات وتوريد ⚡</button>
-<button type="button" class="lvl-btn" onclick="filterPhrasesByCategory('claims', this)">تحفظات وشكاوى ⚠️</button>
-<button type="button" class="lvl-btn" onclick="filterPhrasesByCategory('site', this)">أشغال وطقس 🏗️</button>
-<button type="button" class="lvl-btn" onclick="filterPhrasesByCategory('finance', this)">مالية وفواتير 💰</button>
-<button type="button" class="lvl-btn" onclick="filterPhrasesByCategory('safety', this)">سلامة مهنية 🛡️</button>
+<button type="button" class="lvl-btn active" data-call="filterPhrasesByCategory" data-args='["all","__el__"]'>جميع العبارات</button>
+<button type="button" class="lvl-btn" data-call="filterPhrasesByCategory" data-args='["orders","__el__"]'>طلبيات وتوريد ⚡</button>
+<button type="button" class="lvl-btn" data-call="filterPhrasesByCategory" data-args='["claims","__el__"]'>تحفظات وشكاوى ⚠️</button>
+<button type="button" class="lvl-btn" data-call="filterPhrasesByCategory" data-args='["site","__el__"]'>أشغال وطقس 🏗️</button>
+<button type="button" class="lvl-btn" data-call="filterPhrasesByCategory" data-args='["finance","__el__"]'>مالية وفواتير 💰</button>
+<button type="button" class="lvl-btn" data-call="filterPhrasesByCategory" data-args='["safety","__el__"]'>سلامة مهنية 🛡️</button>
 </div>
 </div>
 <div class="phrases-grid" id="writing-phrases-grid"></div>
@@ -1004,21 +1004,21 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <!-- Segmented Sub-Tabs Switcher for Tab 6 -->
 <div class="grammar-subtabs-nav" aria-label="أقسام قواعد اللغة الفرنسية">
-<button type="button" class="grammar-subtab-btn active" id="subtab-btn-grammar-lessons" data-subview="lessons" onclick="switchGrammarSubTab('lessons', this)">
+<button type="button" class="grammar-subtab-btn active" id="subtab-btn-grammar-lessons" data-subview="lessons" data-call="switchGrammarSubTab" data-args='["lessons","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">📚</span>
 <div class="subtab-text">
 <strong>الدروس والشروحات (10)</strong>
 <small>قواعد تطبيقية ميدانية</small>
 </div>
 </button>
-<button type="button" class="grammar-subtab-btn" id="subtab-btn-grammar-quiz" data-subview="quiz" onclick="switchGrammarSubTab('quiz', this)">
+<button type="button" class="grammar-subtab-btn" id="subtab-btn-grammar-quiz" data-subview="quiz" data-call="switchGrammarSubTab" data-args='["quiz","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">🎮</span>
 <div class="subtab-text">
 <strong>اختبار وتدريب القواعد</strong>
 <small>تحدي الصياغة والتصريف</small>
 </div>
 </button>
-<button type="button" class="grammar-subtab-btn" id="subtab-btn-grammar-tables" data-subview="tables" onclick="switchGrammarSubTab('tables', this)">
+<button type="button" class="grammar-subtab-btn" id="subtab-btn-grammar-tables" data-subview="tables" data-call="switchGrammarSubTab" data-args='["tables","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">⚡</span>
 <div class="subtab-text">
 <strong>تصريف أفعال الورش الشائعة</strong>
@@ -1033,11 +1033,11 @@ c 0023456 c 011 780 0001234567890123 45 b
 <input type="search" class="input-field" id="grammar-search-input" placeholder="🔍 ابحث في قواعد الورش (مثال: impératif, passé composé, sécurité, retards)..." oninput="handleGrammarSearch()" aria-label="البحث في دروس القواعد">
 </div>
 <div class="lvl-filters" id="grammar-cat-filters">
-<button type="button" class="lvl-btn active" onclick="filterGrammarByCategory('all', this)">جميع الدروس (10)</button>
-<button type="button" class="lvl-btn" onclick="filterGrammarByCategory('orders', this)">الأوامر والتعليمات 👷</button>
-<button type="button" class="lvl-btn" onclick="filterGrammarByCategory('reports', this)">التقارير والمحاضر 📋</button>
-<button type="button" class="lvl-btn" onclick="filterGrammarByCategory('planning', this)">التخطيط والمراسلات ✍️</button>
-<button type="button" class="lvl-btn" onclick="filterGrammarByCategory('safety_quality', this)">السلامة والجودة 🛡️</button>
+<button type="button" class="lvl-btn active" data-call="filterGrammarByCategory" data-args='["all","__el__"]'>جميع الدروس (10)</button>
+<button type="button" class="lvl-btn" data-call="filterGrammarByCategory" data-args='["orders","__el__"]'>الأوامر والتعليمات 👷</button>
+<button type="button" class="lvl-btn" data-call="filterGrammarByCategory" data-args='["reports","__el__"]'>التقارير والمحاضر 📋</button>
+<button type="button" class="lvl-btn" data-call="filterGrammarByCategory" data-args='["planning","__el__"]'>التخطيط والمراسلات ✍️</button>
+<button type="button" class="lvl-btn" data-call="filterGrammarByCategory" data-args='["safety_quality","__el__"]'>السلامة والجودة 🛡️</button>
 </div>
 </div>
 <div class="grammar-lesson-list" id="grammar-lessons-accordion"></div>
@@ -1078,7 +1078,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <p class="plan-hero-sub">مسار دراسي وتطبيقي متدرّج بمعدل 30 دقيقة يومياً يغطي 6 أشهر من الأساسات إلى الإتقان، يدمج المفردات، القواعد، الوثائق، الشيكات، وحسابات الورش.</p>
 </div>
 <div class="plan-hero-actions">
-<button class="vocab-reset-btn-sm" type="button" onclick="resetPlanProgress()" title="إعادة تعيين تقدم الخطة" aria-label="إعادة تعيين تقدم الخطة">
+<button class="vocab-reset-btn-sm" type="button" data-call="resetPlanProgress" title="إعادة تعيين تقدم الخطة" aria-label="إعادة تعيين تقدم الخطة">
 <span aria-hidden="true">🔄</span>
 <span class="reset-label-sm">تصفير الخطة</span>
 </button>
@@ -1109,18 +1109,18 @@ c 0023456 c 011 780 0001234567890123 45 b
 <input type="search" class="input-field" id="plan-search-input" placeholder="🔍 ابحث في مهام الخطة، الأيام أو الكلمات..." oninput="handlePlanSearch()" aria-label="البحث في الخطة الدراسية">
 </div>
 <div class="plan-month-filters" id="plan-month-filters-bar">
-<button class="lvl-btn active" onclick="setPlanMonthFilter('all', this)" type="button">جميع الأشهر</button>
-<button class="lvl-btn" onclick="setPlanMonthFilter(1, this)" type="button">الشهر 1</button>
-<button class="lvl-btn" onclick="setPlanMonthFilter(2, this)" type="button">الشهر 2</button>
-<button class="lvl-btn" onclick="setPlanMonthFilter(3, this)" type="button">الشهر 3</button>
-<button class="lvl-btn" onclick="setPlanMonthFilter(4, this)" type="button">الشهر 4</button>
-<button class="lvl-btn" onclick="setPlanMonthFilter(5, this)" type="button">الشهر 5</button>
-<button class="lvl-btn" onclick="setPlanMonthFilter(6, this)" type="button">الشهر 6</button>
+<button class="lvl-btn active" data-call="setPlanMonthFilter" data-args='["all","__el__"]' type="button">جميع الأشهر</button>
+<button class="lvl-btn" data-call="setPlanMonthFilter" data-args='[1,"__el__"]' type="button">الشهر 1</button>
+<button class="lvl-btn" data-call="setPlanMonthFilter" data-args='[2,"__el__"]' type="button">الشهر 2</button>
+<button class="lvl-btn" data-call="setPlanMonthFilter" data-args='[3,"__el__"]' type="button">الشهر 3</button>
+<button class="lvl-btn" data-call="setPlanMonthFilter" data-args='[4,"__el__"]' type="button">الشهر 4</button>
+<button class="lvl-btn" data-call="setPlanMonthFilter" data-args='[5,"__el__"]' type="button">الشهر 5</button>
+<button class="lvl-btn" data-call="setPlanMonthFilter" data-args='[6,"__el__"]' type="button">الشهر 6</button>
 </div>
 <div class="plan-view-toggles">
-<button class="btn-secondary plan-tool-btn" type="button" onclick="toggleAllPlanMonths(true)" title="فتح جميع الأشهر">📂 فتح الكل</button>
-<button class="btn-secondary plan-tool-btn" type="button" onclick="toggleAllPlanMonths(false)" title="طي جميع الأشهر">📁 طي الكل</button>
-<button class="btn-secondary plan-tool-btn" id="plan-uncompleted-toggle-btn" type="button" onclick="togglePlanUncompletedOnly()" title="عرض الأيام المتبقية فقط">⏳ المتبقية فقط</button>
+<button class="btn-secondary plan-tool-btn" type="button" data-call="toggleAllPlanMonths" data-args='[true]' title="فتح جميع الأشهر">📂 فتح الكل</button>
+<button class="btn-secondary plan-tool-btn" type="button" data-call="toggleAllPlanMonths" data-args='[false]' title="طي جميع الأشهر">📁 طي الكل</button>
+<button class="btn-secondary plan-tool-btn" id="plan-uncompleted-toggle-btn" type="button" data-call="togglePlanUncompletedOnly" title="عرض الأيام المتبقية فقط">⏳ المتبقية فقط</button>
 </div>
 </div>
 <div class="weeks-grid" id="plan-weeks-container">
@@ -1137,28 +1137,28 @@ c 0023456 c 011 780 0001234567890123 45 b
 </div>
 <!-- Segmented Sub-Tabs Switcher for Tab 8 -->
 <div class="calc-subtabs-nav" aria-label="أقسام حاسبة الورش">
-<button type="button" class="calc-subtab-btn active" id="subtab-btn-calc-structure" data-subview="structure" onclick="switchCalcSubTab('structure', this)">
+<button type="button" class="calc-subtab-btn active" id="subtab-btn-calc-structure" data-subview="structure" data-call="switchCalcSubTab" data-args='["structure","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">🏗️</span>
 <div class="subtab-text">
 <strong>الخرسانة والتسليح</strong>
 <small>التكعيب، الإسمنت، وقضبان HA</small>
 </div>
 </button>
-<button type="button" class="calc-subtab-btn" id="subtab-btn-calc-finitions" data-subview="finitions" onclick="switchCalcSubTab('finitions', this)">
+<button type="button" class="calc-subtab-btn" id="subtab-btn-calc-finitions" data-subview="finitions" data-call="switchCalcSubTab" data-args='["finitions","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">🧱</span>
 <div class="subtab-text">
 <strong>البناء والتشطيبات</strong>
 <small>الآجور، الملاط، والتبليط</small>
 </div>
 </button>
-<button type="button" class="calc-subtab-btn" id="subtab-btn-calc-finance" data-subview="finance" onclick="switchCalcSubTab('finance', this)">
+<button type="button" class="calc-subtab-btn" id="subtab-btn-calc-finance" data-subview="finance" data-call="switchCalcSubTab" data-args='["finance","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">💰</span>
 <div class="subtab-text">
 <strong>الوضعيات والمالية</strong>
 <small>TVA 20% واقتطاع الضمان 10%</small>
 </div>
 </button>
-<button type="button" class="calc-subtab-btn" id="subtab-btn-calc-conversions" data-subview="conversions" onclick="switchCalcSubTab('conversions', this)">
+<button type="button" class="calc-subtab-btn" id="subtab-btn-calc-conversions" data-subview="conversions" data-call="switchCalcSubTab" data-args='["conversions","__el__"]'>
 <span class="subtab-icon" aria-hidden="true">📐</span>
 <div class="subtab-text">
 <strong>المقاييس والتحويلات</strong>
@@ -1177,9 +1177,9 @@ c 0023456 c 011 780 0001234567890123 45 b
 <div class="calc-card-head">
 <h4 class="card-title">🏗️ تكعيب الخرسانة والإسمنت / Béton & Ciment</h4>
 <div class="calc-presets">
-<button type="button" class="lvl-btn" onclick="setBetonPreset('dalle')">دالة R+1</button>
-<button type="button" class="lvl-btn" onclick="setBetonPreset('poteau')">عمود</button>
-<button type="button" class="lvl-btn" onclick="setBetonPreset('semelle')">أساس</button>
+<button type="button" class="lvl-btn" data-call="setBetonPreset" data-args='["dalle"]'>دالة R+1</button>
+<button type="button" class="lvl-btn" data-call="setBetonPreset" data-args='["poteau"]'>عمود</button>
+<button type="button" class="lvl-btn" data-call="setBetonPreset" data-args='["semelle"]'>أساس</button>
 </div>
 </div>
 <div class="quiz-config-row" style="margin-bottom:8px;">
@@ -1205,7 +1205,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <div class="calc-result-box" role="status" aria-live="polite" id="calc-beton-result">
 أدخل الأبعاد أعلاه لحساب التكعيب وعدد أكياس الإسمنت والرمل والحصى...
 </div>
-<button type="button" class="btn-secondary calc-copy-btn" onclick="copyCalcResult('beton')">📋 نسخ نتيجة تكعيب الخرسانة</button>
+<button type="button" class="btn-secondary calc-copy-btn" data-call="copyCalcResult" data-args='["beton"]'>📋 نسخ نتيجة تكعيب الخرسانة</button>
 </div>
 <!-- 2. Poids Acier HA & Barres 12m -->
 <div class="calc-card">
@@ -1230,7 +1230,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <div class="calc-result-box" role="status" aria-live="polite" id="calc-acier-result">
 أدخل الطول بالمتر لحساب الوزن الإجمالي وعدد القضبان (Barres 12m)...
 </div>
-<button type="button" class="btn-secondary calc-copy-btn" onclick="copyCalcResult('acier')">📋 نسخ نتيجة وزن حديد التسليح</button>
+<button type="button" class="btn-secondary calc-copy-btn" data-call="copyCalcResult" data-args='["acier"]'>📋 نسخ نتيجة وزن حديد التسليح</button>
 </div>
 </div>
 </div>
@@ -1257,7 +1257,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <div class="calc-result-box" role="status" aria-live="polite" id="calc-brique-result">
 أدخل المساحة بالمتر المربع لحساب عدد الآجور وأكياس ملاط البناء...
 </div>
-<button type="button" class="btn-secondary calc-copy-btn" onclick="copyCalcResult('brique')">📋 نسخ نتيجة حساب الآجور</button>
+<button type="button" class="btn-secondary calc-copy-btn" data-call="copyCalcResult" data-args='["brique"]'>📋 نسخ نتيجة حساب الآجور</button>
 </div>
 <!-- 4. Surface Carrelage & Ciment-colle -->
 <div class="calc-card">
@@ -1277,7 +1277,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <div class="calc-result-box" role="status" aria-live="polite" id="calc-carrelage-result">
 أدخل مساحة الأرضية لحساب المساحة الصافية لشراء السيراميك وأكياس الغراء...
 </div>
-<button type="button" class="btn-secondary calc-copy-btn" onclick="copyCalcResult('carrelage')">📋 نسخ نتيجة التبليط والسيراميك</button>
+<button type="button" class="btn-secondary calc-copy-btn" data-call="copyCalcResult" data-args='["carrelage"]'>📋 نسخ نتيجة التبليط والسيراميك</button>
 </div>
 </div>
 </div>
@@ -1313,7 +1313,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <div class="calc-result-box" role="status" aria-live="polite" id="calc-finance-result" style="font-size:12.5px;">
 أدخل المبلغ دون ضريبة (HT) لحساب الضريبة واقتطاع الضمان والصافي للدفع...
 </div>
-<button type="button" class="btn-secondary calc-copy-btn" onclick="copyCalcResult('finance')">📋 نسخ نتيجة تفكيك الميزانية</button>
+<button type="button" class="btn-secondary calc-copy-btn" data-call="copyCalcResult" data-args='["finance"]'>📋 نسخ نتيجة تفكيك الميزانية</button>
 </div>
 <!-- Financial Rules Guide Card -->
 <div class="calc-card">
@@ -1412,7 +1412,7 @@ c 0023456 c 011 780 0001234567890123 45 b
 <span>ℹ️</span> <span id="toast-message">تم نسخ النص بنجاح!</span>
 </div>
 <!-- Floating Scroll To Top FAB -->
-<button id="back-to-top-btn" class="back-to-top-fab" type="button" onclick="scrollToTopSmooth()" title="الصعود للأعلى / Retour en haut" aria-label="الرجوع إلى أعلى الصفحة / Retour en haut de page" aria-hidden="true">
+<button id="back-to-top-btn" class="back-to-top-fab" type="button" data-call="scrollToTopSmooth" title="الصعود للأعلى / Retour en haut" aria-label="الرجوع إلى أعلى الصفحة / Retour en haut de page" aria-hidden="true">
 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <path d="M12 19V5M5 12l7-7 7 7"/>
 </svg>
@@ -2832,8 +2832,7 @@ const SHORT_PHASE_NAMES = {
       state.activeCategory = catName;
       renderVocabList(true);
     }
-
-    function setLevelFilter(lvl, btnEl) {
+function setLevelFilter(lvl, btnEl) {
       document.querySelectorAll('#level-filter-bar .lvl-btn').forEach(btn => {
         btn.classList.remove('active');
       });
@@ -2855,8 +2854,7 @@ const SHORT_PHASE_NAMES = {
         renderVocabList(true);
       }, 90);
     }
-
-    function clearSearchInput() {
+function clearSearchInput() {
       const inputEl = document.getElementById('search-input');
       if (inputEl) {
         inputEl.value = '';
@@ -3037,8 +3035,7 @@ function getFilteredWords() {
         grid.replaceChildren(emptyState);
       }
     }
-
-    function loadMoreWords() {
+function loadMoreWords() {
       renderVocabList(false);
     }
 
@@ -7718,10 +7715,88 @@ if (typeof window !== 'undefined') {
   window.installPWAApp = installPWAApp;
 };
 
+const ACTIONS = {
+  switchTab,
+  scrollToTopSmooth,
+  speakCurrentWord,
+  installPWAApp,
+  exportProgressData,
+  clearSearchInput,
+  setLevelFilter,
+  loadMoreWords,
+  switchQuizSubTab,
+  startQuizPreset,
+  startQuizSession,
+  showQuizHint,
+  quitQuizSession,
+  nextQuizQuestion,
+  restartQuizConfig,
+  retryWrongOnly,
+  retrySameQuiz,
+  switchChequesSubTab,
+  setChequeAmountAndSpeak,
+  randomChequeAmountAndSpeak,
+  resetChequeEditor,
+  speakChequeText,
+  copyChequeText,
+  speakDecomposedNumber,
+  setRefTableCategory,
+  setNumbersFilter,
+  startNumGamePreset,
+  startNumGame,
+  stopNumGame,
+  checkNumInput,
+  newNumQuestion,
+  switchReadingSubTab,
+  filterReadingDocsByCategory,
+  switchWritingSubTab,
+  filterWritingTemplates,
+  filterPhrasesByCategory,
+  switchGrammarSubTab,
+  filterGrammarByCategory,
+  switchCalcSubTab,
+  setBetonPreset,
+  copyCalcResult,
+  setPlanMonthFilter,
+  toggleAllPlanMonths,
+  togglePlanUncompletedOnly,
+  resetPlanProgress,
+  triggerImportPicker
+};
+
+function dispatchDelegatedAction(event) {
+  const el = event.target.closest?.('[data-call]');
+  if (!el || el.disabled) return;
+  const fn = ACTIONS[el.dataset.call];
+  if (typeof fn !== 'function') {
+    console.warn(`Unknown delegated action: ${el.dataset.call}`);
+    return;
+  }
+  let args = [];
+  const raw = el.dataset.args;
+  if (raw) {
+    try {
+      args = JSON.parse(raw).map(a => (a === '__el__' ? el : a));
+    } catch (err) {
+      console.warn('Bad data-args JSON for', el.dataset.call, err);
+      return;
+    }
+  }
+  fn(...args);
+}
+
+function triggerImportPicker() {
+  document.getElementById('import-progress-input')?.click();
+}
+function initDelegatedActions() {
+  document.addEventListener('click', dispatchDelegatedAction);
+};
+
 window.addEventListener('DOMContentLoaded', () => {
   loadStateFromLocalStorage();
   initializeTabs();
   initMotion();
+  initDelegatedActions();
   initStats();
 
   renderVocabCategoryFilter();

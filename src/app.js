@@ -9,11 +9,13 @@ import { renderGrammarAccordions } from './modules/tabs/grammar-tab.js';
 import { renderStudyPlan } from './modules/tabs/plan-tab.js';
 import { initPWA } from './modules/pwa.js';
 import { initMotion } from './modules/motion.js';
+import { initDelegatedActions } from './modules/events.js';
 
 export function bootstrapApp() {
   loadStateFromLocalStorage();
   initializeTabs();
   initMotion();
+  initDelegatedActions();
   initStats();
   
   renderVocabCategoryFilter();
