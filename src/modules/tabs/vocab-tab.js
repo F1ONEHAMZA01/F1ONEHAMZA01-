@@ -287,8 +287,8 @@ function getFilteredWords() {
         const topMeta = document.createElement('div');
         topMeta.className = 'word-card-top-meta';
         
-        const catBadge = appendTextElement(topMeta, 'span', 'word-card-cat-tag', word.category || 'عام');
-        const lvlBadge = appendTextElement(topMeta, 'span', `lvl-badge lvl-${String(word.level || '').toLowerCase()}`, word.level);
+        appendTextElement(topMeta, 'span', 'word-card-cat-tag', word.category || 'عام');
+        appendTextElement(topMeta, 'span', `lvl-badge lvl-${String(word.level || '').toLowerCase()}`, word.level);
         card.appendChild(topMeta);
 
         // 2. Main French Word & Audio Action Row
@@ -321,8 +321,8 @@ function getFilteredWords() {
         // 4. Arabic Meaning Block with Label
         const arBox = document.createElement('div');
         arBox.className = 'word-ar';
-        const arTag = appendTextElement(arBox, 'span', 'word-ar-tag', 'المعنى');
-        const arText = appendTextElement(arBox, 'span', 'word-ar-text', word.ar);
+        appendTextElement(arBox, 'span', 'word-ar-tag', 'المعنى');
+        appendTextElement(arBox, 'span', 'word-ar-text', word.ar);
         card.appendChild(arBox);
 
         // 5. Practical Example Block
@@ -330,7 +330,7 @@ function getFilteredWords() {
           const exContainer = document.createElement('div');
           exContainer.className = 'word-example';
           
-          const exHeader = appendTextElement(exContainer, 'div', 'word-example-title', '💡 مثال تطبيقي من الورشة:');
+          appendTextElement(exContainer, 'div', 'word-example-title', '💡 مثال تطبيقي من الورشة:');
           const exampleFr = appendTextElement(exContainer, 'div', 'word-example-fr', word.example_fr);
           exampleFr.lang = 'fr';
           exampleFr.dir = 'ltr';
@@ -347,7 +347,7 @@ function getFilteredWords() {
         const tagsContainer = document.createElement('div');
         tagsContainer.className = 'word-badges';
         if (word.context === 'maroc') {
-          const maBadge = appendTextElement(tagsContainer, 'span', 'word-badge badge-ca', '🇲🇦 المغرب');
+          appendTextElement(tagsContainer, 'span', 'word-badge badge-ca', '🇲🇦 المغرب');
         }
         footer.appendChild(tagsContainer);
 
@@ -391,7 +391,6 @@ function getFilteredWords() {
     }
 
     function toggleWordLearned(key, btnEl, cardEl, word) {
-      const isNowLearned = !state.learned.has(key);
       const wordLabel = word?.fr || 'المصطلح';
       if (state.learned.has(key)) {
         state.learned.delete(key);

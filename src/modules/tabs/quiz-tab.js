@@ -1,6 +1,6 @@
 import { state, getVocabDataset, getWordId, saveStateToLocalStorage, initStats, normalizeSearchText } from '../state.js';
 import { appendTextElement, showToast, escapeHtml, playHaptic } from '../ui-utils.js';
-import { speakFrenchText, speakCurrentWord, markCurrentLearned, ttsAvailable } from '../audio.js';
+import { speakFrenchText, speakCurrentWord, ttsAvailable } from '../audio.js';
 import { SHORT_PHASE_NAMES } from './vocab-tab.js';
 import { renderSrsView } from '../srs.js';
 import { rollValue, bumpEl } from '../motion.js';
@@ -61,7 +61,6 @@ export function renderQuizStatsView() {
   const learnedCount = state.learned ? state.learned.size : 0;
   const learnedPct = totalWords > 0 ? Math.round((learnedCount / totalWords) * 100) : 0;
   const wrongCount = Object.keys(state.wrongBank || {}).length;
-  const quizzesTaken = state.quizzesTaken || 0;
   const bestStreak = state.quizMaxStreak || 0;
 
   container.innerHTML = `
@@ -269,7 +268,6 @@ export function startQuizPreset(presetType) {
 
   let words = [];
   let modeQueue = null;
-  let runKind = 'preset';
 
   if (presetType === 'quick10') {
     // 10 unlearned/adaptive words

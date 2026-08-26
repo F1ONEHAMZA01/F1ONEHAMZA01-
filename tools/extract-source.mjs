@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { resolve } from 'node:path';
 
 const obsidianVaultDir = 'C:/Users/hamza/OneDrive/Desktop/HMZ 666/test Obsidian v1';
 const targetHomePath = resolve(obsidianVaultDir, '00_HOME.md');

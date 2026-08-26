@@ -124,7 +124,6 @@ const numbersContext = {};
 numbersContext.globalThis = numbersContext;
 vm.createContext(numbersContext);
 vm.runInContext(numbersSource + '\nglobalThis.__exports = { numberToFrench, parseLocalizedChequeAmount, buildChequeAmountWords };', numbersContext);
-const { numberToFrench, parseLocalizedChequeAmount, buildChequeAmountWords } = numbersContext.__exports;
 
 check('cheque number conversion handles French and localized input edge cases', () => {
   const frenchCases = new Map([

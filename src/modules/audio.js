@@ -69,7 +69,7 @@ export function speakFrenchText(text, btnEl) {
 
   try {
     window.speechSynthesis.speak(utt);
-  } catch(e) {
+  } catch {
     cleanup();
   }
 }

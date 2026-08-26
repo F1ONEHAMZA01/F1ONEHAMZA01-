@@ -137,3 +137,55 @@ ${appInit}
 write('index.html', builtHtml);
 
 console.log('✓ index.html successfully compiled from modular src/');
+
+// ────────────────────────────────────────────────────────────────────────────
+// Production minification pass (dependency-free, conservative & verified)
+// ────────────────────────────────────────────────────────────────────────────
+
+function minifyCss(css) {
+  return css
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/\s*([{}:;,>+~])\s*/g, '$1')
+    .replace(/;}/g, '}')
+    .trim();
+}
+
+function minifyJs(js) {
+  return js
+    .replace(/\/\*\*[\s\S]*?\*\//g, '')      // JSDoc blocks
+    .replace(/\/\* ===[^*]*===\s*\*\//g, '') // section banners
+    .replace(/[ \t]+$/gm, '')
+    .replace(/\n{3,}/g, '\n\n');
+}
+
+function minifyHtmlSkeleton(html) {
+  return html
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/>\s+\n/g, '>\n');
+}
+
+const MINIFY = process.env.NO_MINIFY !== '1';
+if (MINIFY) {
+  let out = read('index.html');
+
+  const styles = [];
+  out = out.replace(/<style>([\s\S]*?)<\/style>/g, (_, css) => {
+    styles.push(`<style>${minifyCss(css)}</style>`);
+    return `__STYLE_SLOT_${styles.length - 1}__`;
+  });
+
+  const scripts = [];
+  out = out.replace(/<script>([\s\S]*?)<\/script>/g, (_, js) => {
+    scripts.push(`<script>${minifyJs(js)}</script>`);
+    return `__SCRIPT_SLOT_${scripts.length - 1}__`;
+  });
+
+  out = minifyHtmlSkeleton(out);
+  out = out.replace(/__STYLE_SLOT_(\d+)__/g, (_, i) => styles[Number(i)]);
+  out = out.replace(/__SCRIPT_SLOT_(\d+)__/g, (_, i) => scripts[Number(i)]);
+
+  write('index.html', out);
+  const kb = (Math.round((out.length / 1024) * 10) / 10).toFixed(1);
+  console.log(`✓ Minified production bundle: ${kb} KB`);
+}

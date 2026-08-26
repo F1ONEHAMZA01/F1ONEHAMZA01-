@@ -586,13 +586,11 @@ const READING_QUIZ_QUESTIONS = [
 
 let readingQuizIndex = 0;
 let readingQuizScore = 0;
-let readingQuizStreak = 0;
 let readingQuizAnswered = false;
 
 export function initReadingQuiz() {
   readingQuizIndex = 0;
   readingQuizScore = 0;
-  readingQuizStreak = 0;
   readingQuizAnswered = false;
   renderReadingQuizCard();
 }
@@ -662,11 +660,9 @@ export function checkReadingQuizOption(index, btnEl) {
   const isCorrect = (index === q.answer);
   if (isCorrect) {
     readingQuizScore++;
-    readingQuizStreak++;
     feedback.className = 'quiz-feedback feedback-correct';
     feedback.innerHTML = `✅ <strong>إجابة صحيحة ومطابقة!</strong><br><small>${q.hint}</small>`;
   } else {
-    readingQuizStreak = 0;
     feedback.className = 'quiz-feedback feedback-wrong';
     feedback.innerHTML = `❌ <strong>إجابة غير دقيقة.</strong> الإجابة الصحيحة هي: «${q.options[q.answer]}»<br><small>💡 ${q.hint}</small>`;
   }

@@ -1,7 +1,5 @@
-import { state } from '../state.js';
-import { FR_PRON_TOKENS } from '../../data/numbers-ref.js';
 import { NUMBERS_DATA } from '../../data/numbers-ref.js';
-import { appendTextElement, showToast, escapeHtml, playHaptic } from '../ui-utils.js';
+import { showToast, escapeHtml, playHaptic } from '../ui-utils.js';
 import { speakFrenchText, frWordsToPron } from '../audio.js';
 import { shuffleArray } from './quiz-tab.js';
 import { rollValue } from '../motion.js';
@@ -558,7 +556,7 @@ export function testNumberInCheque(n) {
 
 function readNumberGameBest() {
   try { return parseInt(localStorage.getItem('btp_numgame_best') || '0', 10) || 0; }
-  catch (error) { return 0; }
+  catch { return 0; }
 }
 
 export const numGame = {
@@ -791,7 +789,7 @@ export function numGameResolve(isCorrect, correctFr) {
   if (numGame.streak > numGame.best) {
     numGame.best = numGame.streak;
     try { localStorage.setItem('btp_numgame_best', String(numGame.best)); }
-    catch (error) { /* Progress remains available for the current session. */ }
+    catch { /* Progress remains available for the current session. */ }
   }
   numGameHud();
   const fb = document.getElementById('num-game-feedback');

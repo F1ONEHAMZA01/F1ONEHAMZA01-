@@ -39,56 +39,58 @@ self.addEventListener('activate', event => {
   );
 });
 
-async function networkFirstNavigation(request) {
-  try {
+(() => {
+  async function networkFirstNavigation(request) {
+    try {
+      const response = await fetch(request);
+      if (response && response.ok) {
+        const cache = await caches.open(STATIC_CACHE);
+        await cache.put('./index.html', response.clone());
+      }
+      return response;
+    } catch {
+      return (await caches.match('./index.html')) || (await caches.match('./'));
+    }
+  }
+
+  async function cacheFirstContent(request) {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+
     const response = await fetch(request);
     if (response && response.ok) {
-      const cache = await caches.open(STATIC_CACHE);
-      await cache.put('./index.html', response.clone());
+      const cache = await caches.open(CONTENT_CACHE);
+      await cache.put(request, response.clone());
     }
     return response;
-  } catch {
-    return (await caches.match('./index.html')) || (await caches.match('./'));
-  }
-}
-
-async function cacheFirstContent(request) {
-  const cached = await caches.match(request);
-  if (cached) return cached;
-
-  const response = await fetch(request);
-  if (response && response.ok) {
-    const cache = await caches.open(CONTENT_CACHE);
-    await cache.put(request, response.clone());
-  }
-  return response;
-}
-
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(STATIC_CACHE);
-  const cached = await cache.match(request, { ignoreSearch: true });
-  const network = fetch(request).then(response => {
-    if (response && response.ok) cache.put(request, response.clone());
-    return response;
-  }).catch(() => null);
-  return cached || network;
-}
-
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-
-  const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
-
-  if (event.request.mode === 'navigate') {
-    event.respondWith(networkFirstNavigation(event.request));
-    return;
   }
 
-  if (url.pathname.startsWith('/data/') || url.pathname.startsWith('/fonts/')) {
-    event.respondWith(cacheFirstContent(event.request));
-    return;
+  async function staleWhileRevalidate(request) {
+    const cache = await caches.open(STATIC_CACHE);
+    const cached = await cache.match(request, { ignoreSearch: true });
+    const network = fetch(request).then(response => {
+      if (response && response.ok) cache.put(request, response.clone());
+      return response;
+    }).catch(() => null);
+    return cached || network;
   }
 
-  event.respondWith(staleWhileRevalidate(event.request));
-});
+  self.addEventListener('fetch', event => {
+    if (event.request.method !== 'GET') return;
+
+    const url = new URL(event.request.url);
+    if (url.origin !== self.location.origin) return;
+
+    if (event.request.mode === 'navigate') {
+      event.respondWith(networkFirstNavigation(event.request));
+      return;
+    }
+
+    if (url.pathname.startsWith('/data/') || url.pathname.startsWith('/fonts/')) {
+      event.respondWith(cacheFirstContent(event.request));
+      return;
+    }
+
+    event.respondWith(staleWhileRevalidate(event.request));
+  });
+})();

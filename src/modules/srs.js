@@ -1,6 +1,4 @@
 import { state, getVocabDataset, getVocabSearchIndex, saveStateToLocalStorage } from './state.js';
-import { appendTextElement } from './ui-utils.js';
-import { speakFrenchText } from './audio.js';
 
 /**
  * Spaced Repetition System (SM-2 algorithm) for long-term vocabulary retention.

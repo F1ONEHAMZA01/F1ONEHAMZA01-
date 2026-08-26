@@ -1,4 +1,4 @@
-import { state, loadStateFromLocalStorage, initStats } from './modules/state.js';
+import { loadStateFromLocalStorage, initStats } from './modules/state.js';
 import { initializeTabs } from './modules/ui-utils.js';
 import { renderVocabCategoryFilter, renderVocabList } from './modules/tabs/vocab-tab.js';
 import { initQuizConfigSelects } from './modules/tabs/quiz-tab.js';

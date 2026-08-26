@@ -104,7 +104,7 @@ export const state = {
 export function legacyWordKey(word) {
   let w = String(word || '').toLowerCase().trim();
   const articles = ["le ", "la ", "l'", "les ", "un ", "une ", "d'", "l’", "l' "];
-  for (let art of articles) {
+  for (const art of articles) {
     if (w.startsWith(art)) {
       w = w.substring(art.length);
       break;
