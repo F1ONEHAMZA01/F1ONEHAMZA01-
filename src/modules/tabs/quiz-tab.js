@@ -3,7 +3,6 @@ import { appendTextElement, showToast, escapeHtml, playHaptic } from '../ui-util
 import { speakFrenchText, speakCurrentWord, ttsAvailable } from '../audio.js';
 import { SHORT_PHASE_NAMES } from './vocab-tab.js';
 import { renderSrsView } from '../srs.js';
-import { rollValue, bumpEl } from '../motion.js';
 
 export const QUIZ_MODE_META = {
   fr_to_ar: { label: '🇫🇷 → 🇲🇦 اختر المعنى', answerField: 'ar' },
@@ -600,7 +599,6 @@ export function handleQuizAnswer(selectedOpt, btnEl) {
   document.getElementById('quiz-live-score').innerText = `✅ ${state.quizScore} صحيحة`;
   const streakDisplay = document.getElementById('quiz-streak-display');
   streakDisplay.innerText = `🔥 متتالية: ${state.quizStreak}`;
-  if (state.quizStreak >= 2) bumpEl(streakDisplay);
   streakDisplay.classList.toggle('has-streak', state.quizStreak >= 2);
   const completedPct = Math.round(((state.quizCurrentIndex + 1) / state.quizLength) * 100);
   document.getElementById('quiz-progress-bar-fill').style.width = `${completedPct}%`;
@@ -669,7 +667,7 @@ export function finishQuizSession() {
   document.getElementById('quiz-active-panel').classList.add('hidden');
   document.getElementById('quiz-results-panel').classList.remove('hidden');
   
-  rollValue(document.getElementById('quiz-result-score-circle'), `${finalScorePct}%`);
+  document.getElementById('quiz-result-score-circle').innerText = `${finalScorePct}%`;
   
   let title = '';
   if (state.quizRunKind === 'speed60') {

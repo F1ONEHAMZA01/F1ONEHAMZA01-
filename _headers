@@ -3,7 +3,7 @@
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-2xVv2gsnNFjPALQ8FfkNeqLRNzcnl0rv0TxJePw/dcw=' 'sha256-pFlKd+4rLn74nAzqJ3pjAgZX6ViOCl7IymeEo2R2fgE='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; media-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-2xVv2gsnNFjPALQ8FfkNeqLRNzcnl0rv0TxJePw/dcw=' 'sha256-Ji6eS4jo871wAQgZtyXEP4q4I1wSY2oUos/6ivV4uX4='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; media-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'
 
 /index.html
   Cache-Control: public, max-age=0, must-revalidate

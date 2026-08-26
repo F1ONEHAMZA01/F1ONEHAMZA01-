@@ -1,24 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Motion physics layer', () => {
-  test('ripple spawns from pointer interaction and self-removes', async ({ page }) => {
-    await page.goto('/');
-    const btn = page.locator('#tab-btn-quiz');
-    await btn.click();
-    await expect(page.locator('.motion-ripple').first()).toBeAttached();
-    await page.waitForTimeout(700);
-    await expect(page.locator('.motion-ripple')).toHaveCount(0);
-  });
-
-  test('reduced motion disables ripples', async ({ browser }) => {
-    const ctx = await browser.newContext({ reducedMotion: 'reduce' });
-    const page = await ctx.newPage();
-    await page.goto('/');
-    await page.click('#tab-btn-cheques');
-    await expect(page.locator('.motion-ripple')).toHaveCount(0);
-    await ctx.close();
-  });
-
+test.describe('Motion layer (classic design)', () => {
   test('swipe left navigates to the next quiz subview (RTL flow)', async ({ page }) => {
     await page.goto('/');
     await page.click('#tab-btn-quiz');
@@ -37,49 +19,28 @@ test.describe('Motion physics layer', () => {
     await expect(page.locator('#subtab-btn-quiz-custom')).toHaveClass(/active/);
   });
 
-  test('mobile bottom sheet hosts relocated filters', async ({ browser }) => {
+  test('classic mobile layout keeps the inline category strip', async ({ browser }) => {
     const ctx = await browser.newContext({
-      viewport: { width: 412, height: 915 },
+      viewport: { width: 424, height: 915 },
       hasTouch: true,
       isMobile: true
     });
     const page = await ctx.newPage();
     await page.goto('/');
 
-    await expect(page.locator('#open-filters-btn')).toBeVisible();
-    await page.click('#open-filters-btn');
+    // The original horizontal chips strip must be visible on Nord-class screens
+    const strip = page.locator('#category-filter-list');
+    await expect(strip).toBeVisible();
+    await expect(strip.locator('.category-item').first()).toBeVisible();
 
-    const sheet = page.locator('#mobile-filters-sheet');
-    await expect(sheet).not.toHaveClass(/hidden/);
-    await expect(sheet).toHaveClass(/open/);
-
-    const slotList = page.locator('#sheet-body-slot #category-filter-list');
-    await expect(slotList).toBeAttached();
-    await expect(slotList.locator('.category-item').first()).toBeVisible();
-
-    await page.keyboard.press('Escape');
-    await page.waitForTimeout(450);
-    await expect(sheet).toHaveClass(/hidden/);
+    // No bottom sheet / filters button remnants
+    await expect(page.locator('#mobile-filters-sheet')).toHaveCount(0);
+    await expect(page.locator('#open-filters-btn')).toHaveCount(0);
     await ctx.close();
-  });
-});
-
-test.describe('Kinetics patterns', () => {
-  test('glide pill tracks the active tab position', async ({ page }) => {
-    await page.goto('/');
-    const pill = page.locator('#tab-glide-pill');
-    await expect(pill).toHaveClass(/visible/);
-    const before = await pill.evaluate(el => el.style.transform);
-
-    await page.click('#tab-btn-calc');
-    await page.waitForTimeout(500);
-    const after = await pill.evaluate(el => el.style.transform);
-    expect(after).not.toBe(before);
   });
 
   test('hold-to-confirm resets progress without dialog', async ({ page }) => {
     await page.goto('/');
-    // Seed learned state, verify it exists
     await page.evaluate(() => window.toggleWordLearned(
       window.getWordId(window.getVocabDataset()[0]),
       document.querySelector('.word-card .learn-btn'),

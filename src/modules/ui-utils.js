@@ -25,11 +25,6 @@ export function escapeHtml(value) {
   }[char]));
 }
 
-/** Glides the tab indicator pill (set by motion.js to avoid a circular import). */
-let tabGlideHook = null;
-export function setTabGlideHook(fn) {
-  tabGlideHook = typeof fn === 'function' ? fn : null;
-}
 
 /**
  * Initializes Accessible WAI-ARIA tablist navigation with keyboard navigation (Home, End, Left/Right arrows)
@@ -104,7 +99,6 @@ export function switchTab(tabId, btnEl) {
     activeSection.hidden = false;
   }
 
-  if (tabGlideHook) tabGlideHook(btnEl);
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
