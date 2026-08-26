@@ -8,8 +8,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Version-3.1.1%20(2026)-gold?style=for-the-badge&logo=appveyor" alt="Version 3.1.1" />
   <img src="https://img.shields.io/badge/Quality_Score-9.1%2F10-success?style=for-the-badge&logo=checkmarx" alt="Quality Score" />
-  <img src="https://img.shields.io/badge/Unit_Tests-29%20%2F%2029-brightgreen?style=for-the-badge&logo=vitest" alt="Unit Tests" />
-  <img src="https://img.shields.io/badge/E2E_Playwright-10%20%2F%2010-brightgreen?style=for-the-badge&logo=playwright" alt="E2E Tests" />
+  <img src="https://img.shields.io/badge/Unit_Tests-29%20%2F%2029_%2B_Coverage_Gate-brightgreen?style=for-the-badge&logo=vitest" alt="Unit Tests" />
+  <img src="https://img.shields.io/badge/E2E_Playwright-34%20%2F%2034-brightgreen?style=for-the-badge&logo=playwright" alt="E2E Tests" />
   <img src="https://img.shields.io/badge/Validation_Checks-24%20%2F%2024-blue?style=for-the-badge&logo=githubactions" alt="Validation Checks" />
   <img src="https://img.shields.io/badge/CI-GitHub_Actions-blueviolet?style=for-the-badge&logo=githubactions" alt="CI" />
   <img src="https://img.shields.io/badge/PWA-100%25_Offline_First_(Self_Hosted_Fonts)-blue?style=for-the-badge&logo=pwa" alt="PWA Ready" />
@@ -388,7 +388,7 @@ flowchart LR
 
 ## 🔐 الأمان (Security Hardening 2026)
 
-* **سياسة CSP صارمة بلا أطراف خارجية:** `script-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; frame-ancestors 'none'` — لا مصادر شبكة غريبة إطلاقاً.
+* **CSP بلا أي unsafe-inline:** كل معالجات الأحداث مُرحّلة إلى طبقة تفويض تعريفية (`data-call` / `data-input`)، و`script-src` يُبني على **هاشات sha256 تُولَّد تلقائياً لكل نسخة** في `_headers` وعلى الخادم المحلي — صفر سكربتات غير منقّحة، صفر أطراف خارجية.
 * **تنقية شاملة لمخرجات HTML:** كل حقن ديناميكي في بطاقات الأرقام وجداول المراجع ومعاينة الإيميلات يمر عبر `escapeHtml()`.
 * **صفر بناء أحداث نصية هشّ:** الأزرار المولّدة برمجياً تستعمل `data-*` attributes + `addEventListener` بدل السلاسل النصية المُسلسلة يدوياً.
 * **خادم تطوير مُحصّن:** حماية مجربة من Path Traversal (كل محاولات `../` و `%2e%2e` ترجع 403) + نفس رؤوس الأمان الخاصة بالإنتاج (CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy).
@@ -405,11 +405,11 @@ flowchart LR
 │ الطبقة 3: فحوص بنيوية (tools/validate-app.mjs)          → 24 / 24 ✅      │
 │   دلالة HTML، إمكانية الوصول، سلامة المخطط، اكتمال المحركات المجمعة       │
 │ ┌──────────────────────────────────────────────────────────────────────┐   │
-│ │ الطبقة 2: E2E — Playwright/Chromium (tests/e2e)       → 10 / 10 ✅   │   │
+│ │ الطبقة 2: E2E Playwright × جهازين (Desktop + Nord5)    → 34 / 34 ✅   │   │
 │ │   التنقل RTL، البحث، حفظ التقدم بعد reload، جلسة كويز كاملة،         │   │
 │ │   حاسبات عبر الواجهة الحقيقية، بطاقات SM-2، رفض ملفات الاستيراد السيئة│  │
 │ │ ┌──────────────────────────────────────────────────────────────────┐ │   │
-│ │ │ الطبقة 1: وحدات — node:test (tests/unit)          → 29 / 29 ✅  │ │   │
+│ │ │ الطبقة 1: وحدات node:test + c8 ≥95% للمحرك النقي  → 29 / 29 ✅│ │   │
 │ │ │  • numberToFrench: 32 حالة أكاديمية (71/80/81/200/80000...)     │ │   │
 │ │ │  • parseLocalizedChequeAmount: صيغ مغربية/أوروبية/أرقام عربية    │ │   │
 │ │ │  • btp-math: خرسانة، حديد NM D²/162، آجور، سيراميك، CCAG-T      │ │   │

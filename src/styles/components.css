@@ -1806,12 +1806,6 @@
       }
     }
 
-    .quiz-hero-header {
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
     .quiz-quick-toggles {
       display: flex;
       align-items: center;
@@ -2347,11 +2341,6 @@
       align-items: center;
     }
 
-    .cheque-mockup-wrapper {
-      position: relative;
-      margin-top: 14px;
-    }
-
     .cheque-mockup {
       position: relative;
       overflow: hidden;
@@ -2410,30 +2399,6 @@
     .number-decomposer-panel {
       background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
       border: 1px solid rgba(240, 165, 0, 0.3);
-    }
-
-    .decomposer-output-box {
-      padding: 12px;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-md);
-    }
-
-    .decomposer-result-fr {
-      font-family: var(--font-fr);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--gold-light);
-      direction: ltr;
-      text-align: left;
-      margin-bottom: 4px;
-    }
-
-    .decomposer-result-ar {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #e2e8f0;
-      margin-bottom: 8px;
     }
 
     .decomposer-result-rule {
@@ -2970,30 +2935,6 @@
       color: var(--text-muted);
       margin-bottom: 14px;
       line-height: 1.6;
-    }
-
-    .grammar-rule-box {
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid rgba(59, 130, 246, 0.25);
-      border-right: 4px solid var(--blue, #3b82f6);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      margin-bottom: 14px;
-      font-size: 13.5px;
-      line-height: 1.65;
-      color: #e2e8f0;
-    }
-
-    .grammar-warn-box {
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      border-right: 4px solid var(--error, #ef4444);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      margin: 14px 0;
-      font-size: 13.5px;
-      line-height: 1.65;
-      color: #e2e8f0;
     }
 
     .gt {

@@ -3,11 +3,8 @@ import { test, expect } from '@playwright/test';
 test.describe('Motion physics layer', () => {
   test('ripple spawns from pointer interaction and self-removes', async ({ page }) => {
     await page.goto('/');
-    await page.click('#tab-btn-vocab');
-    const btn = page.locator('#level-filter-bar .lvl-btn').first();
-    await btn.hover();
-    await page.mouse.down();
-    await page.mouse.up();
+    const btn = page.locator('#tab-btn-quiz');
+    await btn.click();
     await expect(page.locator('.motion-ripple').first()).toBeAttached();
     await page.waitForTimeout(700);
     await expect(page.locator('.motion-ripple')).toHaveCount(0);
@@ -17,8 +14,7 @@ test.describe('Motion physics layer', () => {
     const ctx = await browser.newContext({ reducedMotion: 'reduce' });
     const page = await ctx.newPage();
     await page.goto('/');
-    const btn = page.locator('#level-filter-bar .lvl-btn').first();
-    await btn.click();
+    await page.click('#tab-btn-cheques');
     await expect(page.locator('.motion-ripple')).toHaveCount(0);
     await ctx.close();
   });

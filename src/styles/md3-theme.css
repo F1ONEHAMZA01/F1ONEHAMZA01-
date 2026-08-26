@@ -1266,22 +1266,8 @@
       border-radius: 16px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
-    .num-rules { display: grid; gap: 10px; }
-    .num-rule {
-      background: var(--md-surface-container);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 16px;
-      padding: 14px 16px;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .num-rule:hover {
-      border-color: rgba(255, 184, 112, 0.3);
-      transform: translateX(-2px);
-    }
     .num-rule b { color: var(--md-primary); }
     .num-rule span { color: var(--md-on-surface-variant); }
-
 
     .template-builder-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 20px; }
     .form-inputs-container { display: grid; gap: 14px; }
@@ -1899,29 +1885,6 @@
     .pron-strip { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; padding: 12px 16px; }
     .pron-strip-label { color: var(--md-on-primary-container); font-weight: 800; }
     .pron-strip-text { color: var(--md-on-primary-container); }
-
-    .number-rules-panel { background: var(--md-surface-container); padding: clamp(18px, 2vw, 24px); }
-    .num-rules { counter-reset: number-rule; }
-    .num-rule {
-      counter-increment: number-rule;
-      display: grid;
-      grid-template-columns: 32px minmax(0, 1fr);
-      gap: 3px 11px;
-      padding: 13px 14px;
-      background: var(--md-surface-container-high);
-    }
-    .num-rule::before {
-      content: counter(number-rule);
-      grid-row: 1 / span 2;
-      width: 30px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: var(--md-secondary-container);
-      color: var(--md-on-secondary-container);
-      font: 750 12px var(--font-fr);
-    }
     .num-rule b { grid-column: 2; font-family: var(--font-fr); font-size: 13px; }
     .num-rule span { grid-column: 2; font-size: 12px; line-height: 1.65; }
 
@@ -1933,7 +1896,6 @@
 
     @media (max-width: 900px) {
       .cheque-workbench { grid-template-columns: minmax(0, 1fr) !important; }
-      .number-rules-panel { order: 2; }
       .cheque-details-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .cheque-detail-field:first-child { grid-column: 1 / -1; }
     }

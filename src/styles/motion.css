@@ -541,15 +541,6 @@ main > section:not(.hidden) {
   transition: max-height 0.35s var(--ease-out-expo), opacity 0.25s ease, padding 0.25s ease;
 }
 
-/* ─── 11. Study Plan Checkbox Celebration (Tab 7) ─── */
-.day-task-checkbox {
-  transition: transform 0.25s var(--ease-spring), background-color 0.2s ease;
-}
-
-.day-task-checkbox:active {
-  transform: scale(0.85);
-}
-
 .day-checkbox:checked {
   animation: checkboxCheckPop 0.34s var(--ease-spring);
 }
@@ -715,7 +706,6 @@ main > section:not(.hidden) {
   overscroll-behavior-x: contain;
   scroll-behavior: smooth;
 }
-
 
 /* ─── 16. MOTION PHYSICS LAYER (Phase: Motion & Physics) ────────────────── */
 

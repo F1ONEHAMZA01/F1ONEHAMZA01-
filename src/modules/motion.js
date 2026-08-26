@@ -7,6 +7,8 @@
  *  - coarse pointers → laptop-only effects (tilt/magnet/parallax) skipped
  */
 
+import { setTabGlideHook } from './ui-utils.js';
+
 const REDUCED = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)');
 export const prefersReducedMotion = () => !!(REDUCED && REDUCED.matches);
 export const hasFinePointer = () =>
@@ -427,6 +429,7 @@ export function initMotion() {
   initMagneticButtons();
   initHeroParallax();
   initTabGlide();
+  setTabGlideHook(updateTabGlide);
 }
 
 if (typeof window !== 'undefined') {
