@@ -1,8 +1,14 @@
 import { loadStateFromLocalStorage, initStats } from './modules/state.js';
-import { initializeTabs } from './modules/ui-utils.js';
+import {
+  initializeTabs, initializeMobileMoreNav, initializeDynamicHeader,
+  initializeBidiContent, registerTabInitializer
+} from './modules/ui-utils.js';
 import { renderVocabCategoryFilter, renderVocabList } from './modules/tabs/vocab-tab.js';
 import { initQuizConfigSelects } from './modules/tabs/quiz-tab.js';
-import { updateChequeDetails, updateChequeConverter, renderNumbersChart } from './modules/tabs/cheques-tab.js';
+import {
+  updateChequeDetails, updateChequeConverter, renderNumbersChart,
+  renderReferenceNumbersTable, runNumberDecomposer
+} from './modules/tabs/cheques-tab.js';
 import { renderReadingDocsSelector, renderReadingDoc } from './modules/tabs/reading-tab.js';
 import { renderWritingTemplatesSelector, loadWritingTemplate } from './modules/tabs/writing-tab.js';
 import { renderGrammarAccordions } from './modules/tabs/grammar-tab.js';
@@ -13,20 +19,44 @@ import { initDelegatedActions } from './modules/events.js';
 
 export function bootstrapApp() {
   loadStateFromLocalStorage();
+
+  registerTabInitializer('quiz', () => {
+    initQuizConfigSelects();
+  });
+  registerTabInitializer('cheques', () => {
+    updateChequeDetails();
+    renderNumbersChart('all');
+    renderReferenceNumbersTable();
+    const decompInp = document.getElementById('num-decomposer-input');
+    if (decompInp) decompInp.value = '81';
+    runNumberDecomposer();
+    updateChequeConverter();
+  });
+  registerTabInitializer('reading', () => {
+    renderReadingDocsSelector();
+    renderReadingDoc('bl');
+  });
+  registerTabInitializer('writing', () => {
+    renderWritingTemplatesSelector();
+    loadWritingTemplate('bc');
+  });
+  registerTabInitializer('grammar', () => {
+    renderGrammarAccordions();
+  });
+  registerTabInitializer('plan', () => {
+    renderStudyPlan();
+  });
+
   initializeTabs();
+  initializeMobileMoreNav();
+  initializeDynamicHeader();
+  initializeBidiContent();
   initMotion();
   initDelegatedActions();
   initStats();
   
   renderVocabCategoryFilter();
   renderVocabList(true);
-  initQuizConfigSelects();
-  renderReadingDocsSelector();
-  renderReadingDoc('bl');
-  renderWritingTemplatesSelector();
-  loadWritingTemplate('bc');
-  renderGrammarAccordions();
-  renderStudyPlan();
   
   const d = new Date();
   const formattedDate = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth()+1).padStart(2, '0') + '/' + d.getFullYear();
@@ -36,11 +66,6 @@ export function bootstrapApp() {
   }
   const chequeDateDisplay = document.getElementById('cheque-date');
   if (chequeDateDisplay) chequeDateDisplay.innerText = formattedDate;
-  updateChequeDetails();
-
-  renderNumbersChart('all');
-  updateChequeConverter();
-
   initPWA();
 }
 

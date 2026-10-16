@@ -1,5 +1,19 @@
 import { test, expect } from '@playwright/test';
 
+async function openMainTab(page, tab) {
+  const desktopTab = page.locator(`#tab-btn-${tab}`);
+  if (await desktopTab.isVisible()) {
+    await desktopTab.click();
+    return;
+  }
+
+  const mobileTab = page.locator(`.mobile-bottom-nav [data-tab="${tab}"]`);
+  if (!(await mobileTab.isVisible())) {
+    await page.locator('.mobile-more-nav > summary').click();
+  }
+  await mobileTab.click();
+}
+
 test.describe('App shell & navigation', () => {
   test('loads with correct title and RTL layout', async ({ page }) => {
     await page.goto('/');
@@ -19,7 +33,7 @@ test.describe('App shell & navigation', () => {
       ['tab-btn-calc', 'tab-calc']
     ];
     for (const [btnId, panelId] of tabs) {
-      await page.click(`#${btnId}`);
+      await openMainTab(page, btnId.replace('tab-btn-', ''));
       await expect(page.locator(`#${panelId}`)).toBeVisible();
       for (const [, other] of tabs.filter(([, o]) => o !== panelId)) {
         await expect(page.locator(`#${other}`)).toBeHidden();
@@ -30,7 +44,7 @@ test.describe('App shell & navigation', () => {
   test('external datasets load and populate UI', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('#vocab-total-count-badge')).toContainText(/مصطلح/);
-    await page.click('#tab-btn-plan');
+    await openMainTab(page, 'plan');
     await expect(page.locator('.plan-month').first()).toBeVisible();
   });
 });
@@ -65,7 +79,7 @@ test.describe('Vocabulary workflow', () => {
 test.describe('Quiz engine', () => {
   test('quick 10 quiz starts and scores an answer', async ({ page }) => {
     await page.goto('/');
-    await page.click('#tab-btn-quiz');
+    await openMainTab(page, 'quiz');
     await page.click('.quiz-preset-btn.preset-gold');
     await expect(page.locator('#quiz-question-box')).toBeVisible();
 
@@ -76,10 +90,36 @@ test.describe('Quiz engine', () => {
   });
 });
 
+test.describe('Grammar actions', () => {
+  test('lesson audio and copy controls work under the production CSP', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    const cspErrors = [];
+    page.on('console', message => {
+      if (message.type() === 'error' && /content security policy|refused to execute/i.test(message.text())) {
+        cspErrors.push(message.text());
+      }
+    });
+
+    await page.goto('/');
+    await openMainTab(page, 'grammar');
+    await page.locator('#accordion-idx-0 .accordion-header').click();
+
+    const audio = page.locator('#accordion-content-0 .gt-audio-btn[data-call="speakFromDataset"]').first();
+    await expect(audio).toHaveAttribute('data-speak', /enrobage/);
+    await audio.click();
+
+    const copy = page.locator('#accordion-content-0 [data-call="copyFromDataset"]').first();
+    await copy.click();
+    await expect(page.locator('#toast')).toContainText('تم النسخ');
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('Arrêtez immédiatement');
+    expect(cspErrors).toEqual([]);
+  });
+});
+
 test.describe('Calculators (pure math via UI)', () => {
   test('concrete calculator outputs cement bags for known volume', async ({ page }) => {
     await page.goto('/');
-    await page.click('#tab-btn-calc');
+    await openMainTab(page, 'calc');
     await page.fill('#calc-beton-l', '10');
     await page.fill('#calc-beton-w', '8');
     await page.fill('#calc-beton-h', '0.2');
@@ -90,7 +130,7 @@ test.describe('Calculators (pure math via UI)', () => {
 
   test('finance decompte shows TVA and net to pay', async ({ page }) => {
     await page.goto('/');
-    await page.click('#tab-btn-calc');
+    await openMainTab(page, 'calc');
     await page.click('button[id^="subtab-btn-calc-"]:has-text("مالية")');
     await page.fill('#calc-finance-ht', '100000');
     await page.dispatchEvent('#calc-finance-ht', 'input');
@@ -108,7 +148,7 @@ test.describe('Phase 5 features', () => {
       const w = window.getVocabDataset()[0];
       window.state.srs[window.getWordId(w)] = { ef: 2.5, interval: 0, reps: 0, due: '2020-01-01' };
     });
-    await page.click('#tab-btn-quiz');
+    await openMainTab(page, 'quiz');
     await page.click('#subtab-btn-quiz-srs');
     await expect(page.locator('#quiz-view-srs')).toBeVisible();
     await expect(page.locator('#srs-content-box')).toContainText('مستحقة');

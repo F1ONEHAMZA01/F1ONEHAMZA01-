@@ -6,13 +6,13 @@
  * production CSP drop `script-src 'unsafe-inline'` entirely.
  */
 
-import { switchTab, scrollToTopSmooth, showToast } from './ui-utils.js';
+import { switchTab, scrollToTopSmooth, showToast, showIconActionSuccess } from './ui-utils.js';
 import { speakCurrentWord, speakFrenchText, markCurrentLearned } from './audio.js';
 import { installPWAApp } from './pwa.js';
 import { exportProgressData, importProgressFile } from './state.js';
 import { startSrsSession, revealSrsAnswer, gradeSrsCard } from './srs.js';
 import {
-  clearSearchInput, setLevelFilter, loadMoreWords, handleSearchInput
+  clearSearchInput, setLevelFilter, loadMoreWords, handleSearchInput, focusNextVocabWord
 } from './tabs/vocab-tab.js';
 import {
   switchQuizSubTab, startQuizPreset, startQuizSession, showQuizHint,
@@ -24,7 +24,7 @@ import {
   resetChequeEditor, speakChequeText, copyChequeText, speakDecomposedNumber,
   setRefTableCategory, setNumbersFilter, startNumGamePreset, startNumGame,
   stopNumGame, checkNumInput, newNumQuestion,
-  updateChequeConverter, updateChequeBank, toggleChequeBarre, toggleChequeCertifie,
+  updateChequeConverter, normalizeChequeAmountField, updateChequeBank, toggleChequeBarre, toggleChequeCertifie,
   updateChequeDetails, runNumberDecomposer, handleNumGameInputKey,
   filterNumbersChartLive, filterReferenceTableLive
 } from './tabs/cheques-tab.js';
@@ -40,7 +40,7 @@ import {
 import {
   switchGrammarSubTab, filterGrammarByCategory,
   initGrammarQuiz, checkGrammarQuizOption, nextGrammarQuizQuestion,
-  selectVerbConjugation, handleGrammarSearch
+  selectVerbConjugation, handleGrammarSearch, toggleAccordion
 } from './tabs/grammar-tab.js';
 import {
   switchCalcSubTab, setBetonPreset, copyCalcResult,
@@ -54,16 +54,19 @@ import {
 
 /** Speaks raw text carried in data-speak (avoids inline string escaping). */
 function speakFromDataset(el) {
-  const text = el.dataset.speak;
+  const text = el?.dataset?.speak;
   if (text) speakFrenchText(text, el);
 }
 
 /** Copies raw text from data-copy with the standard toast. */
 function copyFromDataset(el) {
-  const text = el.dataset.copy || '';
+  const text = el?.dataset?.copy || '';
   if (!text) return;
   navigator.clipboard.writeText(text)
-    .then(() => showToast('تم النسخ إلى الحافظة 📋', 'success'))
+    .then(() => {
+      showIconActionSuccess(el);
+      showToast('تم النسخ إلى الحافظة 📋', 'success');
+    })
     .catch(() => showToast('تعذر النسخ', 'error'));
 }
 
@@ -82,6 +85,7 @@ export const ACTIONS = {
   clearSearchInput,
   setLevelFilter,
   loadMoreWords,
+  focusNextVocabWord,
   switchQuizSubTab,
   startQuizPreset,
   startQuizSession,
@@ -112,6 +116,7 @@ export const ACTIONS = {
   filterPhrasesByCategory,
   switchGrammarSubTab,
   filterGrammarByCategory,
+  toggleAccordion,
   switchCalcSubTab,
   setBetonPreset,
   copyCalcResult,
@@ -136,6 +141,7 @@ export const ACTIONS = {
   handleSearchInput,
   importProgressFile,
   updateChequeConverter,
+  normalizeChequeAmountField,
   updateChequeBank,
   toggleChequeBarre,
   toggleChequeCertifie,
@@ -182,13 +188,22 @@ function parseArgs(el, raw, event) {
 }
 
 function runAction(el, event, nameAttr = 'call') {
-  const fn = ACTIONS[el.dataset[nameAttr]];
+  const actionName = el.dataset[nameAttr];
+  const fn = ACTIONS[actionName];
   if (typeof fn !== 'function') {
-    console.warn(`Unknown delegated action: ${el.dataset[nameAttr]}`);
+    console.warn(`Unknown delegated action: ${actionName}`);
     return;
   }
   const args = parseArgs(el, el.dataset.args, event);
-  if (args) fn(...args);
+  if (!args) return;
+
+  // Dataset actions act on the clicked control itself. Keep their templates
+  // concise while still passing the element needed for text and UI feedback.
+  if (args.length === 0 && (actionName === 'speakFromDataset' || actionName === 'copyFromDataset')) {
+    fn(el);
+    return;
+  }
+  fn(...args);
 }
 
 function dispatchDelegatedAction(event) {
@@ -197,11 +212,12 @@ function dispatchDelegatedAction(event) {
   runAction(el, event);
 }
 
-/** Handles data-input / data-change / data-keydown declarative wiring. */
+/** Handles declarative input, change, keydown and blur wiring. */
 function dispatchDelegatedInput(event) {
   const attr = event.type === 'input' ? 'input'
     : event.type === 'change' ? 'change'
-    : event.type === 'keydown' ? 'keydown' : null;
+    : event.type === 'keydown' ? 'keydown'
+    : event.type === 'blur' ? 'blur' : null;
   if (!attr || !event.target) return;
   const el = event.target.closest?.(`[data-${attr}]`);
   if (!el) return;
@@ -218,4 +234,5 @@ export function initDelegatedActions() {
   document.addEventListener('input', dispatchDelegatedInput, { passive: true });
   document.addEventListener('change', dispatchDelegatedInput, { passive: true });
   document.addEventListener('keydown', dispatchDelegatedInput);
+  document.addEventListener('blur', dispatchDelegatedInput, true);
 }

@@ -85,20 +85,44 @@ const combinedModules = moduleFiles
 const appInit = `
 window.addEventListener('DOMContentLoaded', () => {
   loadStateFromLocalStorage();
+
+  registerTabInitializer('quiz', () => {
+    initQuizConfigSelects();
+  });
+  registerTabInitializer('cheques', () => {
+    updateChequeDetails();
+    renderNumbersChart('all');
+    renderReferenceNumbersTable();
+    const decompInp = document.getElementById('num-decomposer-input');
+    if (decompInp) decompInp.value = '81';
+    runNumberDecomposer();
+    updateChequeConverter();
+  });
+  registerTabInitializer('reading', () => {
+    renderReadingDocsSelector();
+    renderReadingDoc('bl');
+  });
+  registerTabInitializer('writing', () => {
+    renderWritingTemplatesSelector();
+    loadWritingTemplate('bc');
+  });
+  registerTabInitializer('grammar', () => {
+    renderGrammarAccordions();
+  });
+  registerTabInitializer('plan', () => {
+    renderStudyPlan();
+  });
+
   initializeTabs();
+  initializeMobileMoreNav();
+  initializeDynamicHeader();
+  initializeBidiContent();
   initMotion();
   initDelegatedActions();
   initStats();
   
   renderVocabCategoryFilter();
   renderVocabList(true);
-  initQuizConfigSelects();
-  renderReadingDocsSelector();
-  renderReadingDoc('bl');
-  renderWritingTemplatesSelector();
-  loadWritingTemplate('bc');
-  renderGrammarAccordions();
-  renderStudyPlan();
   
   const d = new Date();
   const formattedDate = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth()+1).padStart(2, '0') + '/' + d.getFullYear();
@@ -108,14 +132,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   const chequeDateDisplay = document.getElementById('cheque-date');
   if (chequeDateDisplay) chequeDateDisplay.innerText = formattedDate;
-  updateChequeDetails();
-
-  renderNumbersChart('all');
-  renderReferenceNumbersTable();
-  const decompInp = document.getElementById('num-decomposer-input');
-  if (decompInp) decompInp.value = '81';
-  runNumberDecomposer();
-  updateChequeConverter();
 
   initPWA();
 });
@@ -149,7 +165,10 @@ function minifyCss(css) {
   return css
     .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/\s+/g, ' ')
-    .replace(/\s*([{}:;,>+~])\s*/g, '$1')
+    // Keep whitespace around `+`: CSS calc() requires it for addition.
+    // Removing it turns valid expressions such as `calc(100% + 10px)` into
+    // invalid declarations after the production minification pass.
+    .replace(/\s*([{}:;,>~])\s*/g, '$1')
     .replace(/;}/g, '}')
     .trim();
 }

@@ -72,18 +72,26 @@ export function renderGrammarAccordions() {
   let html = '';
   filtered.forEach((lesson) => {
     const realIdx = GRAMMAR_LESSONS.indexOf(lesson);
+    const titleParts = String(lesson.title || '').split(/\s*\/\s*/);
+    const arabicTitle = titleParts.shift()?.trim() || 'درس قواعد ميدانية';
+    const frenchTitle = titleParts.join(' / ').trim();
     html += `
       <div class="accordion-item" id="accordion-idx-${realIdx}">
         <button type="button" class="accordion-header" aria-expanded="false" aria-controls="accordion-content-${realIdx}" data-call="toggleAccordion" data-args='[${realIdx}]'>
           <div class="accordion-header-title">
-            <span class="grammar-badge-pill">${lesson.badge || 'درس مهني 📚'}</span>
-            <span class="grammar-title-text">${lesson.title}</span>
+            <span class="grammar-badge-pill">${escapeHtml(lesson.badge || 'درس مهني 📚')}</span>
+            <span class="grammar-title-text">
+              <span class="grammar-title-ar">${escapeHtml(arabicTitle)}</span>
+              ${frenchTitle ? `<span class="grammar-title-fr" lang="fr" dir="ltr">${escapeHtml(frenchTitle)}</span>` : ''}
+            </span>
           </div>
           <span class="accordion-arrow" aria-hidden="true">▼</span>
         </button>
         <div class="accordion-content" id="accordion-content-${realIdx}">
-          <p class="grammar-desc-text">${lesson.ar_desc}</p>
-          ${lesson.content}
+          <div class="accordion-content-inner">
+            <p class="grammar-desc-text">${lesson.ar_desc}</p>
+            ${lesson.content}
+          </div>
         </div>
       </div>
     `;
@@ -98,19 +106,15 @@ export function toggleAccordion(idx) {
   
   if (item.classList.contains('active-item')) {
     item.classList.remove('active-item');
-    content.style.maxHeight = '0px';
     const btn = item.querySelector('.accordion-header');
     if (btn) btn.setAttribute('aria-expanded', 'false');
   } else {
-    document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active-item'));
-    document.querySelectorAll('.accordion-content').forEach(el => el.style.maxHeight = '0px');
-    document.querySelectorAll('.accordion-header').forEach(el => el.setAttribute('aria-expanded', 'false'));
+    document.querySelectorAll('#grammar-lessons-accordion .accordion-item').forEach(el => el.classList.remove('active-item'));
+    document.querySelectorAll('#grammar-lessons-accordion .accordion-header').forEach(el => el.setAttribute('aria-expanded', 'false'));
     
     item.classList.add('active-item');
     const btn = item.querySelector('.accordion-header');
     if (btn) btn.setAttribute('aria-expanded', 'true');
-    // Using scrollHeight instead of 5000px ensures a perfectly paced CSS transition
-    content.style.maxHeight = content.scrollHeight + 'px';
     playHaptic(10);
   }
 }
@@ -474,8 +478,8 @@ export function renderGrammarVerbsTable() {
           <div class="ex-ar">${v.example_ar}</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="gt-audio-btn" data-call="speakFromDataset" data-speak="${escapeHtml(v.example_fr)}"" aria-label="استمع للجملة">🔊</button>
-          <button type="button" class="gt-audio-btn" data-call="copyFromDataset" data-copy="${escapeHtml(v.example_fr)}" aria-label="نسخ الجملة">📋</button>
+          <button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="${escapeHtml(v.example_fr)}" aria-label="استمع للجملة" title="استمع للجملة"></button>
+          <button type="button" class="gt-audio-btn app-icon-action app-icon-action--copy" data-call="copyFromDataset" data-copy="${escapeHtml(v.example_fr)}" aria-label="نسخ الجملة" title="نسخ الجملة"></button>
         </div>
       </div>
     </div>

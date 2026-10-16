@@ -1,4 +1,4 @@
-const APP_VERSION = '3.1.1';
+const APP_VERSION = '4.3.0';
 const STATIC_CACHE = `btp-maroc-static-${APP_VERSION}`;
 const CONTENT_CACHE = `btp-maroc-content-${APP_VERSION}`;
 
@@ -14,11 +14,11 @@ const APP_SHELL = [
 ];
 
 const CONTENT_ASSETS = [
-  './data/vocab.js?v=3.1.1',
-  './data/reading-docs.js',
-  './data/writing-templates.js',
-  './data/grammar-lessons.js',
-  './data/plan-tasks.js'
+  './data/vocab.js?v=4.3.0',
+  './data/reading-docs.js?v=4.3.0',
+  './data/writing-templates.js?v=4.3.0',
+  './data/grammar-lessons.js?v=4.3.0',
+  './data/plan-tasks.js?v=4.3.0'
 ];
 
 self.addEventListener('install', event => {

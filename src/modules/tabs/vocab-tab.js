@@ -7,6 +7,22 @@ import { renderReadingDocsSelector } from './reading-tab.js';
 let searchDebounceTimer = null;
 let vocabScrollObserver = null;
 
+function isCompactViewport() {
+  return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+    && window.matchMedia('(max-width: 900px)').matches;
+}
+
+function syncExampleDisclosure() {
+  const compact = isCompactViewport();
+  document.querySelectorAll('.word-example-details').forEach(details => {
+    details.open = !compact;
+  });
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', syncExampleDisclosure, { passive: true });
+}
+
 const PHASE_NAMES = {
       1: "1. الأساسات والحفر · Terrassement & Fondations",
       2: "2. الهيكل والخرسانة · Gros Œuvre & Structure",
@@ -25,6 +41,19 @@ const PHASE_NAMES = {
       6: "6. التسيير والسلامة والأدوات"
     };
 
+    function getCategoryLabelParts(label) {
+      const parts = String(label || 'عام').split(/\s*\/\s*/);
+      return { primary: parts[0].trim(), secondary: parts.slice(1).join(' / ').trim() };
+    }
+
+    function appendCategoryLabel(parent, label) {
+      const labelWrap = appendTextElement(parent, 'span', 'category-label', '');
+      const parts = getCategoryLabelParts(label);
+      appendTextElement(labelWrap, 'span', 'cat-label-primary', parts.primary);
+      if (parts.secondary) appendTextElement(labelWrap, 'span', 'cat-label-secondary', parts.secondary);
+      return labelWrap;
+    }
+
     function renderVocabCategoryFilter() {
       const container = document.getElementById('category-filter-list');
       if (!container) return;
@@ -35,9 +64,11 @@ const PHASE_NAMES = {
         const cat = word.category;
         const phase = word.phase || 6;
         if (!categoriesMap.has(cat)) {
-          categoriesMap.set(cat, { count: 0, phase });
+          categoriesMap.set(cat, { count: 0, learned: 0, phase });
         }
-        categoriesMap.get(cat).count++;
+        const info = categoriesMap.get(cat);
+        info.count++;
+        if (state.learned.has(getWordId(word))) info.learned++;
       });
       
       const fragment = document.createDocumentFragment();
@@ -46,9 +77,12 @@ const PHASE_NAMES = {
       allButton.type = 'button';
       allButton.className = 'category-item active-cat';
       allButton.id = 'cat-btn-all';
+      allButton.dataset.category = 'all';
+      allButton.setAttribute('aria-pressed', String(state.activeCategory === 'all'));
       allButton.addEventListener('click', () => setCategoryFilter('all', allButton));
-      appendTextElement(allButton, 'span', '', 'كل المصطلحات / Tout');
-      appendTextElement(allButton, 'span', 'cat-count', dataset.length);
+      appendCategoryLabel(allButton, 'كل المصطلحات / Tout');
+      const allLearnedCount = dataset.reduce((count, word) => count + (state.learned.has(getWordId(word)) ? 1 : 0), 0);
+      appendTextElement(allButton, 'span', 'cat-count', `${allLearnedCount} / ${dataset.length}`);
       fragment.appendChild(allButton);
 
       const sortedCategories = Array.from(categoriesMap.entries()).sort((a, b) => {
@@ -70,21 +104,26 @@ const PHASE_NAMES = {
         button.type = 'button';
         button.className = 'category-item';
         button.id = `cat-btn-${encodeURIComponent(catName)}`;
+        button.dataset.category = catName;
+        button.setAttribute('aria-pressed', String(state.activeCategory === catName));
         button.addEventListener('click', () => setCategoryFilter(catName, button));
-        appendTextElement(button, 'span', '', catName);
-        appendTextElement(button, 'span', 'cat-count', info.count);
+        appendCategoryLabel(button, catName);
+        appendTextElement(button, 'span', 'cat-count', `${info.learned} / ${info.count}`);
         fragment.appendChild(button);
       });
 
       container.replaceChildren(fragment);
+      updateVocabLearningSummary();
     }
 
     function setCategoryFilter(catName, btnEl) {
       document.querySelectorAll('#category-filter-list .category-item').forEach(btn => {
         btn.classList.remove('active-cat');
+        btn.setAttribute('aria-pressed', 'false');
       });
       if (btnEl) {
         btnEl.classList.add('active-cat');
+        btnEl.setAttribute('aria-pressed', 'true');
         try {
           requestAnimationFrame(() => btnEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }));
         } catch(e) {
@@ -98,8 +137,12 @@ const PHASE_NAMES = {
     export function setLevelFilter(lvl, btnEl) {
       document.querySelectorAll('#level-filter-bar .lvl-btn').forEach(btn => {
         btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
       });
-      btnEl.classList.add('active');
+      if (btnEl) {
+        btnEl.classList.add('active');
+        btnEl.setAttribute('aria-pressed', 'true');
+      }
       state.activeLevel = lvl;
       renderVocabList(true);
     }
@@ -160,6 +203,105 @@ function getFilteredWords() {
       }).map(entry => entry.word);
     }
 
+    function updateVocabLearningSummary() {
+      const label = document.getElementById('vocab-progress-label');
+      const percent = document.getElementById('vocab-progress-percent');
+      const bar = document.getElementById('vocab-progress-bar');
+      const filterLabel = document.getElementById('vocab-active-filter-label');
+      const continueBtn = document.getElementById('vocab-continue-btn');
+      const status = document.getElementById('vocab-progress-status');
+      const summary = document.getElementById('vocab-learning-summary');
+      if (!label || !percent || !bar || !filterLabel || !continueBtn || !status || !summary) return;
+
+      const filtered = getFilteredWords();
+      const learnedCount = filtered.reduce((count, word) => count + (state.learned.has(getWordId(word)) ? 1 : 0), 0);
+      const progress = filtered.length ? Math.round((learnedCount / filtered.length) * 100) : 0;
+      const remainingCount = Math.max(0, filtered.length - learnedCount);
+      const nextWord = filtered.find(word => !state.learned.has(getWordId(word)));
+      const categoryLabel = state.activeCategory === 'all'
+        ? 'كل الفئات'
+        : getCategoryLabelParts(state.activeCategory).primary;
+      const levelLabel = state.activeLevel === 'all' ? 'كل المستويات' : state.activeLevel;
+
+      const categoryStats = new Map();
+      getVocabDataset().forEach(word => {
+        const category = word.category;
+        const info = categoryStats.get(category) || { learned: 0, total: 0 };
+        info.total++;
+        if (state.learned.has(getWordId(word))) info.learned++;
+        categoryStats.set(category, info);
+      });
+      document.querySelectorAll('#category-filter-list .category-item').forEach(button => {
+        const category = button.dataset.category;
+        const info = category === 'all'
+          ? { learned: getVocabDataset().filter(word => state.learned.has(getWordId(word))).length, total: getVocabDataset().length }
+          : categoryStats.get(category);
+        const count = button.querySelector('.cat-count');
+        if (count && info) count.textContent = `${info.learned} / ${info.total}`;
+      });
+
+      label.textContent = !filtered.length
+        ? 'لا توجد مصطلحات بهذا الاختيار'
+        : learnedCount === filtered.length
+          ? `${learnedCount} من ${filtered.length} مصطلحاً متقناً · اكتمل المسار`
+          : learnedCount === 0
+            ? `${filtered.length} مصطلحاً جاهزاً · ابدأ بالمصطلح الأول`
+            : `${learnedCount} من ${filtered.length} مصطلحاً متقناً · تبقّى ${remainingCount}`;
+      percent.textContent = `${progress}%`;
+      bar.setAttribute('aria-valuenow', String(progress));
+      bar.querySelector('span')?.style.setProperty('width', `${progress}%`);
+      filterLabel.textContent = state.searchQuery
+        ? `بحث: ${state.searchQuery}`
+        : `${categoryLabel} · ${levelLabel}`;
+      continueBtn.disabled = filtered.length === 0 || learnedCount === filtered.length;
+      continueBtn.setAttribute('aria-disabled', String(continueBtn.disabled));
+      continueBtn.querySelector('span:first-child').textContent = learnedCount === filtered.length && filtered.length
+        ? 'المسار مكتمل'
+        : filtered.length ? 'تابع التعلّم' : 'لا توجد نتيجة';
+      continueBtn.setAttribute('aria-label', nextWord
+        ? `تابع التعلّم إلى المصطلح ${nextWord.fr}`
+        : learnedCount === filtered.length && filtered.length
+          ? 'اكتمل مسار التعلّم الحالي'
+          : 'لا توجد مصطلحات بهذا الاختيار');
+      continueBtn.title = nextWord ? `التالي في المسار: ${nextWord.fr}` : '';
+
+      const stateName = !filtered.length ? 'empty' : learnedCount === filtered.length ? 'complete' : learnedCount ? 'in-progress' : 'start';
+      summary.dataset.progressState = stateName;
+      summary.classList.toggle('is-complete', stateName === 'complete');
+      summary.classList.toggle('is-empty', stateName === 'empty');
+      status.textContent = stateName === 'complete' ? 'مكتمل' : stateName === 'empty' ? 'لا نتائج' : stateName === 'start' ? 'ابدأ الآن' : 'مستمر';
+      status.className = `vocab-summary-status status-${stateName}`;
+    }
+
+export function focusNextVocabWord() {
+  const filtered = getFilteredWords();
+      const nextIndex = filtered.findIndex(word => !state.learned.has(getWordId(word)));
+      const nextWord = nextIndex >= 0 ? filtered[nextIndex] : null;
+      if (!nextWord) {
+        showToast(filtered.length ? 'أتممت هذا المسار — أحسنت!' : 'لا توجد مصطلحات بهذا الاختيار.');
+        return;
+      }
+
+      const key = getWordId(nextWord);
+      const cardId = `word-card-${key.replace(':', '-')}`;
+      let card = document.getElementById(cardId);
+      while (!card && state.renderedWordsCount < nextIndex + 1) {
+        renderVocabList(false);
+        card = document.getElementById(cardId);
+      }
+
+      if (!card) {
+        showToast('تعذر الوصول إلى المصطلح التالي. جرّب تحميل المزيد.');
+        return;
+      }
+
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('vocab-next-card');
+      card.setAttribute('tabindex', '-1');
+      card.focus({ preventScroll: true });
+      window.setTimeout(() => card.classList.remove('vocab-next-card'), 1400);
+    }
+
     function setupVocabInfiniteScroll() {
       const loadMoreBtn = document.getElementById('load-more-btn');
       if (!loadMoreBtn || typeof IntersectionObserver === 'undefined') return;
@@ -186,7 +328,8 @@ function getFilteredWords() {
       }
 
       const filtered = getFilteredWords();
-      const nextBatch = filtered.slice(state.renderedWordsCount, state.renderedWordsCount + state.wordsPerPage);
+      const wordsPerPage = isCompactViewport() ? 12 : 24;
+      const nextBatch = filtered.slice(state.renderedWordsCount, state.renderedWordsCount + wordsPerPage);
       const fragment = document.createDocumentFragment();
 
       nextBatch.forEach(word => {
@@ -203,6 +346,7 @@ function getFilteredWords() {
         
         appendTextElement(topMeta, 'span', 'word-card-cat-tag', word.category || 'عام');
         appendTextElement(topMeta, 'span', `lvl-badge lvl-${String(word.level || '').toLowerCase()}`, word.level);
+        appendTextElement(topMeta, 'span', 'word-learning-state', isLearned ? '✓ متقنة' : 'جديدة');
         card.appendChild(topMeta);
 
         // 2. Main French Word & Audio Action Row
@@ -215,10 +359,9 @@ function getFilteredWords() {
         
         const speakBtn = document.createElement('button');
         speakBtn.type = 'button';
-        speakBtn.className = 'speak-btn';
+        speakBtn.className = 'speak-btn app-icon-action app-icon-action--audio';
         speakBtn.title = 'استمع للنطق الأصلي';
         speakBtn.setAttribute('aria-label', `استمع لنطق كلمة ${word.fr}`);
-        speakBtn.textContent = '🔊';
         speakBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           speakFrenchText(word.fr, speakBtn);
@@ -239,19 +382,27 @@ function getFilteredWords() {
         appendTextElement(arBox, 'span', 'word-ar-text', word.ar);
         card.appendChild(arBox);
 
-        // 5. Practical Example Block
+        // 5. Practical Example Block: collapsed on phones to keep the learning action visible.
         if (word.example_fr) {
+          const exampleDetails = document.createElement('details');
+          exampleDetails.className = 'word-example-details';
+          if (!isCompactViewport()) exampleDetails.open = true;
+
+          const exampleSummary = document.createElement('summary');
+          exampleSummary.textContent = '💡 مثال تطبيقي من الورشة';
+          exampleDetails.appendChild(exampleSummary);
+
           const exContainer = document.createElement('div');
           exContainer.className = 'word-example';
-          
-          appendTextElement(exContainer, 'div', 'word-example-title', '💡 مثال تطبيقي من الورشة:');
+
           const exampleFr = appendTextElement(exContainer, 'div', 'word-example-fr', word.example_fr);
           exampleFr.lang = 'fr';
           exampleFr.dir = 'ltr';
           if (word.example_ar) {
             appendTextElement(exContainer, 'div', 'word-example-ar', word.example_ar);
           }
-          card.appendChild(exContainer);
+          exampleDetails.appendChild(exContainer);
+          card.appendChild(exampleDetails);
         }
 
         // 6. Footer (Morocco context badge + Learn action button)
@@ -289,6 +440,8 @@ function getFilteredWords() {
         loadMoreBtn.style.display = 'none';
       }
 
+      updateVocabLearningSummary();
+
       if (filtered.length === 0) {
         const emptyState = document.createElement('div');
         emptyState.style.gridColumn = '1 / -1';
@@ -321,9 +474,13 @@ function getFilteredWords() {
         btnEl.setAttribute('aria-label', `تم إتقان ${wordLabel}`);
         cardEl.classList.add('learned-card');
       }
+
+      const learningState = cardEl.querySelector('.word-learning-state');
+      if (learningState) learningState.textContent = state.learned.has(key) ? '✓ متقنة' : 'جديدة';
       
       saveStateToLocalStorage();
       initStats();
+      updateVocabLearningSummary();
     }
 
     function resetLearnedState() {
@@ -412,6 +569,8 @@ if (typeof window !== 'undefined') {
   window.handleSearchInput = handleSearchInput;
   window.clearSearchInput = clearSearchInput;
   window.getFilteredWords = getFilteredWords;
+  window.updateVocabLearningSummary = updateVocabLearningSummary;
+  window.focusNextVocabWord = focusNextVocabWord;
   window.renderVocabList = renderVocabList;
   window.loadMoreWords = loadMoreWords;
   window.setupVocabInfiniteScroll = setupVocabInfiniteScroll;

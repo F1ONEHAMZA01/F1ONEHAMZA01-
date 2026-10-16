@@ -33,12 +33,17 @@ const sw = readFileSync(resolve(dist, 'sw.js'), 'utf8');
 const headers = readFileSync(resolve(dist, '_headers'), 'utf8');
 const manifest = JSON.parse(readFileSync(resolve(dist, 'manifest.json'), 'utf8'));
 const metadata = JSON.parse(readFileSync(resolve(dist, 'deploy-metadata.json'), 'utf8'));
+const packageJson = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'));
+const escapedVersion = packageJson.version.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-assert.match(html, /data\/vocab\.js\?v=3\.1\.1/);
-assert.match(sw, /APP_VERSION = '3\.1\.1'/);
+['vocab', 'reading-docs', 'writing-templates', 'grammar-lessons', 'plan-tasks'].forEach(name => {
+  assert.match(html, new RegExp(`data/${name}\\.js\\?v=${escapedVersion}`));
+  assert.match(sw, new RegExp(`\\./data/${name}\\.js\\?v=${escapedVersion}`));
+});
+assert.match(sw, new RegExp(`APP_VERSION = '${escapedVersion}'`));
 assert.match(headers, /Content-Security-Policy:/);
 assert.match(headers, /\/sw\.js[\s\S]+Cache-Control: public, max-age=0, no-cache, must-revalidate/);
 assert.equal(manifest.start_url, './index.html');
-assert.equal(metadata.version, '3.1.1');
+assert.equal(metadata.version, packageJson.version);
 
 console.log(`${deployedFiles.length} production files validated (${(totalBytes / 1024 / 1024).toFixed(2)} MiB).`);

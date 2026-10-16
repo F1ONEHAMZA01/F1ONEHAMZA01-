@@ -5,6 +5,8 @@ import vm from 'node:vm';
 
 const root = resolve(import.meta.dirname, '..');
 const read = file => readFileSync(resolve(root, file), 'utf8');
+const appVersion = JSON.parse(read('package.json')).version;
+const escapedAppVersion = appVersion.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const checks = [];
 const check = (name, fn) => {
   fn();
@@ -60,6 +62,16 @@ const html = read('index.html');
 const manifest = JSON.parse(read('manifest.json'));
 const serviceWorker = read('sw.js');
 
+check('production markup contains no inline event handlers', () => {
+  const markup = html
+    .replace(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/gi, '')
+    .replace(/<style(?:\s[^>]*)?>[\s\S]*?<\/style>/gi, '');
+  assert.doesNotMatch(markup, /\son[a-z]+\s*=/i, 'inline event handler found in index.html');
+  ['reading-docs', 'writing-templates', 'grammar-lessons', 'plan-tasks'].forEach(name => {
+    assert.doesNotMatch(read(`data/${name}.js`), /\son[a-z]+\s*=/i, `inline event handler found in data/${name}.js`);
+  });
+});
+
 check('inline JavaScript parses', () => {
   const blocks = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
     .map(match => match[1])
@@ -98,10 +110,12 @@ check('manifest uses local installable icons', () => {
 
 check('service worker has versioned app-shell caching', () => {
   new Function(serviceWorker);
-  assert.match(serviceWorker, /APP_VERSION = '3\.1\.1'/);
+  assert.match(serviceWorker, new RegExp(`APP_VERSION = '${escapedAppVersion}'`));
   assert.match(serviceWorker, /btp-maroc-static-\$\{APP_VERSION\}/);
   assert.match(serviceWorker, /\.\/index\.html/);
-  assert.match(serviceWorker, /\.\/data\/vocab\.js\?v=3\.1\.1/);
+  ['vocab', 'reading-docs', 'writing-templates', 'grammar-lessons', 'plan-tasks'].forEach(name => {
+    assert.match(serviceWorker, new RegExp(`\\./data/${name}\\.js\\?v=${escapedAppVersion}`));
+  });
   assert.match(serviceWorker, /request\.mode === 'navigate'/);
 });
 

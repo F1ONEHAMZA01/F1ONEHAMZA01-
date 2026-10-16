@@ -1,7 +1,7 @@
 /**
  * Motion layer — RTL-aware swipe navigation between sibling subviews.
  * (Visual physics layer intentionally removed to preserve the classic
- *  v3.1.1 design language; only invisible gesture support remains.)
+ *  v4.3 design language; only invisible gesture support remains.)
  */
 
 const REDUCED = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)');

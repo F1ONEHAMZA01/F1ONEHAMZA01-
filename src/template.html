@@ -36,10 +36,22 @@
   <header class="app-header">
     <div class="header-content">
       <div class="logo-section">
-        <span class="flag-icon" id="header-flag" title="المغرب">🇲🇦</span>
+        <span class="flag-icon" id="header-flag" role="img" aria-label="علم المغرب" title="المغرب">
+          <svg class="header-flag-svg" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="morocco-flag-red" x1="8" y1="6" x2="40" y2="43" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#e14b56"/>
+                <stop offset="1" stop-color="#a91522"/>
+              </linearGradient>
+            </defs>
+            <rect x="3" y="3" width="42" height="42" rx="13" fill="url(#morocco-flag-red)"/>
+            <path d="M24 13.2l2.54 7.82h8.22l-6.65 4.83 2.54 7.82L24 28.84l-6.65 4.83 2.54-7.82-6.65-4.83h8.22L24 13.2z" fill="none" stroke="#006233" stroke-width="2.35" stroke-linejoin="round"/>
+            <path d="M9 8.5h18" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".22"/>
+          </svg>
+        </span>
         <div class="title-group">
           <h1 class="app-title" id="header-title">الفرنسية المهنية للبناء <span class="app-title-tag">BTP Pro</span></h1>
-          <span class="app-subtitle" id="header-sub">مرجع الورش الذاتي التفاعلي الشامل · المغرب 🇲🇦</span>
+          <span class="app-subtitle" id="header-sub" aria-live="polite">مرجع الورش الذاتي التفاعلي الشامل · المغرب 🇲🇦</span>
         </div>
       </div>
       
@@ -65,16 +77,16 @@
       </div>
     </div>
 
-    <nav class="tab-bar" aria-label="أقسام التطبيق / Sections de l'application">
+    <nav class="tab-bar" aria-label="أقسام التطبيق">
       <div class="tab-bar-container" role="tablist" aria-label="الوحدات التعليمية">
-        <button id="tab-btn-vocab" class="tab-btn active-tab" role="tab" aria-selected="true" aria-controls="tab-vocab" data-call="switchTab" data-args='["vocab","__el__"]'><span aria-hidden="true">🏗️</span> المفردات / Vocabulaire</button>
-        <button id="tab-btn-quiz" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-quiz" data-call="switchTab" data-args='["quiz","__el__"]'><span aria-hidden="true">🎯</span> الاختبار / Quiz</button>
-        <button id="tab-btn-cheques" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cheques" data-call="switchTab" data-args='["cheques","__el__"]'><span aria-hidden="true">💰</span> الشيكات والأرقام / Chèques & Nombres</button>
-        <button id="tab-btn-reading" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-reading" data-call="switchTab" data-args='["reading","__el__"]'><span aria-hidden="true">📖</span> القراءة / Lecture</button>
-        <button id="tab-btn-writing" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-writing" data-call="switchTab" data-args='["writing","__el__"]'><span aria-hidden="true">✍️</span> الكتابة / Rédaction</button>
-        <button id="tab-btn-grammar" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-grammar" data-call="switchTab" data-args='["grammar","__el__"]'><span aria-hidden="true">📚</span> القواعد / Grammaire</button>
-        <button id="tab-btn-plan" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-plan" data-call="switchTab" data-args='["plan","__el__"]'><span aria-hidden="true">📅</span> الخطة / Plan 6 mois</button>
-        <button id="tab-btn-calc" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-calc" data-call="switchTab" data-args='["calc","__el__"]'><span aria-hidden="true">🧮</span> حاسبة الورش / Calculs BTP</button>
+        <button id="tab-btn-vocab" class="tab-btn active-tab" role="tab" aria-selected="true" aria-controls="tab-vocab" data-call="switchTab" data-args='["vocab","__el__"]'><span aria-hidden="true">🏗️</span> المفردات</button>
+        <button id="tab-btn-quiz" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-quiz" data-call="switchTab" data-args='["quiz","__el__"]'><span aria-hidden="true">🎯</span> الاختبار</button>
+        <button id="tab-btn-cheques" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cheques" data-call="switchTab" data-args='["cheques","__el__"]'><span aria-hidden="true">💰</span> الشيكات والأرقام</button>
+        <button id="tab-btn-reading" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-reading" data-call="switchTab" data-args='["reading","__el__"]'><span aria-hidden="true">📖</span> القراءة</button>
+        <button id="tab-btn-writing" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-writing" data-call="switchTab" data-args='["writing","__el__"]'><span aria-hidden="true">✍️</span> الكتابة</button>
+        <button id="tab-btn-grammar" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-grammar" data-call="switchTab" data-args='["grammar","__el__"]'><span aria-hidden="true">📚</span> القواعد</button>
+        <button id="tab-btn-plan" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-plan" data-call="switchTab" data-args='["plan","__el__"]'><span aria-hidden="true">📅</span> الخطة</button>
+        <button id="tab-btn-calc" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-calc" data-call="switchTab" data-args='["calc","__el__"]'><span aria-hidden="true">🧮</span> حاسبة الورش</button>
       </div>
     </nav>
   </header>
@@ -87,32 +99,60 @@
     <!-- ════════ TABS 1: VOCABULARY ════════ -->
     <section id="tab-vocab" role="tabpanel" aria-labelledby="tab-btn-vocab">
       <div class="vocab-hero-minimal">
-        <div class="vocab-hero-left">
+        <div class="vocab-hero-main">
           <span class="vocab-hero-icon-sm" aria-hidden="true">📚</span>
-          <h3 class="vocab-hero-title-sm">المستودع الشامل للمصطلحات</h3>
+          <div class="vocab-hero-copy">
+            <h3 class="vocab-hero-title-sm">مفردات البناء خطوة بخطوة</h3>
+            <small>مصطلحات ميدانية بالفرنسية والعربية</small>
+          </div>
           <span class="vocab-hero-badge-sm" id="vocab-total-count-badge">1 961 مصطلح</span>
         </div>
-        <div class="vocab-header-actions">
-          <button class="vocab-reset-btn-sm" type="button" data-call="exportProgressData" title="تصدير نسخة احتياطية من التقدم بصيغة JSON" aria-label="تصدير التقدم">
+        <div class="vocab-header-actions" role="group" aria-label="إدارة التقدم">
+          <button class="vocab-reset-btn-sm vocab-action-export" type="button" data-call="exportProgressData" title="تصدير نسخة احتياطية من التقدم بصيغة JSON" aria-label="تصدير التقدم">
             <span aria-hidden="true">📤</span>
             <span class="reset-label-sm">تصدير</span>
           </button>
-          <button class="vocab-reset-btn-sm" type="button" data-call="triggerImportPicker" title="استيراد نسخة تقدم مصدرة سابقاً" aria-label="استيراد التقدم">
+          <button class="vocab-reset-btn-sm vocab-action-import" type="button" data-call="triggerImportPicker" title="استيراد نسخة تقدم مصدرة سابقاً" aria-label="استيراد التقدم">
             <span aria-hidden="true">📥</span>
             <span class="reset-label-sm">استيراد</span>
           </button>
           <input type="file" id="import-progress-input" accept=".json,application/json" class="hidden" data-change="importProgressFile" data-args='["__el__"]' aria-hidden="true" tabindex="-1">
-          <button class="vocab-reset-btn-sm" type="button" id="hold-reset-btn" data-hold-reset title="اضغط مطولاً 900ms لمسح كل التقدم (بديل آمن عن نافذة التأكيد)" aria-label="اضغط مطولاً لمسح جميع بيانات التقدم">
+          <button class="vocab-reset-btn-sm vocab-action-reset" type="button" id="hold-reset-btn" data-hold-reset title="اضغط مطولاً 900ms لمسح كل التقدم (بديل آمن عن نافذة التأكيد)" aria-label="اضغط مطولاً لمسح جميع بيانات التقدم">
             <span class="hold-progress-fill" aria-hidden="true"></span>
             <span aria-hidden="true">🔄</span>
             <span class="reset-label-sm">مسح كل التقدم</span>
           </button>
         </div>
       </div>
+
+      <div class="vocab-learning-summary" id="vocab-learning-summary" aria-label="ملخص مسار التعلّم">
+        <div class="vocab-summary-main">
+          <span class="vocab-summary-icon" aria-hidden="true">🧭</span>
+          <span class="vocab-summary-copy">
+            <strong>مسار التعلّم <span class="vocab-summary-status" id="vocab-progress-status">ابدأ الآن</span></strong>
+            <small id="vocab-progress-label" aria-live="polite">ابدأ بأول مصطلح في مسارك</small>
+          </span>
+        </div>
+        <div class="vocab-summary-progress">
+          <div class="vocab-summary-progress-head">
+            <span id="vocab-active-filter-label">كل الفئات · كل المستويات</span>
+            <strong id="vocab-progress-percent">0%</strong>
+          </div>
+          <div class="vocab-summary-progress-track" id="vocab-progress-bar" role="progressbar" aria-label="نسبة إتقان المفردات" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span></span>
+          </div>
+        </div>
+        <button type="button" class="vocab-continue-btn" id="vocab-continue-btn" data-call="focusNextVocabWord">
+          <span>تابع التعلّم</span><span aria-hidden="true">←</span>
+        </button>
+      </div>
       
       <div class="dashboard-grid">
         <aside class="card vocab-sidebar-card">
-          <h4 class="card-title">🗂️ الفئات / Catégories</h4>
+          <h4 class="card-title vocab-category-title">
+            <span aria-hidden="true">🗂️</span>
+            <span><strong>مجالات البناء</strong><small>اختر مجالاً للتعلّم</small></span>
+          </h4>
           <div class="category-list" id="category-filter-list">
           </div>
         </aside>
@@ -124,11 +164,11 @@
               <button type="button" id="clear-search-btn" class="search-clear-btn" aria-label="مسح نص البحث / Effacer la recherche" data-call="clearSearchInput">✖</button>
             </div>
             <div class="lvl-filters" id="level-filter-bar">
-              <button class="lvl-btn active" data-call="setLevelFilter" data-args='["all","__el__"]'>الكل</button>
-              <button class="lvl-btn" data-call="setLevelFilter" data-args='["A1","__el__"]'>A1</button>
-              <button class="lvl-btn" data-call="setLevelFilter" data-args='["A2","__el__"]'>A2</button>
-              <button class="lvl-btn" data-call="setLevelFilter" data-args='["B1","__el__"]'>B1</button>
-              <button class="lvl-btn" data-call="setLevelFilter" data-args='["B2","__el__"]'>B2</button>
+              <button class="lvl-btn active" aria-pressed="true" data-call="setLevelFilter" data-args='["all","__el__"]'>الكل</button>
+              <button class="lvl-btn" aria-pressed="false" data-call="setLevelFilter" data-args='["A1","__el__"]'>A1</button>
+              <button class="lvl-btn" aria-pressed="false" data-call="setLevelFilter" data-args='["A2","__el__"]'>A2</button>
+              <button class="lvl-btn" aria-pressed="false" data-call="setLevelFilter" data-args='["B1","__el__"]'>B1</button>
+              <button class="lvl-btn" aria-pressed="false" data-call="setLevelFilter" data-args='["B2","__el__"]'>B2</button>
             </div>
           </div>
           
@@ -145,7 +185,7 @@
       <div class="card card-gold section-hero quiz-hero">
         <div class="section-hero-icon" aria-hidden="true">🎯</div>
         <div>
-          <h3>اختبار المعارف المهنية والتعلم السريع / Test & Quiz BTP</h3>
+          <h3><span>اختبار المعارف المهنية والتعلم السريع</span><small class="section-hero-kicker">Test &amp; Quiz BTP</small></h3>
           <p>نظام تدريب واختبار تفاعلي ذكي مصمم لتثبيت المصطلحات الهندسية والمحادثات الميدانية وقواعد الصفقات عبر التكرار المتباعد والتدريب السريع.</p>
         </div>
       </div>
@@ -168,7 +208,7 @@
                 <small>تحديد الفئة، المستوى، والعدد</small>
               </div>
             </button>
-                        <button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-stats" data-subview="stats" data-call="switchQuizSubTab" data-args='["stats","__el__"]'>
+            <button type="button" class="quiz-subtab-btn" id="subtab-btn-quiz-stats" data-subview="stats" data-call="switchQuizSubTab" data-args='["stats","__el__"]'>
               <span class="subtab-icon" aria-hidden="true">📊</span>
               <div class="subtab-text">
                 <strong>سجل الأداء والإحصائيات</strong>
@@ -180,8 +220,6 @@
               <div class="subtab-text">
                 <strong>بطاقات التكرار المتباعد</strong>
                 <small>خوارزمية SM-2 للمراجعة الذكية</small>
-              </div>
-            </button>لقياسية</small>
               </div>
             </button>
           </div>
@@ -396,7 +434,7 @@
       <div class="card card-gold section-hero cheque-hero">
         <div class="section-hero-icon" aria-hidden="true">💰</div>
         <div>
-          <h3>الأرقام وكتابة الشيكات والتعلم السريع / Chiffres & Chèques</h3>
+          <h3><span>الأرقام وكتابة الشيكات والتعلم السريع</span><small class="section-hero-kicker">Chiffres &amp; Chèques</small></h3>
           <p>محاكي واقعي للشيكات البنكية المغربية (تسطير، تصديق، كشف التزوير)، مع مفكك لغوي لقواعد الأرقام، وتدريبات سريعة لإتقان التراكيب الصعبة في دقائق.</p>
         </div>
       </div>
@@ -421,7 +459,7 @@
           <span class="subtab-icon" aria-hidden="true">🔢</span>
           <div class="subtab-text">
             <strong>جدول ونطق الأرقام</strong>
-            <small>64 بطاقة نطق وتصنيف</small>
+            <small><bdi class="numeric-value" id="num-library-total" dir="ltr">99</bdi> بطاقة نطق وتصنيف</small>
           </div>
         </button>
         <button type="button" class="cheques-subtab-btn" id="subtab-btn-cheque-reference" data-subview="reference" data-call="switchChequesSubTab" data-args='["reference","__el__"]'>
@@ -440,24 +478,33 @@
             <!-- Cheque Editor Panel -->
             <div class="card cheque-editor-panel">
               <div class="cheque-panel-top">
-                <h3 class="card-title">💵 محرّر الشيك البنكي الميداني / Éditeur de chèque</h3>
+                <div class="cheque-panel-heading">
+                  <span class="cheque-panel-eyebrow"><span aria-hidden="true">💵</span> محاكي شيك مغربي</span>
+                  <h3 class="card-title cheque-panel-title"><span>محرّر الشيك البنكي الميداني</span><bdi class="cheque-panel-title-fr" dir="ltr">Éditeur de chèque</bdi></h3>
+                  <p class="cheque-panel-description">أدخل المبلغ والبيانات، ثم راجع المعاينة الحية قبل نسخ الشيك أو الاستماع إلى المبلغ بالفرنسية.</p>
+                </div>
                 <button type="button" class="btn-secondary cheque-audio-quick-btn" data-call="speakChequeText" data-args='["__el__"]' title="استمع لنطق المبلغ بالفرنسية">
-                  <span>🔊 نطق المبلغ</span>
+                  <span aria-hidden="true">🔊</span><span>نطق المبلغ</span>
                 </button>
               </div>
               
               <!-- Amount Input -->
-              <label class="amount-field-label" for="cheque-amount-input">المبلغ بالأرقام / Montant en chiffres</label>
-              <div class="cheque-input-shell">
-                <input type="text" inputmode="decimal" autocomplete="off" maxlength="18" class="input-field" id="cheque-amount-input" placeholder="مثال: 14 850,50" aria-describedby="cheque-amount-help cheque-amount-status" data-input="updateChequeConverter" onblur="normalizeChequeAmountField()">
-                <span class="cheque-input-suffix" aria-hidden="true">MAD</span>
-              </div>
-              <div id="cheque-amount-help" class="sr-only">يمكن استعمال النقطة أو الفاصلة للسنتيمات، مع أو بدون مسافات الآلاف. الحد الأقصى عشرة ملايين درهم.</div>
-              <div id="cheque-amount-status" class="cheque-amount-status" aria-live="polite">أدخل مبلغاً بين 0 و10 000 000 درهم.</div>
+              <section class="cheque-control-section cheque-amount-section" aria-labelledby="cheque-amount-heading">
+                <div class="cheque-section-heading">
+                  <label class="amount-field-label" id="cheque-amount-heading" for="cheque-amount-input">المبلغ بالأرقام</label>
+                  <small dir="ltr">Montant en chiffres · MAD</small>
+                </div>
+                <div class="cheque-input-shell">
+                  <input type="text" inputmode="decimal" autocomplete="off" maxlength="18" class="input-field" id="cheque-amount-input" placeholder="مثال: 14 850,50" aria-describedby="cheque-amount-help cheque-amount-status" data-input="updateChequeConverter" data-blur="normalizeChequeAmountField">
+                  <span class="cheque-input-suffix" aria-hidden="true">MAD</span>
+                </div>
+                <div id="cheque-amount-help" class="sr-only">يمكن استعمال النقطة أو الفاصلة للسنتيمات، مع أو بدون مسافات الآلاف. الحد الأقصى عشرة ملايين درهم.</div>
+                <div id="cheque-amount-status" class="cheque-amount-status" aria-live="polite">أدخل مبلغاً بين 0 و10 000 000 درهم.</div>
+              </section>
 
               <!-- Rapid Field Amounts Presets -->
               <div class="cheque-presets-container">
-                <div class="cheque-presets-label">⚡ مبالغ ميدانية شائعة (نقر وتعلّم فوري):</div>
+                <div class="cheque-presets-label"><span>⚡ مبالغ ميدانية شائعة</span><small>نقرة واحدة للتجربة والنطق</small></div>
                 <div class="cheque-quick-row">
                   <button type="button" class="quick-amt-btn" data-call="setChequeAmountAndSpeak" data-args='[150,"أجرة يومية / Journée"]'>150 DH <small>يومية</small></button>
                   <button type="button" class="quick-amt-btn" data-call="setChequeAmountAndSpeak" data-args='[3500,"راتب شهري / Salaire"]'>3 500 DH <small>راتب</small></button>
@@ -471,99 +518,122 @@
 
               <!-- Cheque Bank & Options Controls -->
               <div class="cheque-options-bar">
-                <div class="cheque-config-group">
-                  <label for="cheque-bank-select">البنك / Banque</label>
-                  <select class="select-dropdown" id="cheque-bank-select" data-change="updateChequeBank">
-                    <option value="attijari" selected>Attijariwafa bank · التجاري وفا بنك</option>
-                    <option value="bp">Banque Populaire · البنك الشعبي</option>
-                    <option value="boa">Bank of Africa (BMCE) · بنك إفريقيا</option>
-                    <option value="cih">CIH Bank · القرض العقاري والسياحي</option>
-                    <option value="cam">Crédit Agricole du Maroc · القرض الفلاحي</option>
-                    <option value="sg">Société Générale Maroc · الشركة العامة</option>
-                  </select>
+                <div class="cheque-section-heading cheque-options-heading">
+                  <span>⚙️ إعدادات الشيك</span>
+                  <small>تظهر التغييرات مباشرة في المعاينة</small>
                 </div>
-                <div class="cheque-toggles-group">
-                  <label class="quiz-toggle-label" title="تسطير الشيك بخطين متوازيين يجعله غير قابل للصرف نقداً بالنافذة">
-                    <input type="checkbox" id="cheque-barre-chk" data-change="toggleChequeBarre" data-args='["__checked__"]' checked>
-                    <span>// شيك مسطر (Chèque barré)</span>
-                  </label>
-                  <label class="quiz-toggle-label" title="خاتم الشيك المصدق مع حجز المؤونة لمدة 20 يوماً">
-                    <input type="checkbox" id="cheque-certifie-chk" data-change="toggleChequeCertifie" data-args='["__checked__"]'>
-                    <span>🔒 شيك مصدق (Chèque certifié)</span>
-                  </label>
+                <div class="cheque-options-fields">
+                  <div class="cheque-config-group">
+                    <label for="cheque-bank-select">البنك / Banque</label>
+                    <select class="select-dropdown" id="cheque-bank-select" data-change="updateChequeBank">
+                      <option value="attijari" selected>Attijariwafa bank · التجاري وفا بنك</option>
+                      <option value="bp">Banque Populaire · البنك الشعبي</option>
+                      <option value="boa">Bank of Africa (BMCE) · بنك إفريقيا</option>
+                      <option value="cih">CIH Bank · القرض العقاري والسياحي</option>
+                      <option value="cam">Crédit Agricole du Maroc · القرض الفلاحي</option>
+                      <option value="sg">Société Générale Maroc · الشركة العامة</option>
+                    </select>
+                  </div>
+                  <div class="cheque-toggles-group">
+                    <label class="quiz-toggle-label" title="تسطير الشيك بخطين متوازيين يجعله غير قابل للصرف نقداً بالنافذة">
+                      <input type="checkbox" id="cheque-barre-chk" data-change="toggleChequeBarre" data-args='["__checked__"]' checked>
+                      <span>// شيك مسطر (Chèque barré)</span>
+                    </label>
+                    <label class="quiz-toggle-label" title="خاتم الشيك المصدق مع حجز المؤونة لمدة 20 يوماً">
+                      <input type="checkbox" id="cheque-certifie-chk" data-change="toggleChequeCertifie" data-args='["__checked__"]'>
+                      <span>🔒 شيك مصدق (Chèque certifié)</span>
+                    </label>
+                  </div>
                 </div>
               </div>
 
               <!-- Payee and Details Inputs -->
-              <div class="cheque-details-grid">
-                <div class="cheque-detail-field">
-                  <label for="cheque-payee-input">المستفيد / Bénéficiaire</label>
-                  <input type="text" class="input-field" id="cheque-payee-input" value="STE TRAVAUX MAROC SARL" data-input="updateChequeDetails">
+              <div class="cheque-details-section">
+                <div class="cheque-section-heading">
+                  <span>📝 بيانات المستفيد</span>
+                  <small>تُحدَّث في النموذج مباشرة</small>
                 </div>
-                <div class="cheque-detail-field">
-                  <label for="cheque-place-input">مكان التحرير / Lieu</label>
-                  <input type="text" class="input-field" id="cheque-place-input" value="Casablanca" data-input="updateChequeDetails">
-                </div>
-                <div class="cheque-detail-field">
-                  <label for="cheque-date-input">تاريخ التحرير / Date</label>
-                  <input type="date" class="input-field" id="cheque-date-input" data-change="updateChequeDetails">
+                <div class="cheque-details-grid">
+                  <div class="cheque-detail-field">
+                    <label for="cheque-payee-input">المستفيد / Bénéficiaire</label>
+                    <input type="text" class="input-field" id="cheque-payee-input" value="STE TRAVAUX MAROC SARL" data-input="updateChequeDetails">
+                  </div>
+                  <div class="cheque-detail-field">
+                    <label for="cheque-place-input">مكان التحرير / Lieu</label>
+                    <input type="text" class="input-field" id="cheque-place-input" value="Casablanca" data-input="updateChequeDetails">
+                  </div>
+                  <div class="cheque-detail-field">
+                    <label for="cheque-date-input">تاريخ التحرير / Date</label>
+                    <input type="date" class="input-field" id="cheque-date-input" data-change="updateChequeDetails">
+                  </div>
                 </div>
               </div>
 
-              <div class="cheque-actions">
-                <button type="button" class="btn-primary" data-call="copyChequeText" data-args='["words"]'>📋 نسخ المبلغ فقط</button>
-                <button type="button" class="btn-secondary" data-call="copyChequeText" data-args='["all"]'>🧾 نسخ كامل البيانات</button>
-                <button type="button" class="btn-secondary" data-call="speakChequeText" data-args='["__el__"]'>🔊 نطق الحروف</button>
-                <button type="button" class="btn-secondary" data-call="resetChequeEditor">🔄 تفريغ</button>
+              <div class="cheque-actions-section">
+                <div class="cheque-section-heading">
+                  <span>⚡ إجراءات سريعة</span>
+                  <small>انسخ أو استمع أو أعد الحقول</small>
+                </div>
+                <div class="cheque-actions">
+                  <button type="button" class="btn-primary" data-call="copyChequeText" data-args='["words"]'>📋 نسخ المبلغ فقط</button>
+                  <button type="button" class="btn-secondary" data-call="copyChequeText" data-args='["all"]'>🧾 نسخ كامل البيانات</button>
+                  <button type="button" class="btn-secondary" data-call="speakChequeText" data-args='["__el__"]'>🔊 نطق الحروف</button>
+                  <button type="button" class="btn-secondary" data-call="resetChequeEditor">🔄 تفريغ</button>
+                </div>
               </div>
 
               <!-- Realistic Interactive Moroccan Cheque Specimen -->
-              <div class="cheque-mockup" id="cheque-mockup" aria-label="نموذج شيك بنكي مغربي تفاعلي">
-                <div class="cheque-training-badge">SPECIMEN D'ENTRAÎNEMENT · للتعلّم فقط</div>
-                <div class="cheque-barre-lines" id="cheque-barre-lines"></div>
-                <div class="cheque-certifie-stamp" id="cheque-certifie-stamp">
-                  <span>CERTIFIÉ CONFORME</span>
-                  <small>PROVISION BLOQUÉE 20 JOURS</small>
-                  <strong>ATTIJARIWAFA BANK</strong>
+              <div class="cheque-preview-section">
+                <div class="cheque-section-heading cheque-preview-heading">
+                  <span>👁️ المعاينة الحية</span>
+                  <small>تتحدث تلقائيًا مع كل تعديل</small>
                 </div>
-                <div class="cheque-header">
-                  <div class="cheque-bank-info">
-                    <strong id="cheque-bank-name">Attijariwafa bank</strong>
-                    <span id="cheque-agency-name">Agence Hassan II · Casablanca</span>
+                <div class="cheque-mockup" id="cheque-mockup" aria-label="نموذج شيك بنكي مغربي تفاعلي">
+                  <div class="cheque-training-badge">SPECIMEN D'ENTRAÎNEMENT · للتعلّم فقط</div>
+                  <div class="cheque-barre-lines" id="cheque-barre-lines"></div>
+                  <div class="cheque-certifie-stamp" id="cheque-certifie-stamp">
+                    <span>CERTIFIÉ CONFORME</span>
+                    <small>PROVISION BLOQUÉE 20 JOURS</small>
+                    <strong>ATTIJARIWAFA BANK</strong>
                   </div>
-                  <div class="cheque-title-box">
-                    <span>CHÈQUE · شيك</span>
-                    <small>Série BTP N° 8492015</small>
+                  <div class="cheque-header">
+                    <div class="cheque-bank-info">
+                      <strong id="cheque-bank-name">Attijariwafa bank</strong>
+                      <span id="cheque-agency-name">Agence Hassan II · Casablanca</span>
+                    </div>
+                    <div class="cheque-title-box">
+                      <span>CHÈQUE · شيك</span>
+                      <small>Série BTP N° 8492015</small>
+                    </div>
+                  </div>
+                  <div class="cheque-row">
+                    <span class="cheque-label">Payez contre ce chèque :</span>
+                    <div class="cheque-value-line" id="cheque-value-words">zéro dirham</div>
+                  </div>
+                  <div class="cheque-ar-line">
+                    <span class="cheque-ar-label">ادفعوا مقابل هذا الشيك مبلغاً وقدره:</span>
+                    <span class="cheque-ar-words" id="cheque-value-words-ar">صفر درهم</span>
+                  </div>
+                  <div class="cheque-row">
+                    <span class="cheque-label">À l'ordre de :</span>
+                    <div class="cheque-value-line" id="cheque-payee" style="color:#0b2240;">STE TRAVAUX MAROC SARL</div>
+                    <div class="cheque-amount-box" id="cheque-value-digits"># 0,00 DH #</div>
+                  </div>
+                  <div class="cheque-meta-row">
+                    <div>
+                      Fait à : <span style="border-bottom: 1px dashed #7a7364; padding:0 8px; font-style:italic;" id="cheque-place">Casablanca</span>
+                      Le : <span style="border-bottom: 1px dashed #7a7364; padding:0 8px; font-style:italic;" id="cheque-date">--/--/----</span>
+                    </div>
+                    <div class="cheque-signature-area">Signature · التوقيع</div>
+                  </div>
+                  <div class="cheque-cmc7-line" id="cheque-cmc7-line">
+                    c 0023456 c 011 780 0001234567890123 45 b
                   </div>
                 </div>
-                <div class="cheque-row">
-                  <span class="cheque-label">Payez contre ce chèque :</span>
-                  <div class="cheque-value-line" id="cheque-value-words">zéro dirham</div>
+                <div class="pron-strip">
+                  <span class="pron-strip-label">🗣️ كيف تنطق المبلغ بالفرنسية:</span>
+                  <span class="pron-strip-text" id="cheque-pron-line">زيرو ديرهام</span>
                 </div>
-                <div class="cheque-ar-line">
-                  <span class="cheque-ar-label">ادفعوا مقابل هذا الشيك مبلغاً وقدره:</span>
-                  <span class="cheque-ar-words" id="cheque-value-words-ar">صفر درهم</span>
-                </div>
-                <div class="cheque-row">
-                  <span class="cheque-label">À l'ordre de :</span>
-                  <div class="cheque-value-line" id="cheque-payee" style="color:#0b2240;">STE TRAVAUX MAROC SARL</div>
-                  <div class="cheque-amount-box" id="cheque-value-digits"># 0,00 DH #</div>
-                </div>
-                <div class="cheque-meta-row">
-                  <div>
-                    Fait à : <span style="border-bottom: 1px dashed #7a7364; padding:0 8px; font-style:italic;" id="cheque-place">Casablanca</span>
-                    Le : <span style="border-bottom: 1px dashed #7a7364; padding:0 8px; font-style:italic;" id="cheque-date">--/--/----</span>
-                  </div>
-                  <div class="cheque-signature-area">Signature · التوقيع</div>
-                </div>
-                <div class="cheque-cmc7-line" id="cheque-cmc7-line">
-                  c 0023456 c 011 780 0001234567890123 45 b
-                </div>
-              </div>
-              
-              <div class="pron-strip">
-                <span class="pron-strip-label">🗣️ كيف تنطق المبلغ بالفرنسية:</span>
-                <span class="pron-strip-text" id="cheque-pron-line">زيرو ديرهام</span>
               </div>
             </div>
           </div>
@@ -574,8 +644,8 @@
             <div class="card card-gold number-decomposer-panel" style="margin-bottom:16px;">
               <div class="number-section-header">
                 <div>
-                  <h4 style="margin-bottom:2px; font-size:15px;">🧮 مفكك ومحلل الأرقام اللغوي / Décomposeur</h4>
-                  <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">اكتب أي رقم لتحليله نحوياً وشرح علل كتابته (قواعد s و et والشرطة).</p>
+                  <h4><span class="number-panel-icon" aria-hidden="true">🧮</span><span>محلل الأرقام اللغوي</span><span class="panel-kicker">Décomposeur</span></h4>
+                  <p>أدخل رقماً لرؤية كتابته بالفرنسية وسبب القاعدة خطوة بخطوة.</p>
                 </div>
               </div>
               <div class="decomposer-input-row">
@@ -632,7 +702,10 @@
 
         <!-- Legal & Security Guide -->
         <div class="card legal-guide-card">
-          <h3 class="card-title">📜 الدليل القانوني والميداني للشيك في الأوراش والمقاولات المغربية</h3>
+          <h3 class="card-title legal-guide-title">
+            <span class="legal-guide-icon" aria-hidden="true">📜</span>
+            <span class="legal-guide-heading"><strong>دليل الشيكات</strong><small>إرشادات قانونية وميدانية للمقاولات والأوراش المغربية</small></span>
+          </h3>
           <div class="words-grid legal-guide-grid">
             <div class="cheque-tip legal-tip-item">
               <b class="tip-danger">⚠️ شيك الضمان (Chèque de garantie):</b><br>
@@ -659,8 +732,8 @@
         <div class="card number-game-panel" id="num-game-card">
           <div class="number-section-header">
             <div>
-              <h3 class="card-title" style="margin-bottom:2px;">🎮 تمرين الأرقام السريع / Entraînement Rapide</h3>
-              <p style="font-size:13px; color:var(--text-muted); margin-top:3px;">تحديات تدريب سريعة ومكثفة لترسيخ قراءة ونطق وكتابة الأرقام المركبة.</p>
+              <h3 class="card-title num-game-title"><span>🎮 تمرين الأرقام السريع</span><small class="section-hero-kicker">Entraînement Rapide</small></h3>
+              <p class="num-game-intro">تحديات تدريب سريعة ومكثفة لترسيخ قراءة ونطق وكتابة الأرقام المركبة.</p>
             </div>
             <div class="number-game-stats">
               <span id="num-game-score">✅ 0 / 0</span>
@@ -681,6 +754,7 @@
                   <strong>تحدي الـ 70 والـ 80 والـ 90</strong>
                   <small>أصعب تراكيب الأرقام الفرنسية</small>
                 </div>
+                <span class="num-preset-action" aria-hidden="true">ابدأ التحدي <span>←</span></span>
               </button>
               <button type="button" class="quiz-preset-btn" data-call="startNumGamePreset" data-args='["speed60"]'>
                 <span class="preset-icon">⏱️</span>
@@ -688,6 +762,7 @@
                   <strong>سباق أرقام الشيكات 60s</strong>
                   <small>كم مبلغاً تقرأه وتكتبه في دقيقة؟</small>
                 </div>
+                <span class="num-preset-action" aria-hidden="true">ابدأ السباق <span>←</span></span>
               </button>
               <button type="button" class="quiz-preset-btn" data-call="startNumGamePreset" data-args='["dictation"]'>
                 <span class="preset-icon">🎧</span>
@@ -695,6 +770,7 @@
                   <strong>الإملاء الصوتي للأرقام</strong>
                   <small>استمع بالفرنسية واكتب الرقم</small>
                 </div>
+                <span class="num-preset-action" aria-hidden="true">ابدأ الإملاء <span>←</span></span>
               </button>
               <button type="button" class="quiz-preset-btn" data-call="startNumGamePreset" data-args='["invoices"]'>
                 <span class="preset-icon">🏗️</span>
@@ -702,6 +778,7 @@
                   <strong>مبالغ وفواتير الورش الكبرى</strong>
                   <small>10 000 إلى 1 000 000 درهم</small>
                 </div>
+                <span class="num-preset-action" aria-hidden="true">ابدأ التدريب <span>←</span></span>
               </button>
             </div>
 
@@ -758,7 +835,7 @@
             </div>
 
             <div id="num-game-input-zone" class="hidden num-game-input-wrapper">
-              <input type="text" inputmode="numeric" autocomplete="off" class="input-field" id="num-game-input" aria-label="اكتب الرقم المطابق" placeholder="اكتب الرقم هنا..." style="flex:1; min-width:150px; font-family:monospace; direction:ltr; text-align:right; font-size:16px;" data-keydown="handleNumGameInputKey" data-args='["__event__"]'>
+              <input type="text" inputmode="numeric" autocomplete="off" class="input-field" id="num-game-input" aria-label="اكتب الرقم المطابق" placeholder="اكتب الرقم هنا..." style="flex:1; min-width:150px; font-family:var(--font-num); font-variant-numeric:lining-nums tabular-nums; direction:ltr; text-align:right; font-size:16px;" data-keydown="handleNumGameInputKey" data-args='["__event__"]'>
               <button class="btn-primary" id="num-game-check" data-call="checkNumInput">تحقّق ✓</button>
             </div>
 
@@ -786,27 +863,37 @@
         </div>
       </div>
 
-      <!-- VIEW 3: Numbers Reference Table & Chart (64 Cards) -->
+      <!-- VIEW 3: Numbers Reference Table & Chart -->
       <div id="cheques-view-numbers" class="cheques-subview hidden">
         <div class="card numbers-library-panel">
-          <div class="number-section-header">
-            <div>
-              <h3 class="card-title" style="margin-bottom:2px; border-bottom:none; padding-bottom:0;"><span aria-hidden="true">🔢</span> جدول تعلّم ونطق الأرقام والأعداد / Les nombres</h3>
-              <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">مكتبة نطق الأرقام الشاملة: انقر على أي بطاقة لسماع النطق الصوتي الفوري، أو اضغط ✏️ لتجربتها مباشرة في الشيك البنكي.</p>
+          <div class="number-section-header numbers-library-header">
+            <div class="numbers-library-intro">
+              <span class="numbers-library-eyebrow"><span aria-hidden="true">🔢</span> مكتبة النطق والتعلّم</span>
+              <h3 class="card-title numbers-library-title"><span>جدول تعلّم ونطق الأرقام والأعداد</span><bdi class="numbers-library-title-fr" dir="ltr">Les nombres</bdi></h3>
+              <p class="numbers-library-description">انقر على أي بطاقة لسماع النطق فوراً، ثم جرّب الرقم في محاكي الشيك أو انسخ الكلمة الفرنسية.</p>
             </div>
-            <div class="num-search-wrapper" style="display:flex; gap:8px; align-items:center;">
-              <input type="text" class="input-field" id="num-library-search" placeholder="🔍 بحث في الأرقام (مثال: 75، dix، tva)..." data-input="filterNumbersChartLive" style="max-width:280px; font-size:13.5px; padding:8px 14px;">
-              <span class="vocab-count-badge" id="num-library-count">64 رقماً</span>
+            <div class="num-search-wrapper numbers-library-tools">
+              <label class="numbers-search-field" for="num-library-search">
+                <span aria-hidden="true">🔍</span>
+                <input type="search" class="input-field" id="num-library-search" placeholder="ابحث برقم أو كلمة فرنسية…" data-input="filterNumbersChartLive" autocomplete="off" enterkeyhint="search" aria-controls="numbers-chart-grid">
+              </label>
+              <span class="vocab-count-badge numeric-value" id="num-library-count" aria-live="polite">64 رقماً</span>
             </div>
           </div>
-          <div class="lvl-filters" style="margin:10px 0 16px;" id="num-filter-bar">
-            <button type="button" class="lvl-btn active" data-call="setNumbersFilter" data-args='["all","__el__"]'>جميع الأرقام (64)</button>
-            <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["units","__el__"]'>0 – 20 الأساسية</button>
-            <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["tens","__el__"]'>العشرات (30-60)</button>
-            <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["complex","__el__"]'>70 و 80 و 90 🧠</button>
-            <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["big","__el__"]'>المئات والآلاف والملايين 💰</button>
-            <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["ordinals","__el__"]'>الأعداد الترتيبية (الطوابق) 🏢</button>
-            <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["btp_math","__el__"]'>الكسور والنسب BTP 📐</button>
+          <div class="numbers-filter-section">
+            <div class="numbers-filter-heading">
+              <span>تصفية البطاقات</span>
+              <small>اختر مجموعة واحدة للبدء</small>
+            </div>
+            <div class="lvl-filters numbers-filter-bar" id="num-filter-bar">
+              <button type="button" class="lvl-btn active" id="num-filter-all" data-call="setNumbersFilter" data-args='["all","__el__"]'>جميع الأرقام</button>
+              <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["units","__el__"]'>0 – 20 الأساسية</button>
+              <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["tens","__el__"]'>العشرات (30-60)</button>
+              <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["complex","__el__"]'>70 و 80 و 90 🧠</button>
+              <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["big","__el__"]'>المئات والآلاف والملايين 💰</button>
+              <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["ordinals","__el__"]'>الأعداد الترتيبية (الطوابق) 🏢</button>
+              <button type="button" class="lvl-btn" data-call="setNumbersFilter" data-args='["btp_math","__el__"]'>الكسور والنسب BTP 📐</button>
+            </div>
           </div>
           <div class="num-grid" id="numbers-chart-grid"></div>
         </div>
@@ -1057,9 +1144,24 @@
       <div class="card card-gold section-hero grammar-hero">
         <div class="section-hero-icon" aria-hidden="true">📚</div>
         <div>
-          <h3>قواعد اللغة الفرنسية المبسطة للبناء والورش / Grammaire Pratique BTP</h3>
-          <p>دليل شامل وتطبيقي لقواعد وصياغات اللغة الفرنسية الميدانية: إعطاء الأوامر، كتابة يوميات الورشة، مراسلات المكاتب والزبائن، محاضر الاستلام، السلامة، وتبرير التأخيرات.</p>
+          <h3>
+            <span class="hero-title-primary">قواعد الفرنسية للبناء والورش</span>
+            <span class="hero-title-secondary" lang="fr" dir="ltr">Grammaire Pratique BTP</span>
+          </h3>
+          <p>دليل عملي لفهم القاعدة ثم استعمالها في الورشة: الأوامر، التقارير، المراسلات، السلامة، والآجال.</p>
         </div>
+      </div>
+
+      <div class="grammar-learning-path" aria-label="مسار تعلم القواعد">
+        <div class="grammar-path-intro">
+          <span class="grammar-path-kicker">مسار التعلم</span>
+          <strong>تعلّم القاعدة واستعملها بثقة</strong>
+        </div>
+        <ol class="grammar-path-steps">
+          <li class="active"><span lang="en" dir="ltr">1</span><strong>افهم</strong><small>القاعدة</small></li>
+          <li><span lang="en" dir="ltr">2</span><strong>طبّق</strong><small>مثال الورشة</small></li>
+          <li><span lang="en" dir="ltr">3</span><strong>اختبر</strong><small>ثبّت التعلّم</small></li>
+        </ol>
       </div>
 
       <!-- Segmented Sub-Tabs Switcher for Tab 6 -->
@@ -1486,6 +1588,53 @@
 
   </main>
 
+  <!-- Mobile-first navigation: the four most-used areas stay one tap away. -->
+  <nav class="mobile-bottom-nav" aria-label="التنقل السريع">
+    <button type="button" class="mobile-nav-btn active" data-tab="vocab" data-call="switchTab" data-args='["vocab","__el__"]'>
+      <span aria-hidden="true">🏗️</span><span>المفردات</span>
+    </button>
+    <button type="button" class="mobile-nav-btn" data-tab="quiz" data-call="switchTab" data-args='["quiz","__el__"]'>
+      <span aria-hidden="true">🎯</span><span>الاختبار</span>
+    </button>
+    <button type="button" class="mobile-nav-btn" data-tab="plan" data-call="switchTab" data-args='["plan","__el__"]'>
+      <span aria-hidden="true">📅</span><span>الخطة</span>
+    </button>
+    <button type="button" class="mobile-nav-btn" data-tab="calc" data-call="switchTab" data-args='["calc","__el__"]'>
+      <span aria-hidden="true">🧮</span><span>الحاسبة</span>
+    </button>
+    <details class="mobile-more-nav">
+      <summary class="mobile-nav-btn" aria-label="فتح باقي الأقسام" aria-expanded="false" aria-haspopup="menu" aria-controls="mobile-more-menu">
+        <span class="mobile-more-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <rect x="3" y="3" width="7" height="7" rx="2"/>
+            <rect x="14" y="3" width="7" height="7" rx="2"/>
+            <rect x="3" y="14" width="7" height="7" rx="2"/>
+            <rect x="14" y="14" width="7" height="7" rx="2"/>
+          </svg>
+        </span>
+        <span>المزيد</span>
+        <span class="mobile-more-caret" aria-hidden="true"></span>
+      </summary>
+      <div class="mobile-more-menu" id="mobile-more-menu" role="menu" aria-labelledby="mobile-more-menu-title">
+        <div class="mobile-more-menu-heading">
+        <span id="mobile-more-menu-title">باقي الأقسام</span><small class="numeric-value" aria-label="4 أقسام"><bdi dir="ltr">4</bdi> أقسام</small>
+        </div>
+        <button type="button" class="mobile-nav-btn" role="menuitem" data-tab="cheques" data-call="switchTab" data-args='["cheques","__el__"]'>
+          <span aria-hidden="true">💰</span><span>الشيكات والأرقام</span>
+        </button>
+        <button type="button" class="mobile-nav-btn" role="menuitem" data-tab="reading" data-call="switchTab" data-args='["reading","__el__"]'>
+          <span aria-hidden="true">📖</span><span>القراءة</span>
+        </button>
+        <button type="button" class="mobile-nav-btn" role="menuitem" data-tab="writing" data-call="switchTab" data-args='["writing","__el__"]'>
+          <span aria-hidden="true">✍️</span><span>الكتابة</span>
+        </button>
+        <button type="button" class="mobile-nav-btn" role="menuitem" data-tab="grammar" data-call="switchTab" data-args='["grammar","__el__"]'>
+          <span aria-hidden="true">📚</span><span>القواعد</span>
+        </button>
+      </div>
+    </details>
+  </nav>
+
   <!-- Notification Toast -->
   <div id="toast" role="status" aria-live="polite">
     <span>ℹ️</span> <span id="toast-message">تم نسخ النص بنجاح!</span>
@@ -1508,11 +1657,11 @@
        EXTERNAL DATASETS (deferred: non-blocking, individually cacheable, SW pre-cached)
        ========================================================================== -->
 
-  <script src="data/vocab.js?v=3.1.1"></script>
-  <script src="data/reading-docs.js" defer></script>
-  <script src="data/writing-templates.js" defer></script>
-  <script src="data/grammar-lessons.js" defer></script>
-  <script src="data/plan-tasks.js" defer></script>
+  <script src="data/vocab.js?v=4.3.0"></script>
+  <script src="data/reading-docs.js?v=4.3.0" defer></script>
+  <script src="data/writing-templates.js?v=4.3.0" defer></script>
+  <script src="data/grammar-lessons.js?v=4.3.0" defer></script>
+  <script src="data/plan-tasks.js?v=4.3.0" defer></script>
   <script type="module" src="src/app.js"></script>
 </body>
 </html>

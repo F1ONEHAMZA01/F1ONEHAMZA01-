@@ -5,6 +5,8 @@ francais-btp-maroc-netlify-*.zip
 # Test artifacts
 playwright-report/
 test-results/
+coverage/
+.lighthouseci/
 
 # Dependencies
 node_modules/
@@ -23,6 +25,9 @@ Thumbs.db
 # Environment
 .env
 .env.*
+
+# Local/private exports (never publish)
+data/lifeos_pwa_data.json
 __shots/
 dead-css-report.txt
 

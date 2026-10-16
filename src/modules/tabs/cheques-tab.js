@@ -1,5 +1,5 @@
 import { NUMBERS_DATA } from '../../data/numbers-ref.js';
-import { showToast, escapeHtml, playHaptic } from '../ui-utils.js';
+import { showToast, escapeHtml, playHaptic, showIconActionSuccess } from '../ui-utils.js';
 import { speakFrenchText, frWordsToPron } from '../audio.js';
 import { shuffleArray } from './quiz-tab.js';
 
@@ -983,12 +983,12 @@ export function renderReferenceNumbersTable(category, search) {
       </td>
       <td class="cell-actions" data-label="الإجراءات">
         <div class="ref-actions-group">
-          <button type="button" class="ref-icon-btn" data-ref-speak="${escapeHtml(words.fr)}" title="استمع للنطق">
-            <span aria-hidden="true">🔊</span>
+          <button type="button" class="ref-icon-btn" data-ref-speak="${escapeHtml(words.fr)}" title="استمع للنطق" aria-label="استمع لنطق المبلغ">
+            <span class="app-inline-action-icon app-inline-action-icon--audio" aria-hidden="true"></span>
             <span class="btn-txt-mobile">استمع</span>
           </button>
-          <button type="button" class="ref-icon-btn" data-ref-copy="${escapeHtml(words.fr)}" title="نسخ المبلغ">
-            <span aria-hidden="true">📋</span>
+          <button type="button" class="ref-icon-btn" data-ref-copy="${escapeHtml(words.fr)}" title="نسخ المبلغ" aria-label="نسخ المبلغ">
+            <span class="app-inline-action-icon app-inline-action-icon--copy" aria-hidden="true"></span>
             <span class="btn-txt-mobile">نسخ</span>
           </button>
           <button type="button" class="ref-icon-btn gold" data-ref-try="${Number(item.amt)}" title="تجربة في محاكي الشيك">
@@ -1003,7 +1003,7 @@ export function renderReferenceNumbersTable(category, search) {
   tbody.querySelectorAll('[data-ref-speak]').forEach(b =>
     b.addEventListener('click', () => speakFrenchText(b.dataset.refSpeak)));
   tbody.querySelectorAll('[data-ref-copy]').forEach(b =>
-    b.addEventListener('click', () => copyChequeTextDirect(b.dataset.refCopy)));
+    b.addEventListener('click', () => copyChequeTextDirect(b.dataset.refCopy, b)));
   tbody.querySelectorAll('[data-ref-try]').forEach(b =>
     b.addEventListener('click', () => testNumberInCheque(Number(b.dataset.refTry))));
 }
@@ -1020,9 +1020,12 @@ export function filterReferenceTableLive() {
   renderReferenceNumbersTable(activeRefCategory, q);
 }
 
-export function copyChequeTextDirect(text) {
+export function copyChequeTextDirect(text, button) {
   writeChequeClipboard(text)
-    .then(() => showToast('تم نسخ المبلغ بالفرنسية! 📋'))
+    .then(() => {
+      showIconActionSuccess(button);
+      showToast('تم نسخ المبلغ بالفرنسية! 📋');
+    })
     .catch(() => showToast('تعذّر النسخ'));
 }
 
@@ -1061,6 +1064,16 @@ export function renderNumbersChart(filter, search) {
     countBadge.innerText = `${filtered.length} رقماً`;
   }
 
+  const totalCount = document.getElementById('num-library-total');
+  if (totalCount) {
+    totalCount.textContent = NUMBERS_DATA.length;
+  }
+
+  const allFilterButton = document.getElementById('num-filter-all');
+  if (allFilterButton) {
+    allFilterButton.textContent = `جميع الأرقام (${NUMBERS_DATA.length})`;
+  }
+
   if (filtered.length === 0) {
     grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:32px 16px; color:var(--text-muted); background:rgba(15,23,42,0.4); border-radius:12px; border:1px dashed rgba(255,255,255,0.1);">
       <div style="font-size:24px; margin-bottom:6px;">🔍</div>
@@ -1072,19 +1085,20 @@ export function renderNumbersChart(filter, search) {
 
   grid.innerHTML = filtered.map(x => {
     const groupBadge = NUMBER_GROUP_LABELS[x.g] || x.g;
+    const digitClass = String(x.n).length > 3 ? ' num-card-long-digit' : '';
     return `
-    <div class="num-card" data-num-n="${escapeHtml(String(x.n))}" data-num-fr="${escapeHtml(x.fr)}" role="button" tabindex="0">
+    <div class="num-card${digitClass}" data-num-n="${escapeHtml(String(x.n))}" data-num-fr="${escapeHtml(x.fr)}" role="button" tabindex="0">
       <div class="num-card-top">
         <bdi class="num-digit" dir="ltr">${escapeHtml(String(x.n))}</bdi>
         <span class="ref-cat-pill cat-${x.g}">${escapeHtml(groupBadge)}</span>
-        <button type="button" class="num-speaker-pill-btn" data-num-speak title="استمع">🔊</button>
+        <button type="button" class="num-speaker-pill-btn app-icon-action app-icon-action--audio" data-num-speak title="استمع" aria-label="استمع لنطق الرقم"></button>
       </div>
       <div class="num-fr">${escapeHtml(x.fr)}</div>
       <div class="num-pron">[ ${escapeHtml(x.pron)} ]</div>
       <div class="num-ar">${escapeHtml(x.ar)}</div>
       <div class="num-card-actions">
         <button type="button" class="num-try-btn" data-num-try="${escapeHtml(String(x.n))}">جرب بالشيك ✏️</button>
-        <button type="button" class="num-copy-btn" data-num-copy="${escapeHtml(x.fr)}" title="نسخ الكلمة">📋</button>
+        <button type="button" class="num-copy-btn app-icon-action app-icon-action--copy" data-num-copy="${escapeHtml(x.fr)}" title="نسخ الكلمة" aria-label="نسخ الكلمة الفرنسية"></button>
       </div>
     </div>`;
   }).join('');
@@ -1110,7 +1124,7 @@ export function renderNumbersChart(filter, search) {
   grid.querySelectorAll('[data-num-try]').forEach(b =>
     b.addEventListener('click', () => testNumberInCheque(b.dataset.numTry)));
   grid.querySelectorAll('[data-num-copy]').forEach(b =>
-    b.addEventListener('click', () => copyChequeTextDirect(b.dataset.numCopy)));
+    b.addEventListener('click', () => copyChequeTextDirect(b.dataset.numCopy, b)));
 }
 
 export function setNumbersFilter(f, btnEl) {
@@ -1166,4 +1180,3 @@ if (typeof window !== 'undefined') {
   window.filterNumbersChartLive = filterNumbersChartLive;
   window.switchChequesSubTab = switchChequesSubTab;
 }
-

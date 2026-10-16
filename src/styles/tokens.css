@@ -19,6 +19,8 @@
   /* ═══ Typography Families ═══ */
   --font-ar: 'Cairo', system-ui, -apple-system, sans-serif;
   --font-fr: 'Roboto Flex', 'Roboto', system-ui, sans-serif;
+  --font-num: 'Roboto Flex', 'Cairo', system-ui, sans-serif;
+  --font-code: 'Roboto Flex', ui-monospace, monospace;
 
   /* ═══ Typography Scale ═══ */
   --text-xs: 11px;

@@ -77,6 +77,9 @@ jobs:
       - name: Build production bundle
         run: npm run build:netlify
 
+      - name: Validate production bundle
+        run: node tools/validate-netlify.mjs
+
       - name: Lighthouse regression gate (perf >= 90, a11y >= 95)
         run: npx lhci autorun
 

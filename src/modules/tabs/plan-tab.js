@@ -169,6 +169,7 @@ export function renderStudyPlan() {
       weekTasks.forEach(task => {
         const isChecked = state.checkedDays.has(task.day);
         const meta = TAB_LABELS[task.tab] || TAB_LABELS.vocab;
+        const gotoLabel = isChecked ? 'راجع النشاط' : 'ابدأ النشاط';
 
         html += `
           <div class="day-task-item ${isChecked ? 'checked-task' : ''}" id="plan-task-row-${task.day}">
@@ -179,9 +180,9 @@ export function renderStudyPlan() {
                 <span class="day-time-badge">⏱️ ${task.time}</span>
                 <span class="day-tab-tag" style="border-color:${meta.color}40; color:${meta.color}; background:${meta.color}15;">${meta.icon} ${meta.text}</span>
               </div>
-              <button type="button" class="day-goto-btn" data-call="goToPlanTab" data-args='["${task.tab}"]' aria-label="ابدأ نشاط اليوم ${task.day}">
-                <span>ابدأ النشاط</span>
-                <span aria-hidden="true">↗</span>
+              <button type="button" class="day-goto-btn" data-call="goToPlanTab" data-args='["${task.tab}"]' aria-label="${gotoLabel} اليوم ${task.day}" title="${gotoLabel} اليوم ${task.day}">
+                <span class="day-goto-label">${gotoLabel}</span>
+                <span class="day-goto-arrow" aria-hidden="true">↗</span>
               </button>
             </div>
             <div class="day-desc">${task.desc}</div>
@@ -230,16 +231,21 @@ export function togglePlanDay(dayNum) {
 }
 
 export function goToPlanTab(tabId) {
-  let tabBtn = null;
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    if (btn.getAttribute('onclick')?.includes(tabId)) {
-      tabBtn = btn;
-    }
-  });
-  
-  if (tabBtn) {
-    switchTab(tabId, tabBtn);
+  const tabBtn = document.getElementById(`tab-btn-${tabId}`)
+    || Array.from(document.querySelectorAll('.tab-btn')).find(btn => {
+      try {
+        return JSON.parse(btn.dataset.args || '[]')[0] === tabId;
+      } catch {
+        return false;
+      }
+    });
+
+  if (!tabBtn) {
+    showToast('تعذر فتح النشاط، حاول مرة أخرى', 'error');
+    return;
   }
+
+  switchTab(tabId, tabBtn);
 }
 
 if (typeof window !== 'undefined') {

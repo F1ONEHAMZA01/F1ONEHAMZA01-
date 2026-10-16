@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
@@ -7,6 +7,9 @@ const output = resolve(root, 'dist');
 if (!output.startsWith(`${root}\\`) && !output.startsWith(`${root}/`)) {
   throw new Error('Refusing to build outside the project directory.');
 }
+
+// A deploy must never inherit stale files from an older release.
+await rm(output, { recursive: true, force: true });
 
 const files = [
   'index.html',

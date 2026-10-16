@@ -364,8 +364,8 @@ export function renderWritingPhrases(cat = 'all') {
       <div class="phrase-head">
         <span class="phrase-context">📌 ${p.context}</span>
         <div class="phrase-actions">
-          <button type="button" class="gt-audio-btn" data-call="speakFromDataset" data-speak="${escapeHtml(p.fr)}"" aria-label="استمع لنطق العبارة">🔊</button>
-          <button type="button" class="gt-audio-btn" data-call="copyFromDataset" data-copy="${escapeHtml(p.fr)}" aria-label="نسخ العبارة">📋</button>
+          <button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="${escapeHtml(p.fr)}" aria-label="استمع لنطق العبارة" title="استمع لنطق العبارة"></button>
+          <button type="button" class="gt-audio-btn app-icon-action app-icon-action--copy" data-call="copyFromDataset" data-copy="${escapeHtml(p.fr)}" aria-label="نسخ العبارة" title="نسخ العبارة"></button>
         </div>
       </div>
       <div class="phrase-fr" lang="fr" dir="ltr">${p.fr}</div>

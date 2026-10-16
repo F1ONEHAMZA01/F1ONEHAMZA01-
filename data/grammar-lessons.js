@@ -27,35 +27,35 @@ window.GRAMMAR_LESSONS = [
             <td><bdi dir="ltr">Vérifiez l'enrobage !</bdi></td>
             <td>افحص غطاء حماية الحديد (الكال)!</td>
             <td>[ فيريفي لونروباج ]</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Vérifiez l\'enrobage de l\'acier avant le coulage', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Vérifiez l'enrobage de l'acier avant le coulage" aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">Coffre le poteau P3 !</bdi></td>
             <td><bdi dir="ltr">Coffrez le poteau P3 !</bdi></td>
             <td>ثبّت قالب خرسانة العمود P3!</td>
             <td>[ كوفري لو بوتو ]</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Coffrez le poteau et vérifiez l\'aplomb', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Coffrez le poteau et vérifiez l'aplomb" aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">Nivelle la plateforme !</bdi></td>
             <td><bdi dir="ltr">Nivellez la plateforme !</bdi></td>
             <td>سوِّ منسوب الأرضية بدقة!</td>
             <td>[ نيفيلي لا بلاتفورم ]</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Nivellez la plateforme selon la cote NGF', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Nivellez la plateforme selon la cote NGF" aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">Vibre bien le béton !</bdi></td>
             <td><bdi dir="ltr">Vibrez bien le béton !</bdi></td>
             <td>شغّل الهزاز جيداً لتفادي التعشيش!</td>
             <td>[ فيبري بيان لو بيتون ]</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Vibrez bien le béton pour éviter la ségrégation', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Vibrez bien le béton pour éviter la ségrégation" aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">Arrose la dalle !</bdi></td>
             <td><bdi dir="ltr">Arrosez la dalle !</bdi></td>
             <td>رشّ البلاطة بالماء لحمايتها من التشقق!</td>
             <td>[ أروزي لا دال ]</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Arrosez la dalle pendant trois jours consécutifs', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Arrosez la dalle pendant trois jours consécutifs" aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
         </tbody>
       </table>
@@ -76,8 +76,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« أوقفوا الصب فوراً وخذوا ثلاث عينات أسطوانية لاختبار التكسير عند 28 يوماً! »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('Arrêtez immédiatement le coulage et prélevez trois éprouvettes', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('Arrêtez immédiatement le coulage et prélevez trois éprouvettes pour le test d\'écrasement à 28 jours !')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="Arrêtez immédiatement le coulage et prélevez trois éprouvettes">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="Arrêtez immédiatement le coulage et prélevez trois éprouvettes pour le test d'écrasement à 28 jours !">📋 نسخ</button>
         </div>
       </div>
     `
@@ -144,8 +144,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« اليوم، أنهى الفريق تسليح البلاطة العلوية للطابق الأول. عاين مهندس مكتب الدراسات قبعات التسليح ومنح إذن الصب. »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('Aujourd\'hui, l\'équipe a terminé le ferraillage de la dalle haute du premier étage.', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('Aujourd\'hui, l\'équipe a terminé le ferraillage de la dalle haute du 1er étage. L\'ingénieur du BET a inspecté les chapeaux et a accordé l\'autorisation de coulage.')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="Aujourd'hui, l'équipe a terminé le ferraillage de la dalle haute du premier étage.">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="Aujourd'hui, l'équipe a terminé le ferraillage de la dalle haute du 1er étage. L'ingénieur du BET a inspecté les chapeaux et a accordé l'autorisation de coulage.">📋 نسخ</button>
         </div>
       </div>
     `
@@ -176,25 +176,25 @@ window.GRAMMAR_LESSONS = [
             <td><bdi dir="ltr">La centrale livrera le béton à 14h00.</bdi></td>
             <td><bdi dir="ltr">Demain à 14h00</bdi></td>
             <td>ستورّد محطة الخرسانة الإسمنت على الساعة 14:00.</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('La centrale livrera le béton à quatorze heures.', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="La centrale livrera le béton à quatorze heures." aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">Nous terminerons le coulage vendredi soir.</bdi></td>
             <td><bdi dir="ltr">Vendredi</bdi></td>
             <td>سننهي عملية الصب مساء يوم الجمعة.</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Nous terminerons le coulage vendredi soir.', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Nous terminerons le coulage vendredi soir." aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">Le géomètre effectuera le récolement sous 48h.</bdi></td>
             <td><bdi dir="ltr">Sous 48 heures</bdi></td>
             <td>سيقوم الطبوغرافي بمسح المطابقة خلال 48 ساعة.</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Le géomètre effectuera le récolement sous quarante-huit heures.', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Le géomètre effectuera le récolement sous quarante-huit heures." aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">L'électricien débutera les réservations lundi.</bdi></td>
             <td><bdi dir="ltr">Lundi prochain</bdi></td>
             <td>سيبدأ الكهربائي تمرير الخراطيم والممرات يوم الإثنين.</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('L\'électricien débutera les réservations lundi.', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="L'électricien débutera les réservations lundi." aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
         </tbody>
       </table>
@@ -215,8 +215,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« ستباشر المقاولة فك شدات الأسقف بعد تأكيد نتائج تكسير الخرسانة لـ 28 يوماً وستحيل الكشف رقم 3 إلى مكتب الإشراف. »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('L\'entreprise procédera au décoffrage des planchers après validation.', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('L\'entreprise procédera au décoffrage des planchers après validation des résultats d\'écrasement à 28 jours et transmettra le décompte N°3 au maître d\'œuvre.')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="L'entreprise procédera au décoffrage des planchers après validation.">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="L'entreprise procédera au décoffrage des planchers après validation des résultats d'écrasement à 28 jours et transmettra le décompte N°3 au maître d'œuvre.">📋 نسخ</button>
         </div>
       </div>
     `
@@ -272,8 +272,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« السيد المهندس المعماري، نود التماس توجيهكم بخصوص منسوب العتب الخرساني بالطابق الأول. هل سيكون من الممكن برمجة زيارة ميدانية غداً؟ »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('Monsieur l\'Architecte, nous souhaiterions solliciter votre arbitrage concernant la cote du linteau.', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('Monsieur l\'Architecte, nous souhaiterions solliciter votre arbitrage concernant la cote du linteau au niveau R+1. Serait-il possible d\'organiser une visite sur site demain ?')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="Monsieur l'Architecte, nous souhaiterions solliciter votre arbitrage concernant la cote du linteau.">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="Monsieur l'Architecte, nous souhaiterions solliciter votre arbitrage concernant la cote du linteau au niveau R+1. Serait-il possible d'organiser une visite sur site demain ?">📋 نسخ</button>
         </div>
       </div>
     `
@@ -329,8 +329,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« تم الإقرار بمطابقة أشغال الهيكل الأساسي للتصاميم الصالحة للتنفيذ. وتم الإعلان عن الاستلام المؤقت بآثاره ابتداء من هذا اليوم. »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('Les travaux de gros œuvre ont été déclarés conformes aux plans BPE.', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('Les travaux de gros œuvre ont été déclarés conformes aux plans BPE. La réception provisoire est prononcée avec effet à compter de ce jour.')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="Les travaux de gros œuvre ont été déclarés conformes aux plans BPE.">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="Les travaux de gros œuvre ont été déclarés conformes aux plans BPE. La réception provisoire est prononcée avec effet à compter de ce jour.">📋 نسخ</button>
         </div>
       </div>
     `
@@ -363,25 +363,25 @@ window.GRAMMAR_LESSONS = [
             <td><bdi dir="ltr">Port du casque et des chaussures de sécurité obligatoire.</bdi></td>
             <td><span class="ref-cat-pill cat-wages">إجباري 100%</span></td>
             <td>ارتداء الخوذة والحذاء الفولاذي إجباري على كل من يدخل الورش.</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Port du casque et des chaussures de sécurité obligatoire sur tout le chantier.', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Port du casque et des chaussures de sécurité obligatoire sur tout le chantier." aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">Harnais anti-chute obligatoire au-delà de 3 mètres de hauteur.</bdi></td>
             <td><span class="ref-cat-pill cat-complex">خطر السقوط</span></td>
             <td>حزام الأمان إلزامي عند العمل على ارتفاع يفوق 3 أمتار.</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Harnais anti-chute obligatoire au-delà de trois mètres de hauteur.', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Harnais anti-chute obligatoire au-delà de trois mètres de hauteur." aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">Interdiction formelle de stationner sous une charge suspendue.</bdi></td>
             <td><span class="ref-cat-pill cat-complex">منع صارم ⛔</span></td>
             <td>ممنوع كلياً الوقوف أو المرور تحت حمولة الرافعة المعلقة.</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Interdiction formelle de stationner sous une charge suspendue.', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Interdiction formelle de stationner sous une charge suspendue." aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
           <tr>
             <td><bdi dir="ltr">Blindage obligatoire pour toute fouille supérieure à 1,30 m.</bdi></td>
             <td><span class="ref-cat-pill cat-materials">حماية الحفر</span></td>
             <td>تدعيم جوانب الحفر إجباري لتفادي الانهيارات الترابية.</td>
-            <td><button type="button" class="gt-audio-btn" onclick="speakFrenchText('Blindage obligatoire pour toute fouille supérieure à un mètre trente.', this)">🔊</button></td>
+            <td><button type="button" class="gt-audio-btn app-icon-action app-icon-action--audio" data-call="speakFromDataset" data-speak="Blindage obligatoire pour toute fouille supérieure à un mètre trente." aria-label="استمع للجملة" title="استمع للجملة"></button></td>
           </tr>
         </tbody>
       </table>
@@ -393,8 +393,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« قبل الصعود إلى السقالة، يجب على كل عامل التحقق من وجود حواجز الحماية والحواف السفلية وربط حزام الأمان بحبل النجاة. »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('Avant d\'accéder à l\'échafaudage, chaque ouvrier doit vérifier la présence des garde-corps.', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('Avant d\'accéder à l\'échafaudage, chaque ouvrier doit vérifier la présence des garde-corps, des plinthes et accrocher son harnais à la ligne de vie.')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="Avant d'accéder à l'échafaudage, chaque ouvrier doit vérifier la présence des garde-corps.">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="Avant d'accéder à l'échafaudage, chaque ouvrier doit vérifier la présence des garde-corps, des plinthes et accrocher son harnais à la ligne de vie.">📋 نسخ</button>
         </div>
       </div>
     `
@@ -455,8 +455,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« يجب أن يتطابق المنسوب النهائي للأرضية الخرسانية تماماً مع المنسوب الوطني +45.80 م، مع فارق تفاوت أقصى لا يتجاوز 5 مليمترات. »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('Le niveau fini du dallage doit correspondre rigoureusement à la cote NGF.', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('Le niveau fini du dallage doit correspondre rigoureusement à la cote NGF +45.80 m, avec une tolérance d\'exécution maximale de 5 millimètres.')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="Le niveau fini du dallage doit correspondre rigoureusement à la cote NGF.">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="Le niveau fini du dallage doit correspondre rigoureusement à la cote NGF +45.80 m, avec une tolérance d'exécution maximale de 5 millimètres.">📋 نسخ</button>
         </div>
       </div>
     `
@@ -512,8 +512,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« نظراً للأحوال الجوية القاسية التي شهدها الموقع من 10 إلى 14 نونبر والمعاينة قانوناً بدفتر الورشة، غمرت المياه المداخل. وبناءً عليه، نلتمس تمديد تاريخ التسليم. »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('En raison des fortes intempéries survenues du 10 au 14 novembre, les accès ont été inondés.', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('En raison des fortes intempéries survenues du 10 au 14 novembre et dûment constatées sur le journal de chantier, les accès ont été inondés. Par conséquent, nous sollicitons le report de la date de livraison.')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="En raison des fortes intempéries survenues du 10 au 14 novembre, les accès ont été inondés.">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="En raison des fortes intempéries survenues du 10 au 14 novembre et dûment constatées sur le journal de chantier, les accès ont été inondés. Par conséquent, nous sollicitons le report de la date de livraison.">📋 نسخ</button>
         </div>
       </div>
     `
@@ -574,8 +574,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« يجب رفع قبعات تسليح بلاطات البروز باستعمال بسكوتات التباعد لمنع أي خطر تشقق في الطبقة العلوية. »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('Les fers en chapeaux des porte-à-faux doivent être surélevés à l\'aide de cales d\'enrobage.', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('Les fers en chapeaux des porte-à-faux doivent être surélevés à l\'aide de cales d\'enrobage pour éviter tout risque de fissuration en partie supérieure.')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="Les fers en chapeaux des porte-à-faux doivent être surélevés à l'aide de cales d'enrobage.">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="Les fers en chapeaux des porte-à-faux doivent être surélevés à l'aide de cales d'enrobage pour éviter tout risque de fissuration en partie supérieure.">📋 نسخ</button>
         </div>
       </div>
     `
@@ -639,8 +639,8 @@ window.GRAMMAR_LESSONS = [
           <div class="ex-ar">« السيد المهندس، نخبركم بانتهاء تسليح شدادات الأساس للبلوك A. ندعوكم لزيارة الاستلام غداً على الساعة 10:00 لمنحنا إذن الصب. مع أزكى التحيات. »</div>
         </div>
         <div class="ex-actions">
-          <button type="button" class="btn-secondary" onclick="speakFrenchText('Monsieur l\'Ingénieur, nous vous informons que le ferraillage des longrines du bloc A est achevé.', this)">🔊 استمع</button>
-          <button type="button" class="btn-secondary" onclick="copyChequeTextDirect('Monsieur l\'Ingénieur, nous vous informons que le ferraillage des longrines du bloc A est achevé. Nous vous convions à la réception sur site demain à 10h00 afin de délivrer le bon de coulage. Cordialement.')">📋 نسخ</button>
+          <button type="button" class="btn-secondary" data-call="speakFromDataset" data-speak="Monsieur l'Ingénieur, nous vous informons que le ferraillage des longrines du bloc A est achevé.">🔊 استمع</button>
+          <button type="button" class="btn-secondary" data-call="copyFromDataset" data-copy="Monsieur l'Ingénieur, nous vous informons que le ferraillage des longrines du bloc A est achevé. Nous vous convions à la réception sur site demain à 10h00 afin de délivrer le bon de coulage. Cordialement.">📋 نسخ</button>
         </div>
       </div>
     `

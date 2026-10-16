@@ -1,9 +1,18 @@
 import { test, expect } from '@playwright/test';
 
+async function openMainTab(page, tab) {
+  const desktopTab = page.locator(`#tab-btn-${tab}`);
+  if (await desktopTab.isVisible()) {
+    await desktopTab.click();
+    return;
+  }
+  await page.locator(`.mobile-bottom-nav [data-tab="${tab}"]`).click();
+}
+
 test.describe('Motion layer (classic design)', () => {
   test('swipe left navigates to the next quiz subview (RTL flow)', async ({ page }) => {
     await page.goto('/');
-    await page.click('#tab-btn-quiz');
+    await openMainTab(page, 'quiz');
     await expect(page.locator('#quiz-view-quick')).toBeVisible();
 
     await page.evaluate(() => {
