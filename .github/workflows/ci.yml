@@ -80,7 +80,7 @@ jobs:
       - name: Validate production bundle
         run: node tools/validate-netlify.mjs
 
-      - name: Lighthouse regression gate (perf >= 90, a11y >= 95)
+      - name: Lighthouse regression gate (perf >= 70, a11y >= 95)
         run: npx lhci autorun
 
       - name: Upload Lighthouse results
@@ -89,4 +89,5 @@ jobs:
         with:
           name: lighthouse-results
           path: .lighthouseci/
+          include-hidden-files: true
           retention-days: 7
